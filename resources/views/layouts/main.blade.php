@@ -1508,6 +1508,7 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
             calendar.render();
         });
     </script>
+    @stack('script')
 </body>
 <!-- END Body -->
 </html>

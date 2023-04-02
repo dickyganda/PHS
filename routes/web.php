@@ -21,5 +21,6 @@ Route::get('/', function () {
 Route::get('/dashboard/index', [DashboardController::class, 'index']);
 
 Route::get('/invoice/salesorder/index', [InvoiceController::class, 'index']);
+Route::get('/invoice/salesorder/viewinsertsalesorder', [InvoiceController::class, 'viewinsertsalesorder']);
+Route::post('/invoice/salesorder/insertsalesorder', [InvoiceController::class, 'insertsales']);
 Route::get('/invoice/salesorder/printsalesorder', [InvoiceController::class, 'printsalesorder']);
-

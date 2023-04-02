@@ -11,4 +11,5 @@ class Sales extends Model
 
     protected $table = 'm_sales';
     protected $primaryKey = 'IdSales';
+    public $timestamps = false;
 }

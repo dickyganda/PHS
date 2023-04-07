@@ -33,10 +33,10 @@
             </a>
         </div>
         <ul id="js-nav-menu" class="nav-menu">
-            <li class="active open">
+            <li>
                 <a href="#" title="Application Intel" data-filter-tags="application intel">
                     <i class="fal fa-info-circle"></i>
-                    <span class="nav-link-text" data-i18n="nav.application_intel">Application Intel</span>
+                    <span class="nav-link-text" data-i18n="nav.application_intel">Dashboard</span>
                 </a>
                 <ul>
                     <li class="active">
@@ -61,7 +61,7 @@
                     </li>
                 </ul>
             </li>
-            <li class="active">
+            <li>
                 <a href={{ route('sales.index')}} title="Application Intel" data-filter-tags="application intel">
                     <i class="fal fa-info-circle"></i>
                     <span class="nav-link-text" data-i18n="nav.application_intel">Sales</span>
@@ -89,6 +89,28 @@
                     </li>
                 </ul> --}}
             </li>
+
+            <li>
+            <a href="#" title="Application Intel" data-filter-tags="application intel">
+                    <i class="fal fa-info-circle"></i>
+                    <span class="nav-link-text" data-i18n="nav.application_intel">Purchasing</span>
+                </a>
+            </li>
+
+            <li>
+            <a href="#" title="Application Intel" data-filter-tags="application intel">
+                    <i class="fal fa-info-circle"></i>
+                    <span class="nav-link-text" data-i18n="nav.application_intel">Issued</span>
+                </a>
+            </li>
+
+            <li>
+            <a href="#" title="Application Intel" data-filter-tags="application intel">
+                    <i class="fal fa-info-circle"></i>
+                    <span class="nav-link-text" data-i18n="nav.application_intel">Finance</span>
+                </a>
+            </li>
+
             <li>
                 <a href="#" title="Theme Settings" data-filter-tags="theme settings">
                     <i class="fal fa-cog"></i>

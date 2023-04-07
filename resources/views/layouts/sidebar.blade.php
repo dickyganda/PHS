@@ -61,14 +61,14 @@
                     </li>
                 </ul>
             </li>
-            <li class="active open">
-                <a href="#" title="Application Intel" data-filter-tags="application intel">
+            <li class="active">
+                <a href={{ route('sales.index')}} title="Application Intel" data-filter-tags="application intel">
                     <i class="fal fa-info-circle"></i>
                     <span class="nav-link-text" data-i18n="nav.application_intel">Sales</span>
                 </a>
-                <ul>
+                {{-- <ul>
                     <li class="active">
-                        <a href="/invoice/salesorder/index" title="Analytics Dashboard" data-filter-tags="application intel analytics dashboard">
+                        <a href="" title="Analytics Dashboard" data-filter-tags="application intel analytics dashboard">
                             <span class="nav-link-text" data-i18n="nav.application_intel_analytics_dashboard">Sales Order</span>
                         </a>
                     </li>
@@ -87,7 +87,7 @@
                             <span class="nav-link-text" data-i18n="nav.application_intel_privacy">Invoice</span>
                         </a>
                     </li>
-                </ul>
+                </ul> --}}
             </li>
             <li>
                 <a href="#" title="Theme Settings" data-filter-tags="theme settings">

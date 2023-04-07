@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\SalesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,7 +20,11 @@ Route::get('/', function () {
 
 Route::get('/dashboard/index', [DashboardController::class, 'index']);
 
-Route::get('/invoice/salesorder/index', [InvoiceController::class, 'index']);
-Route::get('/invoice/salesorder/viewinsertsalesorder', [InvoiceController::class, 'viewinsertsalesorder']);
-Route::post('/invoice/salesorder/insertsalesorder', [InvoiceController::class, 'insertsales']);
-Route::get('/invoice/salesorder/printsalesorder', [InvoiceController::class, 'printsalesorder']);
+// Route::get('/invoice/salesorder/index', [InvoiceController::class, 'index']);
+// Route::get('/invoice/salesorder/viewinsertsalesorder', [InvoiceController::class, 'viewinsertsalesorder']);
+// Route::post('/invoice/salesorder/insertsalesorder', [InvoiceController::class, 'insertsales']);
+// Route::get('/invoice/salesorder/editsalesorder/{IdSalesDetail}', [InvoiceController::class, 'editsales']);
+// Route::post('/invoice/salesorder/updatesalesorder', [InvoiceController::class, 'updatesales']);
+// Route::get('/invoice/salesorder/printsalesorder', [InvoiceController::class, 'printsalesorder']);
+
+Route::resource('/sales', SalesController::class);

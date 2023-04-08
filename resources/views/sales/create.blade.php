@@ -33,13 +33,13 @@ Insert Sales Order
     <div class="form-group">
       <label>Product</label>
       {{-- <input type="text" class="form-control" id="FROMIdDepartementFK" placeholder="FROMIdDepartementFK" name="FROMIdDepartementFK"> --}}
-      <select id="IdProductFK" name="IdProductFK[]" style="width: 100%" class="form-control form-control-sm select2">
+      <select id="IdProduct" name="IdProduct[]" style="width: 100%" class="form-control form-control-sm select2">
                                                             <option disabled selected>Pilih Product</option>
-                                                            {{-- @foreach ($databarang as $penjualan) --}}
-                                                            {{-- <option value="{{ $penjualan->id_barang }}"> --}}
-                                                                {{-- {{ $penjualan->nama_barang }} --}}
+                                                            @foreach ($product as $p)
+                                                            <option value="{{ $p->IdProduct }}">
+                                                                {{ $p->NameProduct }}
                                                             </option>
-                                                            {{-- @endforeach --}}
+                                                            @endforeach
                                                         </select>
     </div>
     </div>
@@ -66,29 +66,29 @@ Insert Sales Order
     </div>
     <div class="col-lg-2">
     <div class="form-group">
-      <label>FROMIdDepartementFK</label>
+      <label>FROM Departement</label>
       {{-- <input type="text" class="form-control" id="FROMIdDepartementFK" placeholder="FROMIdDepartementFK" name="FROMIdDepartementFK"> --}}
-      <select id="FROMIdDepartementFK" name="FROMIdDepartementFK[]" style="width: 100%" class="form-control form-control-sm select2">
-                                                            <option disabled selected>Pilih Departement</option>
-                                                            {{-- @foreach ($databarang as $penjualan) --}}
-                                                            {{-- <option value="{{ $penjualan->id_barang }}"> --}}
-                                                                {{-- {{ $penjualan->nama_barang }} --}}
+      <select id="FROMIdDepartement" name="FROMIdDepartement" style="width: 100%" class="form-control form-control-sm select2">
+                                                            <option disabled selected>Select Departement</option>
+                                                            @foreach ($departement as $d)
+                                                            <option value="{{ $d->IdDepartement }}">
+                                                                {{ $d->NamaDepartement }}
                                                             </option>
-                                                            {{-- @endforeach --}}
+                                                            @endforeach
                                                         </select>
     </div>
     </div>
     <div class="col-lg-2">
     <div class="form-group">
-      <label>TOIdDepartementFK</label>
+      <label>TOIdDepartement</label>
       {{-- <input type="text" class="form-control" id="TOIdDepartementFK" placeholder="TOIdDepartementFK" name="TOIdDepartementFK"> --}}
-      <select id="TOIdDepartementFK" name="TOIdDepartementFK[]" style="width: 100%" class="form-control form-control-sm select2">
-                                                            <option disabled selected>Pilih Departement</option>
-                                                            {{-- @foreach ($databarang as $penjualan) --}}
-                                                            {{-- <option value="{{ $penjualan->id_barang }}"> --}}
-                                                                {{-- {{ $penjualan->nama_barang }} --}}
+      <select id="TOIdDepartement" name="TOIdDepartement" style="width: 100%" class="form-control form-control-sm select2">
+                                                            <option disabled selected>Select Departement</option>
+                                                            @foreach ($departement as $d)
+                                                            <option value="{{ $d->IdDepartement }}">
+                                                                {{ $d->NamaDepartement }}
                                                             </option>
-                                                            {{-- @endforeach --}}
+                                                            @endforeach
                                                         </select>
     </div>
     </div>
@@ -108,15 +108,29 @@ Insert Sales Order
 
     <div class="col-lg-2">
     <div class="form-group">
-      <label>IdPaymentFK</label>
-      <input type="text" class="form-control" id="IdPaymentFK" placeholder="IdPaymentFK" name="IdPaymentFK">
+      <label>Payment</label>
+      <select id="IdPayment" name="IdPayment" style="width: 100%" class="form-control form-control-sm select2">
+                                                            <option disabled selected>Select Payment</option>
+                                                            @foreach ($payment as $pay)
+                                                            <option value="{{ $pay->IdPayment }}">
+                                                                {{ $pay->NamaPayment }}
+                                                            </option>
+                                                            @endforeach
+                                                        </select>
     </div>
     </div>
 
     <div class="col-lg-2">
     <div class="form-group">
-      <label>IdSuplierFK</label>
-      <input type="text" class="form-control" id="IdSuplierFK" placeholder="IdSuplierFK" name="IdSuplierFK">
+      <label>IdSuplier</label>
+      <select id="IdSuplier" name="IdSuplier" style="width: 100%" class="form-control form-control-sm select2">
+                                                            <option disabled selected>Select Suplier</option>
+                                                            @foreach ($suplier as $sup)
+                                                            <option value="{{ $sup->IdSuplier }}">
+                                                                {{ $sup->NamaSuplier }}
+                                                            </option>
+                                                            @endforeach
+                                                        </select>
     </div>
     </div>
     </div>

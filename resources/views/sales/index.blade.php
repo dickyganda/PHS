@@ -59,22 +59,22 @@ Sales Order
                                 @foreach ($salesdetail as $sales)
                                 <tr>
                                     <td>{{ $i++ }}</td>
-                                    <td>{{ $sales->IdSalesFK }}</td>
-                                    <td>{{ $sales->IdUserFK }}</td>
-                                    <td>{{ $sales->IdProductFK }}</td>
+                                    <td>{{ $sales->IdSales }}</td>
+                                    <td>{{ $sales->IdUser }}</td>
+                                    <td>{{ $sales->IdProduct }}</td>
                                     <td>{{ $sales->Qty }}</td>
                                     {{-- <td>{{ $sales->IdHargaFK }}</td> --}}
                                     <td>{{ $sales->Amount }}</td>
                                     {{-- <td>{{ $sales->IdUserFK }}</td> --}}
-                                    <td>{{ $sales->FROMIdDepartementFK }}</td>
-                                    <td>{{ $sales->TOIdDepartementFK }}</td>
+                                    <td>{{ $sales->FROMIdDepartement }}</td>
+                                    <td>{{ $sales->TOIdDepartement }}</td>
                                     <td>{{ $sales->CreatedBy }}</td>
                                     <td>{{ $sales->CheckedBy }}</td>
                                     <td>{{ $sales->ApprovedBy }}</td>
                                     <td>{{ $sales->DateRequired }}</td>
                                     <td>{{ $sales->PaymentDate }}</td>
                                     {{-- <td>{{ $sales->IdPaymentFK }}</td> --}}
-                                    <td>{{ $sales->IdSuplierFK }}</td>
+                                    <td>{{ $sales->IdSuplier }}</td>
                         <td>
 
                             <a href="{{ route('sales.edit', $sales->IdSalesDetail) }}" title="Edit" class="btn btn-warning btn-xs" role="button"><i class="fas fa-pen"></i> Edit</a>

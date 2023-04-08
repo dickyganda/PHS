@@ -16,7 +16,11 @@ class SalesController extends Controller
     public function index()
     {
         // menampilkan data sales detail
-        $salesdetail = DB::table('m_sales_detail')->get();
+        $salesdetail = DB::table('m_sales_detail')
+        ->join('m_sales', 'm_sales.IdSales', '=', 'm_sales_detail.IdSales')
+        ->get();
+
+        // dd($salesdetail);
 
         return view('sales.index', compact('salesdetail'));
     }
@@ -26,8 +30,26 @@ class SalesController extends Controller
      */
     public function create()
     {
+        // mengambil nama product
+        $product = DB::table('m_product')
+        ->join('m_harga', 'm_harga.IdHarga', '=', 'm_product.IdHarga')
+        ->get();
+        
+        // mengambil nama departement
+        $departement = DB::table('m_departement')
+        ->get();
+        
+        // mengambil nama payment
+        $payment = DB::table('m_payment')
+        ->get();
+        
+        // mengambil nama suplier
+        $suplier = DB::table('m_suplier')
+        ->get();        
+        // dd($payment);
+
         // menampilkan form insert sales
-        return view('sales.create');
+        return view('sales.create', compact('product','departement','payment','suplier'));
     }
 
     /**
@@ -37,16 +59,16 @@ class SalesController extends Controller
     {
         // insert sales
         $sales = new Sales;
-        $sales->IdUserFK = 1;
-        $sales->TOIdDepartementFK = $request->input('TOIdDepartementFK');
-        $sales->FROMIdDepartementFK = $request->input('FROMIdDepartementFK');
+        $sales->IdUser = 1;
+        $sales->TOIdDepartement = $request->input('TOIdDepartement');
+        $sales->FROMIdDepartement = $request->input('FROMIdDepartement');
         $sales->CreatedBy = 'Dicky';
         $sales->CheckedBy = $request->input('CheckedBy');
         $sales->ApprovedBy = $request->input('ApprovedBy');
         $sales->DateRequired = $request->input('DateRequired');
         $sales->PaymentDate = $request->input('PaymentDate');
-        $sales->IdPaymentFK = $request->input('IdPaymentFK');
-        $sales->IdSuplierFK = $request->input('IdSuplierFK');
+        $sales->IdPayment = $request->input('IdPayment');
+        $sales->IdSuplier = $request->input('IdSuplier');
         $sales->CreatedAt = Date('Y-m-d');
         // $add->UpdatedAt = Date('Y-m-d');
         // $add->DeletedAt = $request->input('DeletedAt');
@@ -56,18 +78,18 @@ class SalesController extends Controller
         // insert to tabel m_sales_detail
         foreach ($request->id_product as $key => $value){
         $add = new SalesDetail;
-        $add->id_product = $value;
-        $add->IdSalesFK = $sales->IdSales;
-        $add->IdUnitFK = $request->input('IdUnitFK');
-        $add->TOIdDepartementFK = $request->input('TOIdDepartementFK');
-        $add->FROMIdDepartementFK = $request->input('FROMIdDepartementFK');
+        $add->IdProduct = $value;
+        $add->IdSales = $sales->IdSales;
+        $add->IdUnit = $request->input('IdUnit');
+        $add->TOIdDepartement = $request->input('TOIdDepartement');
+        $add->FROMIdDepartement = $request->input('FROMIdDepartement');
         $add->CheckedBy = $request->input('CheckedBy');
         $add->ApprovedBy = $request->input('ApprovedBy');
         $add->DateRequired = $request->input('DateRequired');
         $add->PaymentDate = $request->input('PaymentDate');
-        $add->IdPaymentFK = $request->input('IdPaymentFK');
-        $add->IdSuplierFK = $request->input('IdSuplierFK');
-        $add->Qty = $request->input('IdSuplierFK');
+        $add->IdPayment = $request->input('IdPayment');
+        $add->IdSuplier = $request->input('IdSuplier');
+        $add->Qty = $request->input('Qty');
         $add->Amount = $request->input('Amount');
         $add->CreatedAt = Date('Y-m-d');
         // $add->UpdatedAt = Date('Y-m-d');

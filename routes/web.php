@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SalesController;
+use App\Http\Controllers\PurchasingController;
+use App\Http\Controllers\IssuedController;
+use App\Http\Controllers\FinanceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,3 +31,9 @@ Route::get('/dashboard/index', [DashboardController::class, 'index']);
 // Route::get('/invoice/salesorder/printsalesorder', [InvoiceController::class, 'printsalesorder']);
 
 Route::resource('/sales', SalesController::class);
+
+Route::resource('/purchasing', PurchasingController::class);
+
+Route::resource('/issued', IssuedController::class);
+
+Route::resource('/finance', FinanceController::class);

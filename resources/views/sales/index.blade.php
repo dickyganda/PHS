@@ -40,7 +40,7 @@ Sales Order
                                     <th>Product</th>
                                     <th>Qty</th>
                                     <th>Unit</th>
-                                    <th>Rate</th>
+                                    {{-- <th>Rate</th> --}}
                                     <th>Amount</th>
                                     <th>From Departement</th>
                                     <th>To Departement</th>
@@ -63,7 +63,7 @@ Sales Order
                                     <td>{{ $sales->IdUserFK }}</td>
                                     <td>{{ $sales->IdProductFK }}</td>
                                     <td>{{ $sales->Qty }}</td>
-                                    <td>{{ $sales->IdHargaFK }}</td>
+                                    {{-- <td>{{ $sales->IdHargaFK }}</td> --}}
                                     <td>{{ $sales->Amount }}</td>
                                     {{-- <td>{{ $sales->IdUserFK }}</td> --}}
                                     <td>{{ $sales->FROMIdDepartementFK }}</td>

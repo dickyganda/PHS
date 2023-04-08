@@ -91,21 +91,21 @@
             </li>
 
             <li>
-            <a href="#" title="Application Intel" data-filter-tags="application intel">
+            <a href={{ route('purchasing.index')}} title="Application Intel" data-filter-tags="application intel">
                     <i class="fal fa-info-circle"></i>
                     <span class="nav-link-text" data-i18n="nav.application_intel">Purchasing</span>
                 </a>
             </li>
 
             <li>
-            <a href="#" title="Application Intel" data-filter-tags="application intel">
+            <a href={{ route('issued.index')}} title="Application Intel" data-filter-tags="application intel">
                     <i class="fal fa-info-circle"></i>
                     <span class="nav-link-text" data-i18n="nav.application_intel">Issued</span>
                 </a>
             </li>
 
             <li>
-            <a href="#" title="Application Intel" data-filter-tags="application intel">
+            <a href={{ route('finance.index')}} title="Application Intel" data-filter-tags="application intel">
                     <i class="fal fa-info-circle"></i>
                     <span class="nav-link-text" data-i18n="nav.application_intel">Finance</span>
                 </a>

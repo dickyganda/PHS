@@ -24,8 +24,37 @@ class PurchasingController extends Controller
      */
     public function create()
     {
+
+        // mengambil data procurement
+        $procurement = DB::table('m_procurement')->get();
+
+        // mengambil code bom
+        $bom = DB::table('m_bom')->get();
+
+        // mengambil nama departement
+        $departement = DB::table('m_departement')
+        ->get();
+        
+        // mengambil nama payment
+        $payment = DB::table('m_payment')
+        ->get();
+        
+        // mengambil nama suplier
+        $suplier = DB::table('m_suplier')
+        ->get();
+        
+        // mengambil nama priority
+        $priority = DB::table('m_priority')
+        ->get();
+
+        $material = DB::table('m_material')
+        ->get();
+
+        $unit = DB::table('m_unit')
+        ->get();
+
         // menampilkan form insert purchasing
-        return view('purchasing.create');
+        return view('purchasing.create', compact('procurement','bom','departement','payment','suplier','priority','material','unit'));
     }
 
     /**

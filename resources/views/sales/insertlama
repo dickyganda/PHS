@@ -27,29 +27,27 @@ Insert Sales Order
                         {{-- form insert sales order --}}
                         <form action={{route('sales.store')}} method="POST">
                         @csrf
-                        {{-- <div class="form-group"> --}}
-    {{-- <div class="row">
-    <div class="col-lg-2"> --}}
-    {{-- <div class="form-group"> --}}
-    <table id="form_sales">
+                        <div class="form-group">
+    <div class="row">
+    <div class="col-lg-2">
+    <div class="form-group">
+    <table>
     <tr>
     <th>Product</th>
     <th>Qty</th>
-    <th>Unit</th>
-    <th>Rate</th>
-    <th>Amount</th>
-    <th>From Departement</th>
-    <th>To Departement</th>
-    <th>Date Required</th>
-    <th>Payment Date</th>
-    <th>Payment</th>
-    <th>Suplier</th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
     </tr>
-    <tr>
-
-    <td id="col0">
-<div class="form-group">
-<select id="IdProduct" name="IdProduct[]" style="width: 100%" class="form-control form-control-sm select2">
+      <label>Product</label>
+      {{-- <input type="text" class="form-control" id="FROMIdDepartementFK" placeholder="FROMIdDepartementFK" name="FROMIdDepartementFK"> --}}
+      <select id="IdProduct" name="IdProduct[]" style="width: 100%" class="form-control form-control-sm select2">
                                                             <option disabled selected>Pilih Product</option>
                                                             @foreach ($product as $p)
                                                             <option value="{{ $p->IdProduct }}">
@@ -57,20 +55,20 @@ Insert Sales Order
                                                             </option>
                                                             @endforeach
                                                         </select>
-</div>
-    </td>
-
-    <td id="col1">
-    <div class="form-group">
-      {{-- <label>Qty</label> --}}
-      <input type="text" class="form-control" id="Qty" placeholder="Qty" name="Qty[]">
     </div>
-    </td>
+    </div>
 
-    <td id="col2">
+    <div class="col-lg-2">
     <div class="form-group">
-      {{-- <label>Unit</label> --}}
-      <select id="IdUnit" name="IdUnit[]" style="width: 100%" class="form-control form-control-sm select2">
+      <label>Qty</label>
+      <input type="number" class="form-control" id="Qty" placeholder="Qty" name="Qty">
+    </div>
+    </div>
+
+    <div class="col-lg-2">
+    <div class="form-group">
+      <label>Unit</label>
+      <select id="IdUnit" name="IdUnit" style="width: 100%" class="form-control form-control-sm select2">
                                                             <option disabled selected>Select Unit</option>
                                                             @foreach ($unit as $u)
                                                             <option value="{{ $u->IdUnit }}">
@@ -79,27 +77,26 @@ Insert Sales Order
                                                             @endforeach
                                                         </select>
     </div>
-    </td>
-
-    <td id="col3">
-    <div class="form-group">
-      {{-- <label>Rate</label> --}}
-      <input type="text" class="form-control" id="IdHarga" placeholder="Rate" name="IdHarga[]">
     </div>
-    </td>
 
-    <td id="col4">
+    <div class="col-lg-2">
     <div class="form-group">
-      {{-- <label>Amount</label> --}}
-      <input type="text" class="form-control" id="Amount" placeholder="Amount" name="Amount[]">
+      <label>Rate</label>
+      <input type="text" class="form-control" id="IdHarga" placeholder="Rate" name="IdHarga">
     </div>
-    </td>
+    </div>
 
-    <td id="col5">
+    <div class="col-lg-2">
     <div class="form-group">
-      {{-- <label>FROM Departement</label> --}}
+      <label>Amount</label>
+      <input type="number" class="form-control" id="Amount" placeholder="Amount" name="Amount">
+    </div>
+    </div>
+    <div class="col-lg-2">
+    <div class="form-group">
+      <label>FROM Departement</label>
       {{-- <input type="text" class="form-control" id="FROMIdDepartementFK" placeholder="FROMIdDepartementFK" name="FROMIdDepartementFK"> --}}
-      <select id="FROMIdDepartement" name="FROMIdDepartement[]" style="width: 100%" class="form-control form-control-sm select2">
+      <select id="FROMIdDepartement" name="FROMIdDepartement" style="width: 100%" class="form-control form-control-sm select2">
                                                             <option disabled selected>Select Departement</option>
                                                             @foreach ($departement as $d)
                                                             <option value="{{ $d->IdDepartement }}">
@@ -108,13 +105,12 @@ Insert Sales Order
                                                             @endforeach
                                                         </select>
     </div>
-    </td>
-
-    <td id="col6">
+    </div>
+    <div class="col-lg-2">
     <div class="form-group">
-      {{-- <label>TO Departement</label> --}}
+      <label>TOIdDepartement</label>
       {{-- <input type="text" class="form-control" id="TOIdDepartementFK" placeholder="TOIdDepartementFK" name="TOIdDepartementFK"> --}}
-      <select id="TOIdDepartement" name="TOIdDepartement[]" style="width: 100%" class="form-control form-control-sm select2">
+      <select id="TOIdDepartement" name="TOIdDepartement" style="width: 100%" class="form-control form-control-sm select2">
                                                             <option disabled selected>Select Departement</option>
                                                             @foreach ($departement as $d)
                                                             <option value="{{ $d->IdDepartement }}">
@@ -123,26 +119,25 @@ Insert Sales Order
                                                             @endforeach
                                                         </select>
     </div>
-    </td>
-
-    <td id="col7">
-    <div class="form-group">
-      {{-- <label>DateRequired</label> --}}
-      <input type="date" class="form-control" id="DateRequired" placeholder="DateRequired" name="DateRequired[]">
     </div>
-    </td>
-
-    <td id="col8">
+    <div class="col-lg-2">
     <div class="form-group">
-      {{-- <label>PaymentDate</label> --}}
-      <input type="date" class="form-control" id="PaymentDate" placeholder="PaymentDate" name="PaymentDate[]">
+      <label>DateRequired</label>
+      <input type="date" class="form-control" id="DateRequired" placeholder="DateRequired" name="DateRequired">
     </div>
-    </td>
+    </div>
 
-<td id="col9">
+    <div class="col-lg-2">
     <div class="form-group">
-      {{-- <label>Payment</label> --}}
-      <select id="IdPayment" name="IdPayment[]" style="width: 100%" class="form-control form-control-sm select2">
+      <label>PaymentDate</label>
+      <input type="date" class="form-control" id="PaymentDate" placeholder="PaymentDate" name="PaymentDate">
+    </div>
+    </div>
+
+    <div class="col-lg-2">
+    <div class="form-group">
+      <label>Payment</label>
+      <select id="IdPayment" name="IdPayment" style="width: 100%" class="form-control form-control-sm select2">
                                                             <option disabled selected>Select Payment</option>
                                                             @foreach ($payment as $pay)
                                                             <option value="{{ $pay->IdPayment }}">
@@ -151,12 +146,12 @@ Insert Sales Order
                                                             @endforeach
                                                         </select>
     </div>
-    </td>
+    </div>
 
-    <td id="col10">
+    <div class="col-lg-2">
     <div class="form-group">
-      {{-- <label>IdSuplier</label> --}}
-      <select id="IdSuplier" name="IdSuplier[]" style="width: 100%" class="form-control form-control-sm select2">
+      <label>IdSuplier</label>
+      <select id="IdSuplier" name="IdSuplier" style="width: 100%" class="form-control form-control-sm select2">
                                                             <option disabled selected>Select Suplier</option>
                                                             @foreach ($suplier as $sup)
                                                             <option value="{{ $sup->IdSuplier }}">
@@ -165,23 +160,15 @@ Insert Sales Order
                                                             @endforeach
                                                         </select>
     </div>
-    </td>
-    </tr>
+    </div>
+    </div>
 </table>
-<table>
-                                            <tr>
-                                                <td><input type="button" class="btn btn-primary btn-xs" value="Add Row" onclick="addRows()" /></td>
-                                                <td><input type="button" class="btn btn-danger btn-xs" value="Delete Row" onclick="deleteRows()" />
-                                                </td>
-                                                <td><input type="submit" class="btn btn-success btn-xs" value="Submit" /></td>
-                                            </tr>
-                                        </table>
       {{-- <input type="text" class="form-control" id="IdSales" placeholder="" name="IdSales" hidden> --}}
-    {{-- </div> --}}
+    </div>
     
-    {{-- <button type="submit" class="btn btn-default">Add Row</button>
+    <button type="submit" class="btn btn-default">Add Row</button>
     <button type="submit" class="btn btn-default">Delete Row</button>
-    <button type="submit" class="btn btn-default">Submit</button> --}}
+    <button type="submit" class="btn btn-default">Submit</button>
   </form>
                         </div>
                     </div>
@@ -207,37 +194,6 @@ Insert Sales Order
 @endsection
 @push('script')
 <script>
-$(document).ready(function() {
-                    $('#IdProduct').select2({
-                        placeholder: "Select Product"
-                    });
-                });
 
-function addRows() {
-                    //$('#IdProduct').select2("destroy");
-                    var table = document.getElementById('form_sales');
-                    var rowCount = table.rows.length;
-                    var cellCount = table.rows[0].cells.length;
-                    var row = table.insertRow(rowCount);
-                    for (var i = 0; i < cellCount; i++) {
-                        // console.log('col' + i);
-                        var cell = 'cell' + i;
-                        cell = row.insertCell(i);
-                        var copycel = document.getElementById('col' + i).innerHTML;
-                        cell.innerHTML = copycel;
-                    }
-                    $(".select2").select2();
-                }
-
-                function deleteRows() {
-                    var table = document.getElementById('form_sales');
-                    var rowCount = table.rows.length;
-                    if (rowCount > '2') {
-                        var row = table.deleteRow(rowCount - 1);
-                        rowCount--;
-                    } else {
-                        alert('There should be atleast one row');
-                    }
-                }
 </script>
 @endpush

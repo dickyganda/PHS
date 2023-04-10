@@ -24,67 +24,193 @@ Insert Purchasing
                 <div class="panel-container show">
                     <div class="panel-content">
                         <div>
-                        {{-- form insert purchasing --}}
+                        {{-- form insert sales order --}}
                         <form action={{route('sales.store')}} method="POST">
                         @csrf
-                        <div class="form-group">
-    <div class="row">
-    <div class="col-lg-2">
-    <div class="form-group">
-      <label>Priority</label>
-      {{-- <input type="text" class="form-control" id="FROMIdDepartementFK" placeholder="FROMIdDepartementFK" name="FROMIdDepartementFK"> --}}
-      <select id="Priority" name="Priority" style="width: 100%" class="form-control form-control-sm select2">
-                                                            <option disabled selected>Pilih Priority</option>
-                                                            {{-- @foreach ($databarang as $penjualan) --}}
-                                                            {{-- <option value="{{ $penjualan->id_barang }}"> --}}
-                                                                {{-- {{ $penjualan->nama_barang }} --}}
+                       
+    <table id="form_purchasing">
+    <tr>
+    <th>Procurement</th>
+    <th>BOM</th>
+    <th>From Departement</th>
+    <th>To Departement</th>
+    <th>Date Purchasing</th>
+    <th>Date Required</th>
+    <th>Payment Date</th>
+    <th>Payment</th>
+    <th>Suplier</th>
+    <th>Priority</th>
+    <th>Material</th>
+    <th>Qty</th>
+    <th>Unit</th>
+    <th>Price</th>
+    <th>Total</th>
+    </tr>
+    <tr>
+
+    <td id="col0">
+<div class="form-group">
+<select id="IdProcurement" name="IdProcurement[]" style="width: 100%" class="form-control form-control-sm select2">
+                                                            <option disabled selected>Select Procurement</option>
+                                                            @foreach ($procurement as $p)
+                                                            <option value="{{ $p->IdProcurement }}">
+                                                                {{ $p->CodeProcurement }}
                                                             </option>
-                                                            {{-- @endforeach --}}
+                                                            @endforeach
+                                                        </select>
+</div>
+    </td>
+
+    <td id="col1">
+<div class="form-group">
+<select id="IdBom" name="IdBom[]" style="width: 100%" class="form-control form-control-sm select2">
+                                                            <option disabled selected>Select BOM</option>
+                                                            @foreach ($bom as $b)
+                                                            <option value="{{ $b->IdBom }}">
+                                                                {{ $b->BomCode }}
+                                                            </option>
+                                                            @endforeach
+                                                        </select>
+</div>
+    </td>
+
+    <td id="col2">
+    <div class="form-group">
+      <select id="FROMIdDepartement" name="FROMIdDepartement[]" style="width: 100%" class="form-control form-control-sm select2">
+                                                            <option disabled selected>Select Departement</option>
+                                                            @foreach ($departement as $d)
+                                                            <option value="{{ $d->IdDepartement }}">
+                                                                {{ $d->NamaDepartement }}
+                                                            </option>
+                                                            @endforeach
                                                         </select>
     </div>
-    </div>
+    </td>
 
-<div class="col-lg-2">
+    <td id="col3">
     <div class="form-group">
-      <label>Material</label>
-      <input type="text" class="form-control" id="Material" placeholder="Material" name="Material">
+      <select id="TOIdDepartement" name="TOIdDepartement[]" style="width: 100%" class="form-control form-control-sm select2">
+                                                            <option disabled selected>Select Departement</option>
+                                                            @foreach ($departement as $d)
+                                                            <option value="{{ $d->IdDepartement }}">
+                                                                {{ $d->NamaDepartement }}
+                                                            </option>
+                                                            @endforeach
+                                                        </select>
     </div>
-    </div>
+    </td>
 
-    <div class="col-lg-2">
+    <td id="col4">
     <div class="form-group">
-      <label>Qty</label>
-      <input type="number" class="form-control" id="Qty" placeholder="Qty" name="Qty">
+      <input type="date" class="form-control" id="DatePurchasing" placeholder="Date Purchasing" name="DatePurchasing[]">
     </div>
-    </div>
+    </td>
 
-    <div class="col-lg-2">
+    <td id="col5">
     <div class="form-group">
-      <label>Unit</label>
-      <input type="text" class="form-control" id="Unit" placeholder="Unit" name="Unit">
+      <input type="date" class="form-control" id="DateRequired" placeholder="DateRequired" name="DateRequired[]">
     </div>
-    </div>
+    </td>
 
-    <div class="col-lg-2">
+    <td id="col6">
     <div class="form-group">
-      <label>Price</label>
-      <input type="text" class="form-control" id="Price" placeholder="Price" name="Price">
+      <input type="date" class="form-control" id="PaymentDate" placeholder="PaymentDate" name="PaymentDate[]">
     </div>
-    </div>
+    </td>
 
-    <div class="col-lg-2">
+<td id="col7">
     <div class="form-group">
-      <label>Total</label>
-      <input type="text" class="form-control" id="Total" placeholder="Total" name="Total">
+      <select id="IdPayment" name="IdPayment[]" style="width: 100%" class="form-control form-control-sm select2">
+                                                            <option disabled selected>Select Payment</option>
+                                                            @foreach ($payment as $pay)
+                                                            <option value="{{ $pay->IdPayment }}">
+                                                                {{ $pay->NamaPayment }}
+                                                            </option>
+                                                            @endforeach
+                                                        </select>
     </div>
-    </div>
+    </td>
 
-      {{-- <input type="text" class="form-control" id="IdSales" placeholder="" name="IdSales" hidden> --}}
+    <td id="col8">
+    <div class="form-group">
+      <select id="IdSuplier" name="IdSuplier[]" style="width: 100%" class="form-control form-control-sm select2">
+                                                            <option disabled selected>Select Suplier</option>
+                                                            @foreach ($suplier as $sup)
+                                                            <option value="{{ $sup->IdSuplier }}">
+                                                                {{ $sup->NamaSuplier }}
+                                                            </option>
+                                                            @endforeach
+                                                        </select>
     </div>
-    
-    <button type="submit" class="btn btn-default">Add Row</button>
-    <button type="submit" class="btn btn-default">Delete Row</button>
-    <button type="submit" class="btn btn-default">Submit</button>
+    </td>
+
+    <td id="col9">
+    <div class="form-group">
+      <select id="IdPriority" name="IdPriority[]" style="width: 100%" class="form-control form-control-sm select2">
+                                                            <option disabled selected>Select Priority</option>
+                                                            @foreach ($priority as $pri)
+                                                            <option value="{{ $pri->IdPriority }}">
+                                                                {{ $pri->NamePriority }}
+                                                            </option>
+                                                            @endforeach
+                                                        </select>
+    </div>
+    </td>
+
+    <td id="col10">
+    <div class="form-group">
+      <select id="IdMaterial" name="IdMaterial[]" style="width: 100%" class="form-control form-control-sm select2">
+                                                            <option disabled selected>Select Material</option>
+                                                            @foreach ($material as $m)
+                                                            <option value="{{ $m->IdMaterial }}">
+                                                                {{ $m->MaterialCode }}
+                                                            </option>
+                                                            @endforeach
+                                                        </select>
+    </div>
+    </td>
+
+    <td id="col11">
+    <div class="form-group">
+      <input type="text" class="form-control" id="Qty" placeholder="Qty" name="Qty[]">
+    </div>
+    </td>
+
+    <td id="col12">
+    <div class="form-group">
+      <select id="IdUnit" name="IdUnit[]" style="width: 100%" class="form-control form-control-sm select2">
+                                                            <option disabled selected>Select Unit</option>
+                                                            @foreach ($unit as $u)
+                                                            <option value="{{ $u->IdUnit }}">
+                                                                {{ $u->NameUnit }}
+                                                            </option>
+                                                            @endforeach
+                                                        </select>
+    </div>
+    </td>
+
+    <td id="col13">
+    <div class="form-group">
+      <input type="text" class="form-control" id="Price" placeholder="Price" name="Price[]">
+    </div>
+    </td>
+
+    <td id="col14">
+    <div class="form-group">
+      <input type="text" class="form-control" id="Total" placeholder="Total" name="Total[]">
+    </div>
+    </td>
+    </tr>
+</table>
+<table>
+                                            <tr>
+                                                <td><input type="button" class="btn btn-primary btn-xs" value="Add Row" onclick="addRows()" /></td>
+                                                <td><input type="button" class="btn btn-danger btn-xs" value="Delete Row" onclick="deleteRows()" />
+                                                </td>
+                                                <td><input type="submit" class="btn btn-success btn-xs" value="Submit" /></td>
+                                            </tr>
+                                        </table>
+
   </form>
                         </div>
                     </div>
@@ -108,3 +234,39 @@ Insert Purchasing
         
 </main>
 @endsection
+@push('script')
+<script>
+$(document).ready(function() {
+                    $('#IdProduct').select2({
+                        placeholder: "Select Product"
+                    });
+                });
+
+function addRows() {
+                    //$('#IdProduct').select2("destroy");
+                    var table = document.getElementById('form_purchasing');
+                    var rowCount = table.rows.length;
+                    var cellCount = table.rows[0].cells.length;
+                    var row = table.insertRow(rowCount);
+                    for (var i = 0; i < cellCount; i++) {
+                        // console.log('col' + i);
+                        var cell = 'cell' + i;
+                        cell = row.insertCell(i);
+                        var copycel = document.getElementById('col' + i).innerHTML;
+                        cell.innerHTML = copycel;
+                    }
+                    $(".select2").select2();
+                }
+
+                function deleteRows() {
+                    var table = document.getElementById('form_sales');
+                    var rowCount = table.rows.length;
+                    if (rowCount > '2') {
+                        var row = table.deleteRow(rowCount - 1);
+                        rowCount--;
+                    } else {
+                        alert('There should be atleast one row');
+                    }
+                }
+</script>
+@endpush

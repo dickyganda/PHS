@@ -894,6 +894,7 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
     <script src="{{ asset('assets/js/statistics/easypiechart/easypiechart.bundle.js') }}"></script>
     <script src="{{ asset('assets/js/statistics/flot/flot.bundle.js') }}"></script>
     <script src="{{ asset('assets/js/miscellaneous/jqvmap/jqvmap.bundle.js') }}"></script>
+    <script src="{{ asset('assets/js/select2.min') }}"></script>
 
     @stack('script')
     <script>

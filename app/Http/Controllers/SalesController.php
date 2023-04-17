@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\SalesDetail;
-use App\Models\Sales;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+
+use App\Models\Sales;
+use App\Models\SalesDetail;
 
 class SalesController extends Controller
 {
@@ -15,11 +16,15 @@ class SalesController extends Controller
      */
     public function index()
     {
-        // menampilkan data sales detail
+        //
         $salesdetail = DB::table('m_sales_detail')
-        ->join('m_sales', 'm_sales.IdSales', '=', 'm_sales_detail.IdSales')
+        // ->leftJoin('m_sales', 'm_sales.IdSales', '=', 'm_sales_detail.IdSales')
+        ->leftJoin('m_product', 'm_product.IdProduct', '=', 'm_sales_detail.IdProduct')
+        ->leftJoin('m_harga', 'm_harga.IdHarga', '=', 'm_sales_detail.IdHarga')
+        ->leftJoin('m_unit', 'm_unit.IdUnit', '=', 'm_sales_detail.IdUnit')
+        ->leftJoin('m_departement', 'm_departement.IdDepartement', '=', 'm_sales_detail.IdDepartement')
+        ->leftJoin('m_suplier', 'm_suplier.IdSuplier', '=', 'm_sales_detail.IdSuplier')
         ->get();
-
         // dd($salesdetail);
 
         return view('sales.index', compact('salesdetail'));
@@ -30,11 +35,11 @@ class SalesController extends Controller
      */
     public function create()
     {
+        //
         // mengambil nama product
         $product = DB::table('m_product')
         // ->join('m_harga', 'm_harga.IdHarga', '=', 'm_product.IdHarga')
         ->get();
-        // dd($product);
         
         // mengambil nama departement
         $departement = DB::table('m_departement')
@@ -47,11 +52,9 @@ class SalesController extends Controller
         // mengambil nama suplier
         $suplier = DB::table('m_suplier')
         ->get();        
-        // dd($payment);
 
         $unit = DB::table('m_unit')
         ->get(); 
-        // dd($unit);
 
         // menampilkan form insert sales
         return view('sales.create', compact('product','departement','payment','suplier','unit'));
@@ -62,44 +65,42 @@ class SalesController extends Controller
      */
     public function store(Request $request)
     {
-        // insert sales
-        $sales = new Sales;
-        $sales->IdUser = 1;
-        $sales->TOIdDepartement = $request->input('TOIdDepartement');
-        $sales->FROMIdDepartement = $request->input('FROMIdDepartement');
-        $sales->CreatedBy = 1;
-        // $sales->CheckedBy = $request->input('CheckedBy');
-        // $sales->ApprovedBy = $request->input('ApprovedBy');
-        $sales->DateRequired = $request->input('DateRequired');
-        $sales->PaymentDate = $request->input('PaymentDate');
-        $sales->IdPayment = $request->input('IdPayment');
-        $sales->IdSuplier = $request->input('IdSuplier');
-        $sales->CreatedAt = Date('Y-m-d');
-        // $add->UpdatedAt = Date('Y-m-d');
-        // $add->DeletedAt = $request->input('DeletedAt');
-        $sales->save();
+        //
+        Sales::create([
+            'IdUser'     => 1,
+            'FROMIdDepartement'   => $request->FROMIdDepartement,
+            'TOIdDepartement'   => $request->TOIdDepartement,
+            'CreatedBy'   => 1,
+            'DateRequired'   => $request->DateRequired,
+            'PaymentDate'   => $request->PaymentDate,
+            'IdPaymment'   => $request->IdPaymment,
+            'IdSuplier'   => $request->IdSuplier,
+            'CreatedAt'   => Date('Y-m-d H:i:s'),
+        ]);
+        // dd($request->FROMIdDepartement);
 
-        // insert to tabel m_sales_detail
-        $add = new SalesDetail;
-        $add->IdSales = $sales->IdSales;
-        $add->IdProduct = $request->input('IdProduct');
-        $add->IdUnit = $request->input('IdUnit');
-        $add->TOIdDepartement = $request->input('TOIdDepartement');
-        $add->FROMIdDepartement = $request->input('FROMIdDepartement');
-        // $add->CheckedBy = $request->input('CheckedBy');
-        // $add->ApprovedBy = $request->input('ApprovedBy');
-        $add->DateRequired = $request->input('DateRequired');
-        $add->PaymentDate = $request->input('PaymentDate');
-        $add->IdPayment = $request->input('IdPayment');
-        $add->IdSuplier = $request->input('IdSuplier');
-        $add->Qty = $request->input('Qty');
-        $add->Amount = $request->input('Amount');
-        $add->CreatedAt = Date('Y-m-d');
-        // $add->UpdatedAt = Date('Y-m-d');
-        // $add->DeletedAt = $request->input('DeletedAt');
-        $add->save();
+        foreach($request->IdProduct as $key =>$value){
+        SalesDetail::create([
+            'IdSales'     => $request->IdSales,
+            'IdProduct'   => $value,
+            'IdUnit'   => $request->IdUnit[$key],
+            'FROMIdDepartement'   => $request->FROMIdDepartement[$key],
+            'TOIdDepartement'   => $request->TOIdDepartement[$key],
+            'DateRequired'   => $request->DateRequired[$key],
+            'PaymentDate'   => $request->PaymentDate[$key],
+            'IdPayment'   => $request->IdPayment[$key],
+            'IdSuplier'   => $request->IdSuplier[$key],
+            'Qty'   => $request->Qty[$key],
+            'IdHarga'   => $request->IdHarga[$key],
+            // 'HargaProduct'   => $request->HargaProduct[$key],
+            'Amount'   => $request->Amount[$key],
+            'CreatedAt'   => Date('Y-m-d H:i:s'),
+        ]);
+    }
+    // dd($request->HargaProduct[$key]);
 
-        return redirect()->route('sales.index')->with('success', 'Data Berhasil Disimpan!');
+    return redirect()->route('sales.index')->with('success', 'Data Berhasil Ditambahkan');
+
     }
 
     /**
@@ -115,8 +116,9 @@ class SalesController extends Controller
      */
     public function edit($IdSalesDetail)
     {
-        // menampilkan form edit sales
+        //
         $salesdetail = SalesDetail::findOrFail($IdSalesDetail);
+        // dd($salesdetail);
 
         return view('sales.edit', compact('salesdetail'));
 
@@ -128,36 +130,29 @@ class SalesController extends Controller
     public function update(Request $request, $IdSalesDetail)
     {
         //
-        // $salesdetail = SalesDetail::findOrFail($IdSalesDetail);
-        DB::table('m_sales_detail')->where('IdSalesDetail',$request->IdSalesDetail)->update([
-            'TOIdDepartementFK' => $request->TOIdDepartementFK,
-            'FROMIdDepartementFK' => $request->FROMIdDepartementFK,
-            'CheckedBy' => $request->CheckedBy,
-            'ApprovedBy' => $request->ApprovedBy,
-            'DateRequired' => $request->DateRequired,
-            'PaymentDate' => $request->PaymentDate,
-            'UpdatedAt' => Date('Y-m-d'),
-            // 'IdPaymentFK' => $request->IdPaymentFK,
-            // 'IdSuplierFK' => $request->IdSuplierFK,
-        ]);
+        $salesdetail = SalesDetail::findOrFail($IdSalesDetail);
+        $salesdetail->update($request->all());
 
-        // dd($request);
-
-        return redirect()->route('sales.index')->with('success', 'Data Berhasil Diedit!');
+        return redirect()->route('sales.index')->with('success', 'Data Berhasil Diupdate');
 
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($IdSalesDetail)
+    public function destroy(string $id)
     {
-        // delete sales detail
-        $salesdetail = SalesDetail::findOrFail($IdSalesDetail);
-        $salesdetail->delete();
+        //
+    }
 
-return redirect()->route('sales.index')->with('success', 'Data Berhasil Dihapus!');
+    public function getproduct(Request $request)
+    {
+        //
+        $getproduct = DB::table('m_product')
+        ->leftJoin('m_harga', 'm_harga.IdHarga', '=', 'm_product.IdHarga')
+        ->where('IdProduct', $request->input('IdProduct'))->first();
+        // dd($getproduct);
 
-
-}
+        return response()->json($getproduct);
+    }
 }

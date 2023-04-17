@@ -22,11 +22,11 @@
         <form class="login-form" id="loginform">
             {{ csrf_field() }}
             <div class="textbox">
-                <input type="teks" id="nama_user" placeholder="Nama" />
+                <input type="text" id="name" placeholder="Name" />
                 <span class="material-symbols-outlined"> account_circle </span>
             </div>
             <div class="textbox">
-                <input type="password" id="password_user" placeholder="Password" />
+                <input type="password" id="password" placeholder="Password" />
                 <span class="material-symbols-outlined"> lock </span>
             </div>
             <button id="loginbutton" type="submit">LOGIN</button>
@@ -56,8 +56,8 @@
             event.preventDefault();
             var formdata = new FormData(this);
             console.log(FormData);
-            formdata.append('nama_user', $("#nama_user").val());
-            formdata.append('password_user', $("#password_user").val());
+            formdata.append('name', $("#name").val());
+            formdata.append('password', $("#password").val());
             $.ajax({
                 type: 'POST'
                 , dataType: 'json'

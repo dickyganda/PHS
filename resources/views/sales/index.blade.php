@@ -40,7 +40,7 @@ Sales Order
                                     <th>Product</th>
                                     <th>Qty</th>
                                     <th>Unit</th>
-                                    {{-- <th>Rate</th> --}}
+                                    <th>Rate</th>
                                     <th>Amount</th>
                                     <th>From Departement</th>
                                     <th>To Departement</th>
@@ -56,34 +56,31 @@ Sales Order
                             </thead>
                             <tbody height="10px">
                                 @php $i=1 @endphp
-                                @foreach ($salesdetail as $sales)
+                                @foreach ($salesdetail as $sale)
                                 <tr>
                                     <td>{{ $i++ }}</td>
-                                    <td>{{ $sales->IdSales }}</td>
-                                    <td>{{ $sales->IdUser }}</td>
-                                    <td>{{ $sales->IdProduct }}</td>
-                                    <td>{{ $sales->Qty }}</td>
-                                    {{-- <td>{{ $sales->IdHargaFK }}</td> --}}
-                                    <td>{{ $sales->Amount }}</td>
+                                    <td>{{ $sale->IdSales }}</td>
+                                    <td>{{ $sale->IdUser }}</td>
+                                    <td>{{ $sale->NameProduct }}</td>
+                                    <td>{{ $sale->Qty }}</td>
+                                    <td>{{ $sale->NameUnit }}</td>
+                                    {{-- <td>{{ $sale->HargaSatuan }}</td> --}}
+                                    <td>{{ $sale->HargaProduct }}</td>
+                                    <td>{{ $sale->Amount }}</td>
                                     {{-- <td>{{ $sales->IdUserFK }}</td> --}}
-                                    <td>{{ $sales->FROMIdDepartement }}</td>
-                                    <td>{{ $sales->TOIdDepartement }}</td>
-                                    <td>{{ $sales->CreatedBy }}</td>
-                                    <td>{{ $sales->CheckedBy }}</td>
-                                    <td>{{ $sales->ApprovedBy }}</td>
-                                    <td>{{ $sales->DateRequired }}</td>
-                                    <td>{{ $sales->PaymentDate }}</td>
+                                    <td>{{ $sale->FROMIdDepartement }}</td>
+                                    <td>{{ $sale->TOIdDepartement }}</td>
+                                    <td>{{ $sale->CreatedBy }}</td>
+                                    <td>{{ $sale->CheckedBy }}</td>
+                                    <td>{{ $sale->ApprovedBy }}</td>
+                                    <td>{{ $sale->DateRequired }}</td>
+                                    <td>{{ $sale->PaymentDate }}</td>
                                     {{-- <td>{{ $sales->IdPaymentFK }}</td> --}}
-                                    <td>{{ $sales->IdSuplier }}</td>
+                                    <td>{{ $sale->NamaSuplier }}</td>
                         <td>
 
-                            <a href="{{ route('sales.edit', $sales->IdSalesDetail) }}" title="Edit" class="btn btn-warning btn-xs" role="button"><i class="fas fa-pen"></i> Edit</a>
-<form action="{{ route('sales.destroy', $sales->IdSalesDetail) }}" method="post" type="button" class="btn btn-danger btn-xs" onsubmit="return confirm('Delete')">
-@csrf
-@method('delete')
-
-<button class="btn btn-danger btn-xs">Delete</button>
-</form>
+                            <a href="{{ route('sales.edit', $sale->IdSalesDetail )}}" title="Edit" class="btn btn-warning btn-xs" role="button"><i class="fas fa-pen"></i> Edit</a>
+                            {{-- <a href="/sales/edit/{{$sale->IdSalesDetail}}" title="Delete" class="btn btn-danger btn-xs" role="button"><i class="fas fa-trash"></i> Hapus</a> --}}
 
                             {{-- <a href="{{ route('sales.destroy', $sales->IdSalesDetail) }}" method="post" title="Hapus" class="btn btn-danger btn-xs" role="button"><i class="fas fa-trash"></i> Delete</a> --}}
                         </td>

@@ -25,7 +25,7 @@ Insert Sales Order
                     <div class="panel-content">
                         <div>
                         {{-- form insert sales order --}}
-                        <form action={{route('sales.store')}} method="POST">
+                        <form action={{ route('sales.store')}} method="POST" id="insertsales">
                         @csrf
                         {{-- <div class="form-group"> --}}
     {{-- <div class="row">
@@ -45,12 +45,12 @@ Insert Sales Order
     <th>Payment</th>
     <th>Suplier</th>
     </tr>
-    <tr>
 
+    <tr>
     <td id="col0">
 <div class="form-group">
-<select id="IdProduct" name="IdProduct[]" style="width: 100%" class="form-control form-control-sm select2">
-                                                            <option disabled selected>Pilih Product</option>
+<select id="IdProduct" name="IdProduct[]" style="width: 100%" class="form-control form-control-sm select2" onchange="selectTypeProduct(this)">
+                                                            <option disabled selected>Select Product</option>
                                                             @foreach ($product as $p)
                                                             <option value="{{ $p->IdProduct }}">
                                                                 {{ $p->NameProduct }}
@@ -63,7 +63,7 @@ Insert Sales Order
     <td id="col1">
     <div class="form-group">
       {{-- <label>Qty</label> --}}
-      <input type="text" class="form-control" id="Qty" placeholder="Qty" name="Qty[]">
+      <input type="text" class="form-control" id="Qty" placeholder="Qty" name="Qty[]" onkeyup="sum(this.parentElement.parentElement.parentElement);">
     </div>
     </td>
 
@@ -83,10 +83,15 @@ Insert Sales Order
 
     <td id="col3">
     <div class="form-group">
-      {{-- <label>Rate</label> --}}
-      <input type="text" class="form-control" id="IdHarga" placeholder="Rate" name="IdHarga[]">
+      <input type="text" class="form-control" id="IdHarga" placeholder="Rate" name="IdHarga[]" onkeyup="sum(this.parentElement.parentElement.parentElement);">
     </div>
     </td>
+
+    {{-- <td id="col3">
+    <div class="form-group">
+      <input type="text" class="form-control" id="HargaProduct" placeholder="Rate" name="HargaProduct[]" onkeyup="sum(this.parentElement.parentElement.parentElement);">
+    </div>
+    </td> --}}
 
     <td id="col4">
     <div class="form-group">
@@ -211,10 +216,35 @@ $(document).ready(function() {
                     $('#IdProduct').select2({
                         placeholder: "Select Product"
                     });
+
+                    $('#IdUnit').select2({
+                        placeholder: "Select Unit"
+                    });
+
+                    $('#FROMIdDepartement').select2({
+                        placeholder: "Select Departement"
+                    });
+
+                    $('#TOIdDepartement').select2({
+                        placeholder: "Select Departement"
+                    });
+
+                    $('#IdPayment').select2({
+                        placeholder: "Select Payment"
+                    });
+
+                    $('#IdSuplier').select2({
+                        placeholder: "Select Suplier"
+                    });
                 });
 
 function addRows() {
-                    //$('#IdProduct').select2("destroy");
+                    $('#IdProduct').select2("destroy");
+                    $('#IdUnit').select2("destroy");
+                    $('#FROMIdDepartement').select2("destroy");
+                    $('#TOIdDepartement').select2("destroy");
+                    $('#IdPayment').select2("destroy");
+                    $('#IdSuplier').select2("destroy");
                     var table = document.getElementById('form_sales');
                     var rowCount = table.rows.length;
                     var cellCount = table.rows[0].cells.length;
@@ -227,6 +257,11 @@ function addRows() {
                         cell.innerHTML = copycel;
                     }
                     $(".select2").select2();
+                    $(".select2").select2();
+                    $(".select2").select2();
+                    $(".select2").select2();
+                    $(".select2").select2();
+                    $(".select2").select2();
                 }
 
                 function deleteRows() {
@@ -237,6 +272,34 @@ function addRows() {
                         rowCount--;
                     } else {
                         alert('There should be atleast one row');
+                    }
+                }
+
+                function selectTypeProduct(item) {
+                    var parent = item.parentElement.parentElement.parentElement;
+                    var formdata = new FormData();
+                    formdata.append('IdProduct', item.options[item.selectedIndex].value);
+                    $.ajax({
+                        type: 'POST'
+                        , dataType: 'json'
+                        , url: '/sales/getproduct'
+                        , data: formdata
+                        , contentType: false
+                        , cache: false
+                        , processData: false
+                        , success: function(data) {
+                            parent.querySelector("#IdHarga").value = data.HargaSatuan;
+                            // $('#harga_barang').val(data.harga_barang);
+                        }
+                    })
+                }
+
+                function sum(tableRow) {
+                    var txtFirstNumberValue = tableRow.querySelector("#Qty").value;
+                    var txtSecondNumberValue = tableRow.querySelector("#IdHarga").value;
+                    var result = parseInt(txtFirstNumberValue) * parseInt(txtSecondNumberValue);
+                    if (!isNaN(result)) {
+                        tableRow.querySelector("#Amount").value = result;
                     }
                 }
 </script>

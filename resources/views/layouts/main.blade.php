@@ -10,6 +10,7 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
 <html lang="en">
 <head>
     <meta charset="utf-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>
         Analytics Dashboard - Application Intel - SmartAdmin v4.5.1
     </title>
@@ -33,6 +34,17 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
     <link rel="stylesheet" media="screen, print" href="{{ asset('assets/css/miscellaneous/reactions/reactions.css') }}">
     <link rel="stylesheet" media="screen, print" href="{{ asset('assets/css/miscellaneous/fullcalendar/fullcalendar.bundle.css') }}">
     <link rel="stylesheet" media="screen, print" href="{{ asset('assets/css/miscellaneous/jqvmap/jqvmap.bundle.css') }}">
+
+     {{-- Select2 --}}
+    {{-- <link rel="stylesheet" href="{{ asset('assets/css/select2.min.css') }}"> --}}
+    <link rel="stylesheet" href="{{ asset('assets/css/formplugins/select2/select2.bundle.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/formplugins/select2/select2.bundle.css.map') }}">
+    {{-- <link rel="stylesheet" href="{{ asset('assets/css/select2-bootstrap.min.css') }}"> --}}
+
+    {{-- datatables --}}
+    <link rel="stylesheet" href="{{ asset('assets/css/datagrid/datatables/datatables.bundle.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/datagrid/datatables/datatables.bundle.css.map') }}">
+
 </head>
 <!-- BEGIN Body -->
 <!-- Possible Classes
@@ -881,6 +893,7 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
 						+ waves.js (extension)
 						+ smartpanels.js (extension)
 						+ src/../jquery-snippets.js (core) -->
+    <script src="{{ asset('assets/src/content/plugins/plugins_pacejs/plugins_pacejs.hbs') }}"></script>
     <script src="{{ asset('assets/js/vendors.bundle.js') }}"></script>
     <script src="{{ asset('assets/js/app.bundle.js') }}"></script>
     <script type="text/javascript">
@@ -888,18 +901,27 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
         //$('#js-page-content').smartPanel();
     </script>
     <!-- The order of scripts is irrelevant. Please check out the plugin pages for more details about these plugins below: -->
+    <script src="{{ asset('assets/js/datagrid/datatables/datatables.bundle.js') }}"></script>
+    <script src="{{ asset('assets/js/datagrid/datatables/datatables.export.js') }}"></script>
     <script src="{{ asset('assets/js/dependency/moment/moment.js') }}"></script>
     <script src="{{ asset('assets/js/miscellaneous/fullcalendar/fullcalendar.bundle.js') }}"></script>
     <script src="{{ asset('assets/js/statistics/sparkline/sparkline.bundle.js') }}"></script>
     <script src="{{ asset('assets/js/statistics/easypiechart/easypiechart.bundle.js') }}"></script>
     <script src="{{ asset('assets/js/statistics/flot/flot.bundle.js') }}"></script>
     <script src="{{ asset('assets/js/miscellaneous/jqvmap/jqvmap.bundle.js') }}"></script>
-    <script src="{{ asset('assets/js/select2.min') }}"></script>
+    <script src="{{ asset('assets/js/formplugins/select2/select2.bundle.js') }}"></script>
+    <script src="{{ asset('assets/js/popper.min.js') }}"></script>
+    <script src="{{ asset('assets/js/sweetalert2.js') }}"></script>
 
-    @stack('script')
     <script>
-        
+         $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        })
     </script>
+    
+    @stack('script')
 </body>
 <!-- END Body -->
 </html>

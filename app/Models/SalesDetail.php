@@ -12,5 +12,6 @@ class SalesDetail extends Model
     protected $table = 'm_sales_detail';
     protected $primaryKey = 'IdSalesDetail';
     public $timestamps = false;
+    protected $fillable = ['IdSalesDetail', 'IdSales', 'IdProduct', 'IdUnit', 'FROMIdDepartement', 'TOIdDepartement', 'DateRequired', 'PaymentDate', 'IdPayment', 'IdSuplier', 'Qty', 'Amount', 'CreatedAt'];
 
 }

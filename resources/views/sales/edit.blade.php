@@ -19,13 +19,14 @@ Edit Sales Order
             
             <div id="panel-3" class="panel">
                 <div class="panel-hdr">
-                    <h2>Insert Order</h2>
+                    <h2>Edit Order</h2>
                 </div>
                 <div class="panel-container show">
                     <div class="panel-content">
                         <div>
                         {{-- form edit sales order --}}
-                        <form action={{route('sales.update', $salesdetail->IdSalesDetail)}} method="POST">
+                        {{-- @foreach($salesdetail as $sale) --}}
+                        <form action="{{route('sales.update', $salesdetail->IdSalesDetail)}}" method="POST">
                         @csrf
                         @method('put')
                         <div class="form-group">
@@ -48,7 +49,18 @@ Edit Sales Order
     <div class="col-lg-6">
     <div class="form-group">
       <label>TOIdDepartementFK</label>
-      <input type="text" class="form-control" id="TOIdDepartementFK" placeholder="TOIdDepartementFK" name="TOIdDepartementFK" value="{{ $salesdetail->TOIdDepartementFK }}">
+      {{-- <input type="text" class="form-control" id="TOIdDepartementFK" placeholder="TOIdDepartementFK" name="TOIdDepartementFK" value="{{ $salesdetail->TOIdDepartement }}"> --}}
+      {{-- <select id="TOIdDepartement" name="TOIdDepartement" style="width: 100%" class="form-control form-control-sm select2">
+                                                            <option disabled selected>Select Departement</option>
+                                                            @foreach ($salesdetail as $sale)
+                                                            <option value="{{ $sale->TOIdDepartement }}">
+                                                                {{ $sale->TOIdDepartement }}
+                                                            </option>
+                                                            @endforeach
+                                                        </select> --}}
+
+      <input type="text" class="form-control" id="TOIdDepartementFK" placeholder="TOIdDepartementFK" name="TOIdDepartement" value="{{ $salesdetail->TOIdDepartement }}">
+
     </div>
     </div>
     </div>
@@ -56,7 +68,7 @@ Edit Sales Order
     <div class="col-lg-6">
     <div class="form-group">
       <label>FROMIdDepartementFK</label>
-      <input type="text" class="form-control" id="FROMIdDepartementFK" placeholder="FROMIdDepartementFK" name="FROMIdDepartementFK" value="{{ $salesdetail->FROMIdDepartementFK }}">
+      <input type="text" class="form-control" id="FROMIdDepartementFK" placeholder="FROMIdDepartement" name="FROMIdDepartement" value="{{ $salesdetail->FROMIdDepartement }}">
     </div>
     </div>
     {{-- <div class="col-lg-6">
@@ -81,18 +93,18 @@ Edit Sales Order
     </div>
     </div>
     <div class="row">
-    <div class="col-lg-6">
+    {{-- <div class="col-lg-6">
     <div class="form-group">
       <label>DateRequired</label>
       <input type="date" class="form-control" id="DateRequired" placeholder="DateRequired" name="DateRequired" value="{{ $salesdetail->DateRequired }}">
     </div>
-    </div>
-    <div class="col-lg-6">
+    </div> --}}
+    {{-- <div class="col-lg-6">
     <div class="form-group">
       <label>PaymentDate</label>
       <input type="date" class="form-control" id="PaymentDate" placeholder="PaymentDate" name="PaymentDate" value="{{ $salesdetail->PaymentDate }}">
     </div>
-    </div>
+    </div> --}}
     </div>
     <div class="row">
     {{-- <div class="col-lg-6">
@@ -114,6 +126,7 @@ Edit Sales Order
     
     <button type="submit" class="btn btn-default">Submit</button>
   </form>
+  {{-- @endforeach --}}
                         </div>
                     </div>
                 </div>

@@ -62,7 +62,7 @@
                 </ul>
             </li>
             <li>
-                <a href={{ route('sales.index')}} title="Application Intel" data-filter-tags="application intel">
+                <a href="/sales/index" title="Application Intel" data-filter-tags="application intel">
                     <i class="fal fa-info-circle"></i>
                     <span class="nav-link-text" data-i18n="nav.application_intel">Sales</span>
                 </a>
@@ -88,6 +88,13 @@
                         </a>
                     </li>
                 </ul> --}}
+            </li>
+
+            <li>
+            <a href="/bom/index" title="Application Intel" data-filter-tags="application intel">
+                    <i class="fal fa-info-circle"></i>
+                    <span class="nav-link-text" data-i18n="nav.application_intel">BOM</span>
+                </a>
             </li>
 
             <li>

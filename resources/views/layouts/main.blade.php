@@ -44,6 +44,9 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
     {{-- datatables --}}
     <link rel="stylesheet" href="{{ asset('assets/css/datagrid/datatables/datatables.bundle.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/datagrid/datatables/datatables.bundle.css.map') }}">
+    {{-- <link rel="stylesheet" href="{{ asset('assets/css/jquery.dataTables.min.css') }}"> --}}
+    <link rel="stylesheet" href="{{ asset('assets/css/jquery.dataTables.css') }}">
+    {{-- <link rel="stylesheet" href="{{ asset('assets/css/buttons.dataTables.min.css') }}"> --}}
 
 </head>
 <!-- BEGIN Body -->
@@ -912,6 +915,8 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
     <script src="{{ asset('assets/js/formplugins/select2/select2.bundle.js') }}"></script>
     <script src="{{ asset('assets/js/popper.min.js') }}"></script>
     <script src="{{ asset('assets/js/sweetalert2.js') }}"></script>
+    <script src="{{ asset('assets/js/jquery.dataTables.js' ) }}"></script>
+    <script src="{{ asset('assets/js/jquery.dataTables.min.js' ) }}"></script>
 
     <script>
          $.ajaxSetup({

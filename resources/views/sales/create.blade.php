@@ -25,7 +25,7 @@ Insert Sales Order
                     <div class="panel-content">
                         <div>
                         {{-- form insert sales order --}}
-                        <form action={{ route('sales.store')}} method="POST" id="insertsales">
+                        <form action="/sales/store" method="POST" id="insertsales">
                         @csrf
                         {{-- <div class="form-group"> --}}
     {{-- <div class="row">

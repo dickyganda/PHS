@@ -30,15 +30,27 @@ class AuthController extends Controller
         $query = DB::table('m_user')
             ->where('name', $name)
             ->where('password', md5($password))
-            ->where('status_user', '=', '1')
+            ->where('status', '=', '1')
             ->first();
         if (empty($query)) {
             return response()->json(array('status' => 'failed', 'reason' => 'data tidak ada'));
         }
-        Session::put('level_user', $query->level_user);
+        // Session::put('level_user', $query->level_user);
+        Session::put('IdUser', $query->IdUser);
 
         // dd($query->nama_user);
         return response()->json(array('status' => 'success', 'reason' => 'sukses'));
 
+    }
+
+    public function logout(){
+        // Auth::logout();
+        // $request->session()->invalidate();
+        // $request->session()->regenerateToken();
+
+        Session::flush();
+        Session::save();
+
+        return redirect('/login');
     }
 }

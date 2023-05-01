@@ -7,14 +7,14 @@
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="{{ asset('assets/plugins/fontawesome-free/css/all.min.css') }}">
+    {{-- <link rel="stylesheet" href="{{ asset('assets/plugins/fontawesome-free/css/all.min.css') }}"> --}}
     <!-- Theme style -->
-    <link rel="stylesheet" href="{{ asset('assets/css/adminlte.min.css') }}">
+    {{-- <link rel="stylesheet" href="{{ asset('assets/css/adminlte.min.css') }}"> --}}
 </head>
 <body>
     <div class="login">
         <div class="avatar">
-            <img src="{{asset('assets/img/logo.png') }}" />
+            <img src="{{asset('assets/img/logo_PHS.png') }}" />
         </div>
         <h2>Login</h2>
         <h3>Welcome</h3>
@@ -35,13 +35,13 @@
     </div>
 </body>
 
-<script src="{{ asset('assets/plugins/jquery/jquery.min.js') }}"></script>
+<script src="{{ asset('assets/jquery/jquery.min.js') }}"></script>
 <!-- Bootstrap 4 -->
-<script src="{{ asset('assets/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+{{-- <script src="{{ asset('assets/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script> --}}
 <!-- bs-custom-file-input -->
-<script src="{{ asset('assets/plugins/bs-custom-file-input/bs-custom-file-input.min.js') }}"></script>
+<script src="{{ asset('assets/bs-custom-file-input/bs-custom-file-input.min.js') }}"></script>
 <!-- AdminLTE App -->
-<script src="{{ asset('assets/js/adminlte.min.js') }}"></script>
+{{-- <script src="{{ asset('assets/js/adminlte.min.js') }}"></script> --}}
 <!-- AdminLTE for demo purposes -->
 <script src="{{ asset('/js/demo.js') }}"></script>
 
@@ -61,7 +61,7 @@
             $.ajax({
                 type: 'POST'
                 , dataType: 'json'
-                , url: '/dashboard/index'
+                , url: '/authenticate'
                 , data: formdata
                 , contentType: false
                 , cache: false

@@ -25,8 +25,8 @@ Edit Sales Order
                     <div class="panel-content">
                         <div>
                         {{-- form edit sales order --}}
-                        {{-- @foreach($salesdetail as $sale) --}}
-                        <form action="{{route('sales.update', $salesdetail->IdSalesDetail)}}" method="POST">
+                        @foreach($salesdetail as $sales)
+                        <form action={{ route('salesupdate', $sales->IdSalesDetail) }} method="POST">
                         @csrf
                         @method('put')
                         <div class="form-group">
@@ -59,7 +59,7 @@ Edit Sales Order
                                                             @endforeach
                                                         </select> --}}
 
-      <input type="text" class="form-control" id="TOIdDepartementFK" placeholder="TOIdDepartementFK" name="TOIdDepartement" value="{{ $salesdetail->TOIdDepartement }}">
+      <input type="text" class="form-control" id="TOIdDepartementFK" placeholder="TOIdDepartementFK" name="TOIdDepartement" value="{{ $sales->TOIdDepartement }}">
 
     </div>
     </div>
@@ -68,7 +68,7 @@ Edit Sales Order
     <div class="col-lg-6">
     <div class="form-group">
       <label>FROMIdDepartementFK</label>
-      <input type="text" class="form-control" id="FROMIdDepartementFK" placeholder="FROMIdDepartement" name="FROMIdDepartement" value="{{ $salesdetail->FROMIdDepartement }}">
+      <input type="text" class="form-control" id="FROMIdDepartementFK" placeholder="FROMIdDepartement" name="FROMIdDepartement" value="{{ $sales->FROMIdDepartement }}">
     </div>
     </div>
     {{-- <div class="col-lg-6">
@@ -82,13 +82,13 @@ Edit Sales Order
     <div class="col-lg-6">
     <div class="form-group">
       <label for="pwd">CheckedBy</label>
-      <input type="text" class="form-control" id="CheckedBy" placeholder="CheckedBy" name="CheckedBy" value="{{ $salesdetail->CheckedBy }}">
+      <input type="text" class="form-control" id="CheckedBy" placeholder="CheckedBy" name="CheckedBy" value="{{ $sales->CheckedBy }}">
     </div>
     </div>
     <div class="col-lg-6">
     <div class="form-group">
       <label>ApprovedBy</label>
-      <input type="text" class="form-control" id="ApprovedBy" placeholder="ApprovedBy" name="ApprovedBy" value="{{ $salesdetail->ApprovedBy }}">
+      <input type="text" class="form-control" id="ApprovedBy" placeholder="ApprovedBy" name="ApprovedBy" value="{{ $sales->ApprovedBy }}">
     </div>
     </div>
     </div>
@@ -126,7 +126,7 @@ Edit Sales Order
     
     <button type="submit" class="btn btn-default">Submit</button>
   </form>
-  {{-- @endforeach --}}
+  @endforeach
                         </div>
                     </div>
                 </div>

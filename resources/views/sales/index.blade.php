@@ -27,7 +27,7 @@ Sales Order
                         <table>
             <tr>
             <td>
-            <a href={{ route('sales.create')}} class="btn btn-success btn-xs" title="Tambah Data Baru" role="button"><i class="fas fa-plus-circle"></i>Tambah</a>
+            <a href="/sales/create" class="btn btn-success btn-xs" title="Tambah Data Baru" role="button"><i class="fas fa-plus-circle"></i>Tambah</a>
             </td>
             </tr>
             </table>
@@ -56,31 +56,33 @@ Sales Order
                             </thead>
                             <tbody height="10px">
                                 @php $i=1 @endphp
-                                @foreach ($salesdetail as $sale)
+                                @foreach ($salesdetail as $sd)
                                 <tr>
                                     <td>{{ $i++ }}</td>
-                                    <td>{{ $sale->IdSales }}</td>
-                                    <td>{{ $sale->IdUser }}</td>
-                                    <td>{{ $sale->NameProduct }}</td>
-                                    <td>{{ $sale->Qty }}</td>
-                                    <td>{{ $sale->NameUnit }}</td>
+                                    <td>{{ $sd->IdSales }}</td>
+                                    <td>{{ $sd->IdUser }}</td>
+                                    {{-- <td>{{ Session::get('IdUser') }}</td> --}}
+                                    <td>{{ $sd->NameProduct }}</td>
+                                    <td>{{ $sd->Qty }}</td>
+                                    <td>{{ $sd->NameUnit }}</td>
                                     {{-- <td>{{ $sale->HargaSatuan }}</td> --}}
-                                    <td>{{ $sale->HargaProduct }}</td>
-                                    <td>{{ $sale->Amount }}</td>
+                                    <td>{{ $sd->HargaProduct }}</td>
+                                    <td>{{ $sd->Amount }}</td>
                                     {{-- <td>{{ $sales->IdUserFK }}</td> --}}
-                                    <td>{{ $sale->FROMIdDepartement }}</td>
-                                    <td>{{ $sale->TOIdDepartement }}</td>
-                                    <td>{{ $sale->CreatedBy }}</td>
-                                    <td>{{ $sale->CheckedBy }}</td>
-                                    <td>{{ $sale->ApprovedBy }}</td>
-                                    <td>{{ $sale->DateRequired }}</td>
-                                    <td>{{ $sale->PaymentDate }}</td>
+                                    <td>{{ $sd->FROMIdDepartement }}</td>
+                                    <td>{{ $sd->TOIdDepartement }}</td>
+                                    <td>{{ $sd->CreatedBy }}</td>
+                                    <td>{{ $sd->CheckedBy }}</td>
+                                    <td>{{ $sd->ApprovedBy }}</td>
+                                    <td>{{ $sd->DateRequired }}</td>
+                                    <td>{{ $sd->PaymentDate }}</td>
                                     {{-- <td>{{ $sales->IdPaymentFK }}</td> --}}
-                                    <td>{{ $sale->NamaSuplier }}</td>
+                                    <td>{{ $sd->NamaSuplier }}</td>
                         <td>
 
-                            <a href="{{ route('sales.edit', $sale->IdSalesDetail )}}" title="Edit" class="btn btn-warning btn-xs" role="button"><i class="fas fa-pen"></i> Edit</a>
-                            {{-- <a href="/sales/edit/{{$sale->IdSalesDetail}}" title="Delete" class="btn btn-danger btn-xs" role="button"><i class="fas fa-trash"></i> Hapus</a> --}}
+                            <a href="/sales/printsalesorder/{{$sd->IdSales}}" title="Print" class="btn btn-primary btn-xs" role="button"><i class="fas fa-print"></i> Print</a>
+                            <a href="/sales/edit/{{ $sd->IdSalesDetail }}" title="Edit" class="btn btn-warning btn-xs" role="button"><i class="fas fa-pen"></i> Edit</a>
+                            {{-- <a href={{ route('salesdelete', $sd->IdSalesDetail) }} method="post" title="Delete" class="btn btn-danger btn-xs" role="button"><i class="fas fa-pen"></i> Delete</a> --}}
 
                             {{-- <a href="{{ route('sales.destroy', $sales->IdSalesDetail) }}" method="post" title="Hapus" class="btn btn-danger btn-xs" role="button"><i class="fas fa-trash"></i> Delete</a> --}}
                         </td>
@@ -117,7 +119,11 @@ Sales Order
 <script src="{{asset('assets/js/datagrid/datatables/datatables.bundle.js') }}"></script>
 @push('script')
 <script>
-
+$(document).ready(function() {
+            $('#dt-basic-example').DataTable({
+                "order": []
+            });
+        });
 </script>
  @endpush
 @endsection

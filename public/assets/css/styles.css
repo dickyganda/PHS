@@ -120,7 +120,7 @@ body {
   border: 2px solid rgba(255, 255, 255, 0.1);
   font-size: 18px;
   padding: 0 20px 0 50px;
-  color: inherit;
+  color: #000000;
 }
 
 .login-form input:focus {

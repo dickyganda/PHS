@@ -56,8 +56,8 @@
             event.preventDefault();
             var formdata = new FormData(this);
             console.log(FormData);
-            formdata.append('name', $("#name").val());
-            formdata.append('password', $("#password").val());
+            formdata.append('Name', $("#name").val());
+            formdata.append('Password', $("#password").val());
             $.ajax({
                 type: 'POST'
                 , dataType: 'json'

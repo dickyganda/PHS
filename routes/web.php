@@ -82,4 +82,4 @@ Route::get('/bom/create', [BomController::class, 'create'])->name('bomcreate');
 Route::post('/bom/store', [BomController::class, 'store'])->name('bomstore');
 Route::get('/bom/edit/{IdBomDetail}', [BomController::class, 'edit'])->name('bomedit');
 Route::put('/bom/update/{IdBomDetail}', [BomController::class, 'update'])->name('bomupdate');
-
+Route::post('/bom/delete/{IdBomDetail}', [BomController::class, 'destroy'])->name('bomdelete');

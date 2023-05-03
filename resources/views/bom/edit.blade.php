@@ -26,7 +26,7 @@ Edit Bom
                         <div>
                             {{-- form edit sales order --}}
                             @foreach($bomdetail as $bom)
-                            <form action="{{ route('bomupdate', $bom->IdBomDetail )}}" method="POST">
+                            <form action="{{ route('bomupdate', $bom->IdBomDetail) }}" method="POST">
                                 @csrf
                                 @method('put')
                                 <div class="form-group">

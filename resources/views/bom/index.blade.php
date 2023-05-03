@@ -67,7 +67,7 @@ BOM
                                     <td>
                                     <a href="/bom/edit/{{ $bom->IdBomDetail }}" class="btn btn-warning" role="button">Edit</a>
 				
-				<a href="#"onclick="deletewarga({{$bom->IdBomDetail}})" class="btn btn-danger" role="button">Hapus</a>
+				<a href="{{ route('bomdelete', $bom->IdBomDetail) }}" class="btn btn-danger" role="button" method="post">Hapus</a>
                                     </td>
                                     
                         </tr>

@@ -10,6 +10,7 @@ use Carbon\Carbon;
 
 use App\Models\Sales;
 use App\Models\SalesDetail;
+use App\Models\Bom;
 
 class SalesController extends Controller
 {
@@ -20,12 +21,14 @@ class SalesController extends Controller
 
         $salesdetail = DB::table('m_sales')
         ->leftJoin('m_sales_detail', 'm_sales_detail.IdSales', '=', 'm_sales.IdSales')
-        // ->leftJoin('m_user', 'm_user.IdUser', '=', 'm_sales.IdUser')
-        ->leftJoin('m_product', 'm_product.IdProduct', '=', 'm_sales_detail.IdProduct')
-        ->leftJoin('m_harga', 'm_harga.IdHarga', '=', 'm_sales_detail.IdHarga')
-        ->leftJoin('m_unit', 'm_unit.IdUnit', '=', 'm_sales_detail.IdUnit')
-        ->leftJoin('m_departement', 'm_departement.IdDepartement', '=', 'm_sales_detail.IdDepartement')
+        ->leftJoin('m_departement as depfrom', 'depfrom.IdDepartement', '=', 'm_sales_detail.FROMIdDepartement')
+        ->leftJoin('m_departement as depto', 'depto.IdDepartement', '=', 'm_sales_detail.TOIdDepartement')
+        ->leftJoin('m_payment', 'm_payment.IdPayment', '=', 'm_sales_detail.IdSalesDetail')
         ->leftJoin('m_suplier', 'm_suplier.IdSuplier', '=', 'm_sales_detail.IdSuplier')
+        ->leftJoin('m_product', 'm_product.IdProduct', '=', 'm_sales_detail.IdProduct')
+        ->leftJoin('m_unit', 'm_unit.IdUnit', '=', 'm_sales_detail.IdUnit')
+        ->leftJoin('m_harga', 'm_harga.IdHarga', '=', 'm_sales_detail.IdHarga')
+        ->leftJoin('m_user', 'm_user.IdUser', '=', 'm_sales.IdUser')
         ->where('m_sales_detail.DeletedAt', '=', null)
         ->get();
         // dd($salesdetail);
@@ -130,12 +133,12 @@ class SalesController extends Controller
         ->get();
             // dd($detailSales);
 
-            // $sales = Sales::find($IdSales);
+            $sales = Bom::find($IdSales);
             // dd($sales);
 
         return view('sales.printsalesorder', [
             'detailSales' => $detailSales,
-            // 'sales' => $sales
+            'sales' => $sales
         ]);
 
     }

@@ -28,6 +28,7 @@ class BomController extends Controller
         ->leftJoin('m_product', 'm_product.IdProduct', '=', 'm_bom.IdProduct')
         ->leftJoin('m_material', 'm_material.IdMaterial', '=', 'm_bom_detail.IdMaterial')
         ->leftJoin('m_unit', 'm_unit.IdUnit', '=', 'm_bom_detail.IdUnit')
+        ->where('m_bom_detail.DeletedAt', '=', null)
         ->get();
         // dd($bomdetail);
 
@@ -76,11 +77,13 @@ class BomController extends Controller
         $user = DB::table('m_user')
         ->first();
         // dd($user);
-
+        $bomcode = 'bomcode';
+        $tgl = date('d');
+        $bln = date('m');
         // insert to tabel m_bom
         $bom = new Bom();
         $bom->IdSales = $request->IdSales;
-        $bom->BomCode = 'BomCode';
+        $bom->BomCode = $bomcode.$tgl.$bln;
         $bom->BomDate = Date('Y-m-d');
         $bom->IdSbu = $request->IdSbu;
         $bom->IdHolding = $request->IdHolding;
@@ -127,38 +130,37 @@ class BomController extends Controller
         ->leftJoin('m_unit', 'm_unit.IdUnit', '=', 'm_bom_detail.IdUnit')
         ->where('IdBomDetail',$IdBomDetail)->get();
         // dd($bomdetail);
-        $sales = DB::table('m_sales')
-        // ->join('m_harga', 'm_harga.IdHarga', '=', 'm_product.IdHarga')
-        ->get();
+
+        // $sales = DB::table('m_sales')
+        // ->get();
 
         // mengambil nama product
-        $material = DB::table('m_material')
-        // ->join('m_harga', 'm_harga.IdHarga', '=', 'm_product.IdHarga')
-        ->get();
+        // $material = DB::table('m_material')
+        // ->get();
         
         // mengambil nama departement
-        $sbu = DB::table('m_sbu')
-        ->get();
+        // $sbu = DB::table('m_sbu')
+        // ->get();
         
         // mengambil nama payment
-        $holding = DB::table('m_holding')
-        ->get();
+        // $holding = DB::table('m_holding')
+        // ->get();
         
         // mengambil nama suplier
-        $product = DB::table('m_product')
-        ->get();        
+        // $product = DB::table('m_product')
+        // ->get();        
 
-        $unit = DB::table('m_unit')
-        ->get();
+        // $unit = DB::table('m_unit')
+        // ->get();
 
         return view('bom.edit', [
             'bomdetail' => $bomdetail,
-            'sales' => $sales,
-            'material' => $material,
-            'sbu' => $sbu,
-            'holding' => $holding,
-            'product' => $product,
-            'unit' => $unit
+            // 'sales' => $sales,
+            // 'material' => $material,
+            // 'sbu' => $sbu,
+            // 'holding' => $holding,
+            // 'product' => $product,
+            // 'unit' => $unit
               ]);
 
     }
@@ -166,36 +168,16 @@ class BomController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request)
+    public function update(Request $request, $IdBomDetail)
     {
         //
-        // $bomdetail = DB::table('m_bom')
-        // ->leftJoin('m_bom_detail', 'm_bom_detail.IdBom', '=', 'm_bom.IdBom')
-        // ->where('IdBomDetail',$IdBomDetail);
-        
-        // $bomdetail->update([
-        //     'IdSbu' => request('IdSbu'),
-        //     'IdHolding' => request('IdHolding'),
-        //     'IdProduct' => request('IdProduct'),
-        //     'IdMaterial' => request('IdMaterial'),
-        //     'Qty' => request('Qty'),
-        //     'Price' => request('Price'),
-        //     'UpdatedAt' => Date('Y-m-d H:i:s'),
-        // ]);
-
-        DB::table('m_bom')->where('IdBom',$request->IdBom)->update([
-            'IdSbu' => $request->IdSbu,
-            'IdHolding' => $request->IdHolding,
-            'IdProduct' => $request->IdProduct,
-            'UpdatedAt' => Date('Y-m-d H:i:s'),
-        ]);
-
-        DB::table('m_bom_detail')->where('IdBomDetail',$request->IdBomDetail)->update([
-            'IdMaterial' => $request->IdMaterial,
+        DB::table('m_bom_detail')->where('IdBomDetail',$IdBomDetail)->update([
+            // 'IdMaterial' => $request->IdMaterial,
             'Qty' => $request->Qty,
             'Price' => $request->Price,
-            'UpdatedAt' => Date('Y-m-d H:i:s'),
+            'UpdatedAt' => Carbon::now(),
         ]);
+
         // dd($request);
 
         return redirect('/bom/index')->with('success', 'Data Berhasil Diupdate');
@@ -204,8 +186,11 @@ class BomController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request, $IdBomDetail)
     {
         //
+        DB::table('m_bom_detail')->where('IdBomDetail',$IdBomDetail)->update([
+            'DeletedAt' => Carbon::now(),
+        ]);
     }
 }

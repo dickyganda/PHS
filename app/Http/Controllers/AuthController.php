@@ -24,13 +24,13 @@ class AuthController extends Controller
 
     function authenticate(Request $request)
     {
-        $name = $request->input('name');
-        $password = $request->input('password');
+        $name = $request->input('Name');
+        $password = $request->input('Password');
 
         $query = DB::table('m_user')
-            ->where('name', $name)
-            ->where('password', md5($password))
-            ->where('status', '=', '1')
+            ->where('Name', $name)
+            ->where('Password', md5($password))
+            ->where('Status', '=', '1')
             ->first();
         if (empty($query)) {
             return response()->json(array('status' => 'failed', 'reason' => 'data tidak ada'));

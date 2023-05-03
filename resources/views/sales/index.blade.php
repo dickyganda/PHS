@@ -1,4 +1,5 @@
 @extends('layouts.main')
+@inject('carbon', 'Carbon\Carbon')
 
 @section('title')
 Sales Order
@@ -60,21 +61,21 @@ Sales Order
                                 <tr>
                                     <td>{{ $i++ }}</td>
                                     <td>{{ $sd->IdSales }}</td>
-                                    <td>{{ $sd->IdUser }}</td>
+                                    <td>{{ $sd->Name }}</td>
                                     {{-- <td>{{ Session::get('IdUser') }}</td> --}}
                                     <td>{{ $sd->NameProduct }}</td>
                                     <td>{{ $sd->Qty }}</td>
                                     <td>{{ $sd->NameUnit }}</td>
-                                    {{-- <td>{{ $sale->HargaSatuan }}</td> --}}
-                                    <td>{{ $sd->HargaProduct }}</td>
+                                    <td>{{ $sd->HargaSatuan }}</td>
+                                    {{-- <td>{{ $sd->HargaProduct }}</td> --}}
                                     <td>{{ $sd->Amount }}</td>
                                     {{-- <td>{{ $sales->IdUserFK }}</td> --}}
-                                    <td>{{ $sd->FROMIdDepartement }}</td>
-                                    <td>{{ $sd->TOIdDepartement }}</td>
+                                    <td>{{ $sd->NamaDepartement }}</td>
+                                    <td>{{ $sd->NamaDepartement }}</td>
                                     <td>{{ $sd->CreatedBy }}</td>
                                     <td>{{ $sd->CheckedBy }}</td>
                                     <td>{{ $sd->ApprovedBy }}</td>
-                                    <td>{{ $sd->DateRequired }}</td>
+                                    <td>{{ $carbon::parse($sd->DateRequired)->format('d-m-Y H:i:s') }}</td>
                                     <td>{{ $sd->PaymentDate }}</td>
                                     {{-- <td>{{ $sales->IdPaymentFK }}</td> --}}
                                     <td>{{ $sd->NamaSuplier }}</td>

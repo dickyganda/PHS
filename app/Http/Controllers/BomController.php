@@ -76,15 +76,19 @@ class BomController extends Controller
 
         $user = DB::table('m_user')
         ->first();
+
+        $product = DB::table('m_product')
+        ->first();
         // dd($user);
-        $bomcode = 'bomcode';
-        $tgl = date('d');
-        $bln = date('m');
+        $initproduct = $product->CodeProduct; //max 5 char
+        $bln = Date('m');
+        $tgl = Date('d');
+        
         // insert to tabel m_bom
         $bom = new Bom();
         $bom->IdSales = $request->IdSales;
-        $bom->BomCode = $bomcode.$tgl.$bln;
-        $bom->BomDate = Date('Y-m-d');
+        $bom->BomCode = $initproduct.$tgl.$bln;
+        $bom->BomDate = Carbon::now();
         $bom->IdSbu = $request->IdSbu;
         $bom->IdHolding = $request->IdHolding;
         $bom->IdProduct = $request->IdProduct;
@@ -135,32 +139,32 @@ class BomController extends Controller
         // ->get();
 
         // mengambil nama product
-        // $material = DB::table('m_material')
-        // ->get();
+        $material = DB::table('m_material')
+        ->get();
         
         // mengambil nama departement
-        // $sbu = DB::table('m_sbu')
-        // ->get();
+        $sbu = DB::table('m_sbu')
+        ->get();
         
         // mengambil nama payment
-        // $holding = DB::table('m_holding')
-        // ->get();
+        $holding = DB::table('m_holding')
+        ->get();
         
         // mengambil nama suplier
-        // $product = DB::table('m_product')
-        // ->get();        
+        $product = DB::table('m_product')
+        ->get();        
 
-        // $unit = DB::table('m_unit')
-        // ->get();
+        $unit = DB::table('m_unit')
+        ->get();
 
         return view('bom.edit', [
             'bomdetail' => $bomdetail,
+            'sbu' => $sbu,
             // 'sales' => $sales,
-            // 'material' => $material,
-            // 'sbu' => $sbu,
-            // 'holding' => $holding,
-            // 'product' => $product,
-            // 'unit' => $unit
+            'material' => $material,
+            'holding' => $holding,
+            'product' => $product,
+            'unit' => $unit
               ]);
 
     }
@@ -171,11 +175,27 @@ class BomController extends Controller
     public function update(Request $request, $IdBomDetail)
     {
         //
-        DB::table('m_bom_detail')->where('IdBomDetail',$IdBomDetail)->update([
+        // DB::table('m_bom_detail')->where('IdBomDetail',$IdBomDetail)->update([
+        //     // 'IdMaterial' => $request->IdMaterial,
+        //     'Qty' => $request->Qty,
+        //     'Price' => $request->Price,
+        //     'IdUnit' => $request->IdUnit,
+        //     'UpdatedAt' => date('Y-m-d h:i:s')
+        // ]);
+
+        DB::table('m_bom')
+        ->leftJoin('m_bom_detail', 'm_bom_detail.IdBom', '=', 'm_bom.IdBom')
+        ->where('IdBomDetail',$IdBomDetail)->update([
             // 'IdMaterial' => $request->IdMaterial,
+            'IdSbu' => $request->IdSbu,
+            'IdHolding' => $request->IdHolding,
+            'IdProduct' => $request->IdProduct,
+            'IdMaterial' => $request->IdMaterial,
+            'IdUnit' => $request->IdUnit,
             'Qty' => $request->Qty,
             'Price' => $request->Price,
-            'UpdatedAt' => Carbon::now(),
+            'm_bom.UpdatedAt' => date('Y-m-d h:i:s'),
+            'm_bom_detail.UpdatedAt' => date('Y-m-d h:i:s')
         ]);
 
         // dd($request);
@@ -186,11 +206,17 @@ class BomController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request, $IdBomDetail)
+    public function destroy($IdBomDetail)
     {
         //
-        DB::table('m_bom_detail')->where('IdBomDetail',$IdBomDetail)->update([
-            'DeletedAt' => Carbon::now(),
+        // DB::table('m_bom_detail')->where('IdBomDetail',$IdBomDetail)->update([
+        //     'DeletedAt' => Carbon::now(),
+        // ]);
+
+        $bom_detail = DB::table('m_bom_detail')->where('IdBomDetail', $IdBomDetail);
+        $id_penjualan = $bom_detail->first('IdBom');
+        $bom_detail->update([
+            'DeletedAt' => date('Y-m-d h:i:s')
         ]);
     }
 }

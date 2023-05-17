@@ -27,7 +27,7 @@ Purchasing
                         <table>
             <tr>
             <td>
-            <a href={{ route('purchasing.create')}} class="btn btn-success btn-xs" title="Tambah Data Baru" role="button"><i class="fas fa-plus-circle"></i>Tambah</a>
+            <a href="/purchasing/create" class="btn btn-success btn-xs" title="Tambah Data Baru" role="button"><i class="fas fa-plus-circle"></i>Tambah</a>
             </td>
             </tr>
             </table>
@@ -35,20 +35,12 @@ Purchasing
                             <thead>
                                 <tr>
                                     <th>No.</th>
-                                    {{-- <th>ID Sales Detail</th> --}}
                                     <th>Priority</th>
-                                    {{-- <th>Product</th> --}}
                                     <th>Qty</th>
                                     <th>Unit</th>
                                     <th>Price</th>
                                     <th>Total</th>
-                                    {{-- <th>Created By</th>
-                                    <th>Checked By</th>
-                                    <th>Approved By</th> --}}
-                                    {{-- <th>Date Required</th>
-                                    <th>Payment Date</th> --}}
-                                    {{-- <th>Suplier</th> --}}
-                                    <th>Created At</th>
+                                    {{-- <th>Created At</th> --}}
                                     <th>Action</th>
 
                                 </tr>
@@ -58,25 +50,24 @@ Purchasing
                                 @foreach ($purchasingdetail as $purchasing)
                                 <tr>
                                     <td>{{ $i++ }}</td>
-                                    <td>{{ $purchasing->Priority }}</td>
-                                    <td>{{ $purchasing->Qty }}</td>
-                                    {{-- <td>{{ $sales->IdHargaFK }}</td> --}}
-                                    <td>{{ $purchasing->Unit }}</td>
-                                    {{-- <td>{{ $sales->IdUserFK }}</td> --}}
-                                    <td>{{ $Purchasing->Price }}</td>
-                                    <td>{{ $sales->Total }}</td>
-                                    <td>{{ $sales->CreatedAt }}</td>
+                                    <td>{{ $purchasing->NamePriority }}</td>
+                                    <td>@currency($purchasing->Qty)</td>
+                                    <td>{{ $purchasing->NameUnit }}</td>
+                                    <td>{{ $purchasing->Price }}</td>
+                                    <td>@currency($purchasing->Total)</td>
+                                    {{-- <td>{{ $purchasing->CreatedAt }}</td> --}}
                         <td>
+                        <a href="" title="Print" class="btn btn-primary btn-xs" role="button"><i class="fas fa-print"></i> Print</a>
+                            <a href="" title="Edit" class="btn btn-warning btn-xs" role="button"><i class="fas fa-pen"></i> Edit</a>
+                            
+                            <form action= "" method="post" >
+                            @csrf
+                            @method('put')
+                            <button type="submit" class="btn btn-danger btn-xs">Delete</button>
+                            </form>
+                            <a href="" title="Edit" class="btn btn-warning btn-xs" role="button"><i class="fas fa-pen"></i>Check</a>
+                            <a href="" title="Edit" class="btn btn-success btn-xs" role="button"><i class="fas fa-pen"></i>Approve</a>
 
-                            <a href="{{ route('purchasing.edit', $purchasing->IdPurchasingDetail) }}" title="Edit" class="btn btn-warning btn-xs" role="button"><i class="fas fa-pen"></i> Edit</a>
-<form action="{{ route('purchasing.destroy', $purchasing->IdPurchasingDetail) }}" method="post" type="button" class="btn btn-danger btn-xs" onsubmit="return confirm('Delete')">
-@csrf
-@method('delete')
-
-<button class="btn btn-danger btn-xs">Delete</button>
-</form>
-
-                            {{-- <a href="{{ route('sales.destroy', $sales->IdSalesDetail) }}" method="post" title="Hapus" class="btn btn-danger btn-xs" role="button"><i class="fas fa-trash"></i> Delete</a> --}}
                         </td>
                         </tr>
                         @endforeach
@@ -111,7 +102,11 @@ Purchasing
 <script src="{{asset('assets/js/datagrid/datatables/datatables.bundle.js') }}"></script>
 @push('script')
 <script>
-
+$(document).ready(function() {
+            $('#dt-basic-example').DataTable({
+                "order": []
+            });
+        });
 </script>
  @endpush
 @endsection

@@ -5,95 +5,121 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Session;
+use Carbon\Carbon;
+
+use App\Models\Purchasing;
+use App\Models\PurchasingDetail;
 
 class PurchasingController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        // menampilkan data purchasing detail
-        $purchasingdetail = DB::table('m_purchasing_detail')->get();
+    public function index(){
+    //
+    $purchasingdetail = DB::table('m_purchasing')
+        ->leftJoin('m_purchasing_detail', 'm_purchasing_detail.IdPurchasing', '=', 'm_purchasing.IdPurchasing')
+        ->leftJoin('m_bom', 'm_bom.IdBom', '=', 'm_purchasing.IdBom')
+        ->leftJoin('m_user', 'm_user.IdUser', '=', 'm_purchasing.IdUser')
+        ->leftJoin('m_departement as depto', 'depto.IdDepartement', '=', 'm_purchasing.TOIdDepartement')
+        ->leftJoin('m_departement as depfrom', 'depfrom.IdDepartement', '=', 'm_purchasing.FROMIdDepartement')
+        ->leftJoin('m_payment', 'm_payment.IdPayment', '=', 'm_purchasing.IdPayment')
+        ->leftJoin('m_suplier', 'm_suplier.IdSuplier', '=', 'm_purchasing.IdSuplier')
+        ->leftJoin('m_priority', 'm_priority.IdPriority', '=', 'm_purchasing_detail.IdPriority')
+        ->leftJoin('m_procurement', 'm_procurement.IdProcurement', '=', 'm_purchasing.IdProcurement')
+        ->leftJoin('m_unit', 'm_unit.IdUnit', '=', 'm_purchasing_detail.Unit')
+        ->where('m_purchasing_detail.DeletedAt', '=', null)
+        ->get();
+        // dd($purchasingdetail);
 
         return view('purchasing.index', compact('purchasingdetail'));
+
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
+        // mengambil data bom
+        $bom = DB::table('m_bom')
+       ->get();
 
-        // mengambil data procurement
-        $procurement = DB::table('m_procurement')->get();
+       // mengambil nama departement
+       $departement = DB::table('m_departement')
+       ->get();
 
-        // mengambil code bom
-        $bom = DB::table('m_bom')->get();
+       // mengambil nama product
+       $product = DB::table('m_product')
+       ->get();
+       
+       // mengambil nama payment
+       $payment = DB::table('m_payment')
+       ->get();
+       
+       // mengambil nama suplier
+       $suplier = DB::table('m_suplier')
+       ->get();
+       
+       $priority = DB::table('m_priority')
+       ->get();
 
-        // mengambil nama departement
-        $departement = DB::table('m_departement')
-        ->get();
-        
-        // mengambil nama payment
-        $payment = DB::table('m_payment')
-        ->get();
-        
-        // mengambil nama suplier
-        $suplier = DB::table('m_suplier')
-        ->get();
-        
-        // mengambil nama priority
-        $priority = DB::table('m_priority')
-        ->get();
+       $material = DB::table('m_material')
+       ->get();
 
-        $material = DB::table('m_material')
-        ->get();
+       $unit = DB::table('m_unit')
+       ->get();
 
-        $unit = DB::table('m_unit')
-        ->get();
+       $harga = DB::table('m_harga')
+       ->get();
 
-        // menampilkan form insert purchasing
-        return view('purchasing.create', compact('procurement','bom','departement','payment','suplier','priority','material','unit'));
+       $procurement = DB::table('m_procurement')
+       ->get();
+
+        return view('purchasing.create', compact('product','departement','payment','suplier','unit','priority','harga','procurement','material','bom'));
+
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
-    }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
+        $user = DB::table('m_user')
+        ->first();
+        // dd($user);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
+        $po = 'PO';
+        $tgl = date('d');
+        $bln = date('m');
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+        // insert to tabel m_bom
+        $purchasing = new Purchasing();
+        $purchasing->IdProcurement = $request->IdProcurement;
+        $purchasing->IdBom = $request->IdBom;
+        $purchasing->IdUser = $request->session()->get('IdUser', $user->IdUser);
+        $purchasing->CodePurchasing = $po.$tgl.$bln;
+        $purchasing->FROMIdDepartement = $request->FROMIdDepartement;
+        $purchasing->TOIdDepartement = $request->TOIdDepartement;
+        $purchasing->DatePurchasing = Carbon::now();
+        $purchasing->CreatedBy = $request->session()->get('IdUser', $user->IdUser);
+        $purchasing->DateRequired = $request->DateRequired;
+        $purchasing->PaymentDate = $request->PaymentDate;
+        $purchasing->IdPayment = $request->IdPayment;
+        $purchasing->IdSuplier = $request->IdSuplier;
+        $purchasing->CreatedAt = Carbon::now();
+        $purchasing->save();
+        // dd($sales);
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        foreach ($request->IdMaterial as $key => $value){
+            $purchasingdetail = new PurchasingDetail();
+            $purchasingdetail->IdPurchasing = $purchasing->IdPurchasing;
+            $purchasingdetail->IdMaterial = $value;
+            $purchasingdetail->Qty = $request->Qty[$key];
+            // $salesdetail->IdUnit = $request->IdUnit[$key];
+            $purchasingdetail->Unit = $request->Unit[$key];
+            $purchasingdetail->Price = $request->Price[$key];
+            $purchasingdetail->Total = $request->Total[$key];
+            $purchasingdetail->IdPriority = $request->IdPriority[$key];
+            $purchasingdetail->CreatedAt = Carbon::now();
+            $purchasingdetail->save();
+        }
+
+        // dd($salesdetail);
+
+        return redirect('/purchasing/index')->with('success', 'Data Berhasil Ditambahkan');
     }
 }

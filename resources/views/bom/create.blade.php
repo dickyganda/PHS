@@ -31,7 +31,15 @@ Insert BOM
     {{-- <div class="row">
     <div class="col-lg-2"> --}}
     {{-- <div class="form-group"> --}}
-    <input type="text" name="IdSales" class="form-control" placeholder="ID Sales"> <br>
+    {{-- <input type="text" name="IdSales" class="form-control" placeholder="ID Sales"> <br> --}}
+    <select id="IdSales" name="IdSales" style="width: 100%" class="form-control form-control-sm select2">
+                                                            <option disabled selected>Select Code Sales</option>
+                                                            @foreach ($sales as $sales)
+                                                            <option value="{{ $sales->IdSales }}">
+                                                                {{ $sales->CodeSales }}
+                                                            </option>
+                                                            @endforeach
+                                                        </select> <br>
 
     {{-- <input type="text" name="IdSbu" class="form-control" placeholder="ID SBU"> <br> --}}
     <select id="IdSbu" name="IdSbu" style="width: 100%" class="form-control form-control-sm select2">
@@ -65,11 +73,6 @@ Insert BOM
 
     <table id="form_bom">
     <tr>
-    {{-- <th>ID sales</th> --}}
-    {{-- <th>BOM Date</th> --}}
-    {{-- <th>SBU</th> --}}
-    {{-- <th>Holding</th> --}}
-    {{-- <th>Product</th> --}}
     <th>Material</th>
     <th>Qty</th>
     <th>Price</th>
@@ -77,63 +80,6 @@ Insert BOM
     </tr>
 
     <tr>
-{{-- <td id="col0">
-<div class="form-group">
-<select id="IdSales" name="IdSales" style="width: 100%" class="form-control form-control-sm select2">
-                                                            <option disabled selected>Select Sales</option>
-                                                            @foreach ($sales as $sale)
-                                                            <option value="{{ $sale->IdSales }}">
-                                                                {{ $sale->IdSales }}
-                                                            </option>
-                                                            @endforeach
-                                                        </select>
-</div>
-    </td> --}}
-
-    {{-- <td id="col1">
-    <div class="form-group">
-      <input type="date" class="form-control" id="BomDate" placeholder="Bom Date" name="BomDate[]">
-    </div>
-    </td> --}}
-
-    {{-- <td id="col2">
-<div class="form-group">
-<select id="IdSbu" name="IdSbu[]" style="width: 100%" class="form-control form-control-sm select2" onchange="selectTypeProduct(this)">
-                                                            <option disabled selected>Select SBU</option>
-                                                            @foreach ($sbu as $sbu)
-                                                            <option value="{{ $sbu->IdSbu }}">
-                                                                {{ $sbu->IdSbu }}
-                                                            </option>
-                                                            @endforeach
-                                                        </select>
-</div>
-    </td> --}}
-
-    {{-- <td id="col3">
-<div class="form-group">
-<select id="IdHolding" name="IdHolding[]" style="width: 100%" class="form-control form-control-sm select2" onchange="selectTypeProduct(this)">
-                                                            <option disabled selected>Select Holding</option>
-                                                            @foreach ($holding as $hold)
-                                                            <option value="{{ $hold->IdHolding }}">
-                                                                {{ $hold->IdHolding }}
-                                                            </option>
-                                                            @endforeach
-                                                        </select>
-</div>
-    </td> --}}
-
-    {{-- <td id="col4">
-<div class="form-group">
-<select id="IdProduct" name="IdProduct[]" style="width: 100%" class="form-control form-control-sm select2" onchange="selectTypeProduct(this)">
-                                                            <option disabled selected>Select Product</option>
-                                                            @foreach ($product as $p)
-                                                            <option value="{{ $p->IdProduct }}">
-                                                                {{ $p->NameProduct }}
-                                                            </option>
-                                                            @endforeach
-                                                        </select>
-</div>
-    </td> --}}
 
     <td id="col0">
 <div class="form-group">
@@ -175,12 +121,6 @@ Insert BOM
     </div>
     </td>
 
-    {{-- <td id="col4">
-    <div class="form-group">
-      <input type="text" class="form-control" id="Amount" placeholder="Amount" name="Amount[]">
-    </div>
-    </td> --}}
-
     </tr>
 </table>
 <table>
@@ -191,12 +131,7 @@ Insert BOM
                                                 <td><input type="submit" class="btn btn-success btn-xs" value="Submit" /></td>
                                             </tr>
                                         </table>
-      {{-- <input type="text" class="form-control" id="IdSales" placeholder="" name="IdSales" hidden> --}}
-    {{-- </div> --}}
-    
-    {{-- <button type="submit" class="btn btn-default">Add Row</button>
-    <button type="submit" class="btn btn-default">Delete Row</button>
-    <button type="submit" class="btn btn-default">Submit</button> --}}
+
   </form>
                         </div>
                     </div>
@@ -241,6 +176,10 @@ $(document).ready(function() {
 
                     $('#IdSbu').select2({
                         placeholder: "Select Sbu"
+                    });
+
+                    $('#IdSales').select2({
+                        placeholder: "Select Code Sales"
                     });
                 });
 

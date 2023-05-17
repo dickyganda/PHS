@@ -98,7 +98,7 @@
             </li>
 
             <li>
-            <a href={{ route('purchasing.index')}} title="Application Intel" data-filter-tags="application intel">
+            <a href="/purchasing/index" title="Application Intel" data-filter-tags="application intel">
                     <i class="fal fa-info-circle"></i>
                     <span class="nav-link-text" data-i18n="nav.application_intel">Purchasing</span>
                 </a>

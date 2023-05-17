@@ -30,6 +30,7 @@ class SalesController extends Controller
         ->leftJoin('m_harga', 'm_harga.IdHarga', '=', 'm_sales_detail.IdHarga')
         ->leftJoin('m_user', 'm_user.IdUser', '=', 'm_sales.IdUser')
         ->where('m_sales_detail.DeletedAt', '=', null)
+        // ->groupBy('m_sales.IdSales')
         ->get();
         // dd($salesdetail);
 
@@ -57,10 +58,13 @@ class SalesController extends Controller
        ->get();        
 
        $unit = DB::table('m_unit')
-       ->get(); 
+       ->get();
+       
+       $buyer = DB::table('m_buyer')
+       ->get();
 
 
-        return view('sales.create', compact('product','departement','payment','suplier','unit'));
+        return view('sales.create', compact('product','departement','payment','suplier','unit','buyer'));
 
     }
 
@@ -72,15 +76,27 @@ class SalesController extends Controller
         // dd($user);
 
         // insert to tabel m_bom
+        // kode sale = inc/ so-phs/bln/thn
+        // $increment = 1;
+        // $increment++; //reset per bulan
+        $bln = Date('m');
+        $thn = Date('y');
+        $codesales = Sales::where('CodeSales','like','%'. $bln.'/'.$thn)->count() + 1;
+        if ($codesales < 10) {
+            $codesales = '00' . $codesales;
+        } else if ($codesales >= 10) {
+            $codesales = '0' . $codesales;
+        }
+        // ship date = tgl kirim
+        // so from
+        // ship to
         $sales = new Sales();
         $sales->IdUser = $request->session()->get('IdUser', $user->IdUser);
-        // $sales->FROMIdDepartement = $request->FROMIdDepartement;
-        // $sales->TOIdDepartement = $request->TOIdDepartement;
+        $sales->CodeSales = $codesales.'/'.'SO-PHS'.'/'.$bln.'/'.$thn;
+        $sales->ShipDate = $request->ShipDate;
+        $sales->SOFrom = $request->SOFrom;
+        $sales->ShipTo = $request->ShipTo;
         $sales->CreatedBy = $request->session()->get('IdUser', $user->IdUser);
-        // $sales->DateRequired = $request->DateRequired;
-        // $sales->PaymentDate = $request->PaymentDate;
-        // $sales->IdPayment = $request->IdPayment;
-        // $sales->IdSuplier = $request->PaymentDate;
         $sales->CreatedAt = Carbon::now();
         $sales->save();
         // dd($sales);
@@ -105,7 +121,8 @@ class SalesController extends Controller
 
         // dd($salesdetail);
 
-        return redirect('/sales/index')->with('success', 'Data Berhasil Ditambahkan');
+        // return redirect('/sales/index')->with('success', 'Data Berhasil Ditambahkan');
+        return response()->json(array('status' => 'success', 'reason' => 'Sukses Tambah Data'));
     }
 
     public function getproduct(Request $request)
@@ -129,16 +146,23 @@ class SalesController extends Controller
         ->leftJoin('m_suplier', 'm_sales_detail.IdSuplier', '=', 'm_suplier.IdSuplier')
         ->leftJoin('m_product', 'm_sales_detail.IdProduct', '=', 'm_product.IdProduct')
         ->leftJoin('m_unit', 'm_sales_detail.IdUnit', '=', 'm_unit.IdUnit')
+        ->leftJoin('m_harga', 'm_harga.IdHarga', '=', 'm_sales_detail.IdHarga')
+        ->leftJoin('m_buyer as buyerfrom', 'buyerfrom.IdBuyer', '=', 'm_sales.SOFrom')
+        ->leftJoin('m_buyer as buyerto', 'buyerto.IdBuyer', '=', 'm_sales.ShipTo')
         ->where('m_sales.IdSales', '=', $IdSales)
         ->get();
             // dd($detailSales);
 
-            $sales = Bom::find($IdSales);
+            $bom = Bom::find($IdSales);
+            // dd($bom);
+            $sales = Sales::find($IdSales);
             // dd($sales);
+            
 
         return view('sales.printsalesorder', [
             'detailSales' => $detailSales,
-            'sales' => $sales
+            'sales' => $sales,
+            'bom' => $bom
         ]);
 
     }
@@ -163,15 +187,8 @@ class SalesController extends Controller
 		'TOIdDepartement' => $request->TOIdDepartement,
 		'CheckedBy' => $request->CheckedBy,
 		'ApprovedBy' => $request->ApprovedBy,
+        'UpdatedAt' => date('Y-m-d h:i:s')
 	]);
-
-    // $salesdetail = SalesDetail::findOrFail($IdSalesDetail);
-
-    // $salesdetail->update([
-    //     'FROMIdDepartement' => request('FROMIdDepartement'),
-    //     'TOIdDepartement' => request('TOIdDepartement'),
-    //     'CheckedBy' => request('CheckedBy'),
-    // ]);
 
     // dd($request);
 
@@ -179,13 +196,30 @@ class SalesController extends Controller
     
 }
 
-public function delete($IdSalesDetail)
+public function destroy($IdSalesDetail)
 {
-	DB::table('m_sales_detail')->where('IdSalesDetail',$IdSalesDetail)->update([
-		'DeletedAt' => Carbon::now(),
-    ]);
+    $sales_detail = DB::table('m_sales_detail')->where('IdSalesDetail', $IdSalesDetail);
+        $id_penjualan = $sales_detail->first('IdSales');
+        $sales_detail->update([
+            'DeletedAt' => date('Y-m-d h:i:s')
+        ]);
 
-    return redirect('/sales/index')->with('success', 'Data Berhasil Diupdate');
+    // $now = Carbon::now();
+	// DB::table('m_sales_detail')->where('IdSalesDetail',$IdSalesDetail)->update([
+	// 	'DeletedAt' => date('Y-m-d h:i:s')
+	// ]);
+    // dd($IdSalesDetail);
+
+    // $salesdetail = SalesDetail::where('IdSalesDetail', $IdSalesDetail)->update([
+    //     'DeletedAt' => Carbon::now()
+    // ]);
+
+    // SalesDetail::find($IdSalesDetail)->delete();
+    // Sales::find($IdSalesDetail)->delete();
+
+        // dd($salesdetail);
+
+    return redirect('/sales/index')->with('success', 'Data Berhasil Dihapus');
     
 }
 

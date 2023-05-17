@@ -66,16 +66,16 @@ Sales Order
                                     <td>{{ $sd->NameProduct }}</td>
                                     <td>{{ $sd->Qty }}</td>
                                     <td>{{ $sd->NameUnit }}</td>
-                                    <td>{{ $sd->HargaSatuan }}</td>
+                                    <td> @currency($sd->HargaSatuan)</td>
                                     {{-- <td>{{ $sd->HargaProduct }}</td> --}}
-                                    <td>{{ $sd->Amount }}</td>
+                                    <td> @currency($sd->Amount)</td>
                                     {{-- <td>{{ $sales->IdUserFK }}</td> --}}
                                     <td>{{ $sd->NamaDepartement }}</td>
                                     <td>{{ $sd->NamaDepartement }}</td>
                                     <td>{{ $sd->CreatedBy }}</td>
                                     <td>{{ $sd->CheckedBy }}</td>
                                     <td>{{ $sd->ApprovedBy }}</td>
-                                    <td>{{ $carbon::parse($sd->DateRequired)->format('d-m-Y H:i:s') }}</td>
+                                    <td>{{ $carbon::parse($sd->DateRequired)->format('d/m/Y H:i:s') }}</td>
                                     <td>{{ $sd->PaymentDate }}</td>
                                     {{-- <td>{{ $sales->IdPaymentFK }}</td> --}}
                                     <td>{{ $sd->NamaSuplier }}</td>
@@ -83,9 +83,15 @@ Sales Order
 
                             <a href="/sales/printsalesorder/{{$sd->IdSales}}" title="Print" class="btn btn-primary btn-xs" role="button"><i class="fas fa-print"></i> Print</a>
                             <a href="/sales/edit/{{ $sd->IdSalesDetail }}" title="Edit" class="btn btn-warning btn-xs" role="button"><i class="fas fa-pen"></i> Edit</a>
-                            {{-- <a href={{ route('salesdelete', $sd->IdSalesDetail) }} method="post" title="Delete" class="btn btn-danger btn-xs" role="button"><i class="fas fa-pen"></i> Delete</a> --}}
+                            
+                            <form action= "/sales/delete/{{ $sd->IdSalesDetail}}" method="post" >
+                            @csrf
+                            @method('put')
+                            <button type="submit" class="btn btn-danger btn-xs">Delete</button>
+                            </form>
+                            <a href="" title="Edit" class="btn btn-warning btn-xs" role="button"><i class="fas fa-pen"></i>Check</a>
+                            <a href="" title="Edit" class="btn btn-success btn-xs" role="button"><i class="fas fa-pen"></i>Approve</a>
 
-                            {{-- <a href="{{ route('sales.destroy', $sales->IdSalesDetail) }}" method="post" title="Hapus" class="btn btn-danger btn-xs" role="button"><i class="fas fa-trash"></i> Delete</a> --}}
                         </td>
                         </tr>
                         @endforeach

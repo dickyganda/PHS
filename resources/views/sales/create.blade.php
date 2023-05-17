@@ -31,6 +31,35 @@ Insert Sales Order
     {{-- <div class="row">
     <div class="col-lg-2"> --}}
     {{-- <div class="form-group"> --}}
+<div class="form-group">
+<label>Sales From</label>
+<select id="SOFrom" name="SOFrom" style="width: 100%" class="form-control form-control-sm select2">
+                                                            <option disabled selected>Select SO From</option>
+                                                            @foreach ($buyer as $buy)
+                                                            <option value="{{ $buy->IdBuyer }}">
+                                                                {{ $buy->NamaBuyer }}
+                                                            </option>
+                                                            @endforeach
+                                                        </select>
+</div>
+
+<div class="form-group">
+<label>Ship To</label>
+<select id="ShipTo" name="ShipTo" style="width: 100%" class="form-control form-control-sm select2">
+                                                            <option disabled selected>Select Ship To</option>
+                                                            @foreach ($buyer as $buy)
+                                                            <option value="{{ $buy->IdBuyer }}">
+                                                                {{ $buy->NamaBuyer }}
+                                                            </option>
+                                                            @endforeach
+                                                        </select>
+</div>
+
+<div class="form-group">
+<label>Ship Date</label>
+      <input type="date" class="form-control" id="ShipDate" placeholder="ShipDate" name="ShipDate">
+    </div>
+
     <table id="form_sales">
     <tr>
     <th>Product</th>
@@ -236,6 +265,14 @@ $(document).ready(function() {
                     $('#IdSuplier').select2({
                         placeholder: "Select Suplier"
                     });
+
+                    $('#SOFrom').select2({
+                        placeholder: "Select SO From"
+                    });
+
+                    $('#ShipTo').select2({
+                        placeholder: "Select Ship To"
+                    });
                 });
 
 function addRows() {
@@ -302,5 +339,28 @@ function addRows() {
                         tableRow.querySelector("#Amount").value = result;
                     }
                 }
+
+    $("#insertsales").submit(function(event){
+    event.preventDefault();
+    var formdata = new FormData(this);
+    $.ajax({
+      type:'POST',
+      dataType: 'json',
+      url: '/sales/store',
+      data: formdata,
+      contentType: false,
+      cache: false,
+      processData: false,
+      success:function(data){
+        Swal.fire(
+          'Sukses!',
+          data.reason,
+          'success'
+        ).then(() => {
+          location.replace("/sales/index");
+        });
+      }
+    });
+  });
 </script>
 @endpush

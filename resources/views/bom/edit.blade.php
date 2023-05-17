@@ -34,9 +34,14 @@ Edit Bom
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label>SBU</label>
-                                                <input type="text" class="form-control" id="IdSbu"
-                                                    placeholder="SBU" name="IdSbu"
-                                                    value="{{ $bom->Name }}">
+                                                     <select id="IdSbu" name="IdSbu" style="width: 100%" class="form-control form-control-sm select2">
+                                                            <option disabled selected>Select SBU</option>
+                                                            @foreach ($sbu as $sbu)
+                                                            <option value="{{ $sbu->IdSbu }}">
+                                                                {{ $sbu->Name }}
+                                                            </option>
+                                                            @endforeach
+                                                        </select>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
@@ -47,6 +52,23 @@ Edit Bom
                                                     value="{{ $bom->Qty }}">
                                             </div>
                                         </div>
+
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label>Unit</label>
+                                                {{-- <input type="text" class="form-control" id="IdUnit"
+                                                    placeholder="Unit" name="IdUnit"
+                                                    value="{{ $bom->IdUnit }}"> --}}
+                                                    <select id="IdUnit" name="IdUnit" style="width: 100%" class="form-control form-control-sm select2">
+                                                            <option disabled selected>Select Unit</option>
+                                                            @foreach ($unit as $unit)
+                                                            <option value="{{ $unit->IdUnit }}">
+                                                                {{ $unit->NameUnit }}
+                                                            </option>
+                                                            @endforeach
+                                                        </select>
+                                            </div>
+                                        </div>
                                         
                                     </div>
 
@@ -54,9 +76,17 @@ Edit Bom
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label>Holding</label>
-                                                <input type="text" class="form-control" id="IdHolding"
+                                                {{-- <input type="text" class="form-control" id="IdHolding"
                                                     placeholder="Holding" name="IdHolding"
-                                                    value="{{ $bom->NameHolding }}">
+                                                    value="{{ $bom->NameHolding }}"> --}}
+                                                    <select id="IdHolding" name="IdHolding" style="width: 100%" class="form-control form-control-sm select2">
+                                                            <option disabled selected>Select Holding</option>
+                                                            @foreach ($holding as $hold)
+                                                            <option value="{{ $hold->IdHolding }}">
+                                                                {{ $hold->NameHolding }}
+                                                            </option>
+                                                            @endforeach
+                                                        </select>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
@@ -73,17 +103,33 @@ Edit Bom
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label for="pwd">Product</label>
-                                                <input type="text" class="form-control" id="IdProduct"
+                                                {{-- <input type="text" class="form-control" id="IdProduct"
                                                     placeholder="Product" name="IdProduct"
-                                                    value="{{ $bom->NameProduct }}">
+                                                    value="{{ $bom->NameProduct }}"> --}}
+                                                    <select id="IdProduct" name="IdProduct" style="width: 100%" class="form-control form-control-sm select2">
+                                                            <option disabled selected>Select Product</option>
+                                                            @foreach ($product as $product)
+                                                            <option value="{{ $product->IdProduct }}">
+                                                                {{ $product->NameProduct }}
+                                                            </option>
+                                                            @endforeach
+                                                        </select>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label>Material</label>
-                                                <input type="text" class="form-control" id="IdMaterial"
+                                                {{-- <input type="text" class="form-control" id="IdMaterial"
                                                     placeholder="Material" name="IdMaterial"
-                                                    value="{{ $bom->MaterialName }}">
+                                                    value="{{ $bom->MaterialName }}"> --}}
+                                                    <select id="IdMaterial" name="IdMaterial" style="width: 100%" class="form-control form-control-sm select2">
+                                                            <option disabled selected>Select Material</option>
+                                                            @foreach ($material as $material)
+                                                            <option value="{{ $material->IdMaterial }}">
+                                                                {{ $material->MaterialName }}
+                                                            </option>
+                                                            @endforeach
+                                                        </select>
                                             </div>
                                         </div>
                                     </div>

@@ -65,9 +65,13 @@ BOM
                                     <td>{{ $bom->Price }}</td>
                                     <td>{{ $bom->NameUnit }}</td>
                                     <td>
-                                    <a href="/bom/edit/{{ $bom->IdBomDetail }}" class="btn btn-warning" role="button">Edit</a>
-				
-				<a href="{{ route('bomdelete', $bom->IdBomDetail) }}" class="btn btn-danger" role="button" method="post">Hapus</a>
+                                    <a href="/bom/edit/{{ $bom->IdBomDetail }}" class="btn btn-warning btn-xs" role="button">Edit</a>
+                                    
+                                    <form action= "/bom/delete/{{ $bom->IdBomDetail}}" method="post" >
+                            @csrf
+                            @method('put')
+                            <button type="submit" class="btn btn-danger btn-xs">Delete</button>
+                            </form>
                                     </td>
                                     
                         </tr>

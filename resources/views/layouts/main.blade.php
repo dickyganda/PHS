@@ -48,6 +48,13 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
     <link rel="stylesheet" href="{{ asset('assets/css/jquery.dataTables.css') }}">
     {{-- <link rel="stylesheet" href="{{ asset('assets/css/buttons.dataTables.min.css') }}"> --}}
 
+{{-- sweetalert2 --}}
+    <link rel="stylesheet" href="{{ asset('assets/css/notifications/sweetalert2/sweetalert2.bundle.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/notifications/sweetalert2/sweetalert2.bundle.css.map') }}">
+    <link rel="stylesheet" href="{{ asset('assets/src/custom/plugins/sweetalert2/sweetalert2.scss') }}">
+    <link rel="stylesheet" href="{{ asset('assets/src/content/notifications/notifications_sweetalert2.hbs') }}">
+
+
 </head>
 <!-- BEGIN Body -->
 <!-- Possible Classes
@@ -914,7 +921,7 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
     <script src="{{ asset('assets/js/miscellaneous/jqvmap/jqvmap.bundle.js') }}"></script>
     <script src="{{ asset('assets/js/formplugins/select2/select2.bundle.js') }}"></script>
     <script src="{{ asset('assets/js/popper.min.js') }}"></script>
-    <script src="{{ asset('assets/js/sweetalert2.js') }}"></script>
+    <script src="{{ asset('assets/js/notifications/sweetalert2/sweetalert2.bundle.js') }}"></script>
     <script src="{{ asset('assets/js/jquery.dataTables.js' ) }}"></script>
     <script src="{{ asset('assets/js/jquery.dataTables.min.js' ) }}"></script>
 

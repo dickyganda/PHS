@@ -24,37 +24,99 @@ Insert Purchasing
                 <div class="panel-container show">
                     <div class="panel-content">
                         <div>
-                        {{-- form insert sales order --}}
-                        <form action={{route('sales.store')}} method="POST">
+                        {{-- form insert purchasing --}}
+                        <form action="/purchasing/store" method="POST" id="insertsales">
                         @csrf
+
+                        <div class="form-group">
+    <label>Code BOM</label>
+      <select id="IdBom" name="IdBom" style="width: 100%" class="form-control form-control-sm select2">
+                                                            <option disabled selected>Select Bom</option>
+                                                            @foreach ($bom as $bom)
+                                                            <option value="{{ $bom->IdBom }}">
+                                                                {{ $bom->BomCode }}
+                                                            </option>
+                                                            @endforeach
+                                                        </select>
+    </div>
+
+    <div class="form-group">
+    <label>Date Required</label>
+      <input type="date" class="form-control" id="PaymentDate" placeholder="PaymentDate" name="PaymentDate">
+    </div>
                        
+    <div class="form-group">
+    <label>Code Procurement</label>
+      <select id="IdProcurement" name="IdProcurement" style="width: 100%" class="form-control form-control-sm select2">
+                                                            <option disabled selected>Select Procurement</option>
+                                                            @foreach ($procurement as $procurement)
+                                                            <option value="{{ $procurement->IdProcurement }}">
+                                                                {{ $procurement->CodeProcurement }}
+                                                            </option>
+                                                            @endforeach
+                                                        </select>
+    </div>
+
+    <div class="form-group">
+    <label>From Departement</label>
+      <select id="FROMIdDepartement" name="FROMIdDepartement" style="width: 100%" class="form-control form-control-sm select2">
+                                                            <option disabled selected>Select Departement</option>
+                                                            @foreach ($departement as $dep)
+                                                            <option value="{{ $dep->IdDepartement }}">
+                                                                {{ $dep->NamaDepartement }}
+                                                            </option>
+                                                            @endforeach
+                                                        </select>
+    </div>
+
+    <div class="form-group">
+    <label>To Departement</label>
+      <select id="TOIdDepartement" name="TOIdDepartement" style="width: 100%" class="form-control form-control-sm select2">
+                                                            <option disabled selected>Select Departement</option>
+                                                            @foreach ($departement as $dep)
+                                                            <option value="{{ $dep->IdDepartement }}">
+                                                                {{ $dep->NamaDepartement }}
+                                                            </option>
+                                                            @endforeach
+                                                        </select>
+    </div>
+
+    <div class="form-group">
+    <label>Payment</label>
+      <select id="IdPayment" name="IdPayment" style="width: 100%" class="form-control form-control-sm select2">
+                                                            <option disabled selected>Select payment</option>
+                                                            @foreach ($payment as $pay)
+                                                            <option value="{{ $pay->IdPayment }}">
+                                                                {{ $pay->NamaPayment }}
+                                                            </option>
+                                                            @endforeach
+                                                        </select>
+    </div>
+
+    <div class="form-group">
+    <label>Payment Date</label>
+      <input type="date" class="form-control" id="DateRequired" placeholder="DateRequired" name="DateRequired">
+    </div>
+
     <table id="form_purchasing">
+
     <tr>
-    <th>Procurement</th>
-    <th>BOM</th>
-    <th>From Departement</th>
-    <th>To Departement</th>
-    <th>Date Purchasing</th>
-    <th>Date Required</th>
-    <th>Payment Date</th>
-    <th>Payment</th>
-    <th>Suplier</th>
-    <th>Priority</th>
     <th>Material</th>
     <th>Qty</th>
     <th>Unit</th>
     <th>Price</th>
     <th>Total</th>
+    <th>Priority</th>
     </tr>
     <tr>
 
     <td id="col0">
 <div class="form-group">
-<select id="IdProcurement" name="IdProcurement[]" style="width: 100%" class="form-control form-control-sm select2">
-                                                            <option disabled selected>Select Procurement</option>
-                                                            @foreach ($procurement as $p)
-                                                            <option value="{{ $p->IdProcurement }}">
-                                                                {{ $p->CodeProcurement }}
+<select id="IdMaterial" name="IdMaterial[]" style="width: 100%" class="form-control form-control-sm select2">
+                                                            <option disabled selected>Select Material</option>
+                                                            @foreach ($material as $mat)
+                                                            <option value="{{ $mat->IdMaterial }}">
+                                                                {{ $mat->MaterialName }}
                                                             </option>
                                                             @endforeach
                                                         </select>
@@ -62,25 +124,18 @@ Insert Purchasing
     </td>
 
     <td id="col1">
-<div class="form-group">
-<select id="IdBom" name="IdBom[]" style="width: 100%" class="form-control form-control-sm select2">
-                                                            <option disabled selected>Select BOM</option>
-                                                            @foreach ($bom as $b)
-                                                            <option value="{{ $b->IdBom }}">
-                                                                {{ $b->BomCode }}
-                                                            </option>
-                                                            @endforeach
-                                                        </select>
-</div>
+    <div class="form-group">
+      <input type="text" class="form-control" id="Qty" placeholder="Qty" name="Qty[]" onkeyup="sum(this.parentElement.parentElement.parentElement);">
+    </div>
     </td>
 
     <td id="col2">
     <div class="form-group">
-      <select id="FROMIdDepartement" name="FROMIdDepartement[]" style="width: 100%" class="form-control form-control-sm select2">
-                                                            <option disabled selected>Select Departement</option>
-                                                            @foreach ($departement as $d)
-                                                            <option value="{{ $d->IdDepartement }}">
-                                                                {{ $d->NamaDepartement }}
+      <select id="Unit" name="Unit[]" style="width: 100%" class="form-control form-control-sm select2">
+                                                            <option disabled selected>Select Unit</option>
+                                                            @foreach ($unit as $unit)
+                                                            <option value="{{ $unit->IdUnit }}">
+                                                                {{ $unit->NameUnit }}
                                                             </option>
                                                             @endforeach
                                                         </select>
@@ -89,117 +144,29 @@ Insert Purchasing
 
     <td id="col3">
     <div class="form-group">
-      <select id="TOIdDepartement" name="TOIdDepartement[]" style="width: 100%" class="form-control form-control-sm select2">
-                                                            <option disabled selected>Select Departement</option>
-                                                            @foreach ($departement as $d)
-                                                            <option value="{{ $d->IdDepartement }}">
-                                                                {{ $d->NamaDepartement }}
-                                                            </option>
-                                                            @endforeach
-                                                        </select>
+      <input type="text" class="form-control" id="Price" placeholder="Price" name="Price[]" onkeyup="sum(this.parentElement.parentElement.parentElement);">
     </div>
     </td>
 
     <td id="col4">
     <div class="form-group">
-      <input type="date" class="form-control" id="DatePurchasing" placeholder="Date Purchasing" name="DatePurchasing[]">
+      <input type="text" class="form-control" id="Total" placeholder="Total" name="Total[]">
     </div>
     </td>
 
     <td id="col5">
     <div class="form-group">
-      <input type="date" class="form-control" id="DateRequired" placeholder="DateRequired" name="DateRequired[]">
-    </div>
-    </td>
-
-    <td id="col6">
-    <div class="form-group">
-      <input type="date" class="form-control" id="PaymentDate" placeholder="PaymentDate" name="PaymentDate[]">
-    </div>
-    </td>
-
-<td id="col7">
-    <div class="form-group">
-      <select id="IdPayment" name="IdPayment[]" style="width: 100%" class="form-control form-control-sm select2">
-                                                            <option disabled selected>Select Payment</option>
-                                                            @foreach ($payment as $pay)
-                                                            <option value="{{ $pay->IdPayment }}">
-                                                                {{ $pay->NamaPayment }}
-                                                            </option>
-                                                            @endforeach
-                                                        </select>
-    </div>
-    </td>
-
-    <td id="col8">
-    <div class="form-group">
-      <select id="IdSuplier" name="IdSuplier[]" style="width: 100%" class="form-control form-control-sm select2">
-                                                            <option disabled selected>Select Suplier</option>
-                                                            @foreach ($suplier as $sup)
-                                                            <option value="{{ $sup->IdSuplier }}">
-                                                                {{ $sup->NamaSuplier }}
-                                                            </option>
-                                                            @endforeach
-                                                        </select>
-    </div>
-    </td>
-
-    <td id="col9">
-    <div class="form-group">
       <select id="IdPriority" name="IdPriority[]" style="width: 100%" class="form-control form-control-sm select2">
                                                             <option disabled selected>Select Priority</option>
-                                                            @foreach ($priority as $pri)
-                                                            <option value="{{ $pri->IdPriority }}">
-                                                                {{ $pri->NamePriority }}
+                                                            @foreach ($priority as $priority)
+                                                            <option value="{{ $priority->IdPriority }}">
+                                                                {{ $priority->NamePriority }}
                                                             </option>
                                                             @endforeach
                                                         </select>
     </div>
     </td>
 
-    <td id="col10">
-    <div class="form-group">
-      <select id="IdMaterial" name="IdMaterial[]" style="width: 100%" class="form-control form-control-sm select2">
-                                                            <option disabled selected>Select Material</option>
-                                                            @foreach ($material as $m)
-                                                            <option value="{{ $m->IdMaterial }}">
-                                                                {{ $m->MaterialCode }}
-                                                            </option>
-                                                            @endforeach
-                                                        </select>
-    </div>
-    </td>
-
-    <td id="col11">
-    <div class="form-group">
-      <input type="text" class="form-control" id="Qty" placeholder="Qty" name="Qty[]">
-    </div>
-    </td>
-
-    <td id="col12">
-    <div class="form-group">
-      <select id="IdUnit" name="IdUnit[]" style="width: 100%" class="form-control form-control-sm select2">
-                                                            <option disabled selected>Select Unit</option>
-                                                            @foreach ($unit as $u)
-                                                            <option value="{{ $u->IdUnit }}">
-                                                                {{ $u->NameUnit }}
-                                                            </option>
-                                                            @endforeach
-                                                        </select>
-    </div>
-    </td>
-
-    <td id="col13">
-    <div class="form-group">
-      <input type="text" class="form-control" id="Price" placeholder="Price" name="Price[]">
-    </div>
-    </td>
-
-    <td id="col14">
-    <div class="form-group">
-      <input type="text" class="form-control" id="Total" placeholder="Total" name="Total[]">
-    </div>
-    </td>
     </tr>
 </table>
 <table>
@@ -237,13 +204,43 @@ Insert Purchasing
 @push('script')
 <script>
 $(document).ready(function() {
-                    $('#IdProduct').select2({
-                        placeholder: "Select Product"
+                    $('#IdMaterial').select2({
+                        placeholder: "Select Material"
+                    });
+
+                    $('#Unit').select2({
+                        placeholder: "Select Unit"
+                    });
+
+                    $('#IdPriority').select2({
+                        placeholder: "Select Priority"
+                    });
+
+                    $('#IdBom').select2({
+                        placeholder: "Select BOM"
+                    });
+
+                    $('#IdProcurement').select2({
+                        placeholder: "Select Procurement"
+                    });
+
+                    $('#FROMIdDepartement').select2({
+                        placeholder: "Select Departement"
+                    });
+
+                    $('#TOIdDepartement').select2({
+                        placeholder: "Select Departement"
+                    });
+
+                    $('#IdPayment').select2({
+                        placeholder: "Select Payment"
                     });
                 });
 
 function addRows() {
-                    //$('#IdProduct').select2("destroy");
+                    $('#IdMaterial').select2("destroy");
+                    $('#Unit').select2("destroy");
+                    $('#IdPriority').select2("destroy");
                     var table = document.getElementById('form_purchasing');
                     var rowCount = table.rows.length;
                     var cellCount = table.rows[0].cells.length;
@@ -256,16 +253,27 @@ function addRows() {
                         cell.innerHTML = copycel;
                     }
                     $(".select2").select2();
+                    $(".select2").select2();
+                    $(".select2").select2();
                 }
 
                 function deleteRows() {
-                    var table = document.getElementById('form_sales');
+                    var table = document.getElementById('form_purchasing');
                     var rowCount = table.rows.length;
                     if (rowCount > '2') {
                         var row = table.deleteRow(rowCount - 1);
                         rowCount--;
                     } else {
                         alert('There should be atleast one row');
+                    }
+                }
+
+                function sum(tableRow) {
+                    var txtFirstNumberValue = tableRow.querySelector("#Qty").value;
+                    var txtSecondNumberValue = tableRow.querySelector("#Price").value;
+                    var result = parseInt(txtFirstNumberValue) * parseInt(txtSecondNumberValue);
+                    if (!isNaN(result)) {
+                        tableRow.querySelector("#Total").value = result;
                     }
                 }
 </script>

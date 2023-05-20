@@ -156,7 +156,7 @@ Insert Purchasing
 
     <td id="col5">
     <div class="form-group">
-      <select id="IdPriority" name="IdPriority[]" style="width: 100%" class="form-control form-control-sm select2">
+      <select id="Priority" name="Priority[]" style="width: 100%" class="form-control form-control-sm select2">
                                                             <option disabled selected>Select Priority</option>
                                                             @foreach ($priority as $priority)
                                                             <option value="{{ $priority->IdPriority }}">

@@ -35,7 +35,16 @@ Purchasing
                             <thead>
                                 <tr>
                                     <th>No.</th>
+                                    <th>Code</th>
+                                    <th>ID Procurement</th>
+                                    <th>User</th>
+                                    <th>Date Purchasing</th>
+                                    <th>Date Required</th>
+                                    <th>Payment Date</th>
+                                    <th>Payment</th>
+                                    <th>Suplier</th>
                                     <th>Priority</th>
+                                    <th>Material</th>
                                     <th>Qty</th>
                                     <th>Unit</th>
                                     <th>Price</th>
@@ -50,7 +59,16 @@ Purchasing
                                 @foreach ($purchasingdetail as $purchasing)
                                 <tr>
                                     <td>{{ $i++ }}</td>
+                                    <td>{{ $purchasing->CodePurchasing }}</td>
+                                    <td>{{ $purchasing->IdProcurement }}</td>
+                                    <td>{{ $purchasing->Name }}</td>
+                                    <td>{{ $purchasing->DatePurchasing }}</td>
+                                    <td>{{ $purchasing->DateRequired }}</td>
+                                    <td>{{ $purchasing->PaymentDate }}</td>
+                                    <td>{{ $purchasing->NamaPayment }}</td>
+                                    <td>{{ $purchasing->NamaSuplier }}</td>
                                     <td>{{ $purchasing->NamePriority }}</td>
+                                    <td>{{ $purchasing->MaterialName }}</td>
                                     <td>@currency($purchasing->Qty)</td>
                                     <td>{{ $purchasing->NameUnit }}</td>
                                     <td>{{ $purchasing->Price }}</td>
@@ -58,7 +76,7 @@ Purchasing
                                     {{-- <td>{{ $purchasing->CreatedAt }}</td> --}}
                         <td>
                         <a href="" title="Print" class="btn btn-primary btn-xs" role="button"><i class="fas fa-print"></i> Print</a>
-                            <a href="" title="Edit" class="btn btn-warning btn-xs" role="button"><i class="fas fa-pen"></i> Edit</a>
+                            <a href="/purchasing/edit/{{ $purchasing->IdPurchasingDetail }}" title="Edit" class="btn btn-warning btn-xs" role="button"><i class="fas fa-pen"></i> Edit</a>
                             
                             <form action= "" method="post" >
                             @csrf

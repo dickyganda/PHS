@@ -174,14 +174,6 @@ class BomController extends Controller
      */
     public function update(Request $request, $IdBomDetail)
     {
-        //
-        // DB::table('m_bom_detail')->where('IdBomDetail',$IdBomDetail)->update([
-        //     // 'IdMaterial' => $request->IdMaterial,
-        //     'Qty' => $request->Qty,
-        //     'Price' => $request->Price,
-        //     'IdUnit' => $request->IdUnit,
-        //     'UpdatedAt' => date('Y-m-d h:i:s')
-        // ]);
 
         DB::table('m_bom')
         ->leftJoin('m_bom_detail', 'm_bom_detail.IdBom', '=', 'm_bom.IdBom')

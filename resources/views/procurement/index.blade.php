@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('title')
-Purchasing
+Procurement
 @endsection
 
 @section('content')
@@ -19,7 +19,7 @@ Purchasing
             
             <div id="panel-3" class="panel">
                 <div class="panel-hdr">
-                    <h2>Purchasing</h2>
+                    <h2>Procurement</h2>
                 </div>
                 <div class="panel-container show">
                     <div class="panel-content">
@@ -27,7 +27,7 @@ Purchasing
                         <table>
             <tr>
             <td>
-            <a href="/purchasing/create" class="btn btn-success btn-xs" title="Tambah Data Baru" role="button"><i class="fas fa-plus-circle"></i>Tambah</a>
+            {{-- <a href="/purchasing/create" class="btn btn-success btn-xs" title="Tambah Data Baru" role="button"><i class="fas fa-plus-circle"></i>Tambah</a> --}}
             </td>
             </tr>
             </table>
@@ -35,50 +35,50 @@ Purchasing
                             <thead>
                                 <tr>
                                     <th>No.</th>
-                                    <th>Code</th>
-                                    <th>ID Procurement</th>
+                                    <th>Code BOM</th>
+                                    <th>Code Procurement</th>
+                                    <th>From Departement</th>
+                                    <th>To Departement</th>
+                                    <th>Date Procurement</th>
                                     <th>User</th>
-                                    <th>Date Purchasing</th>
+                                    <th>Created By</th>
+                                    <th>Checked By</th>
+                                    <th>Aproved By</th>
                                     <th>Date Required</th>
-                                    <th>Payment Date</th>
-                                    <th>Payment</th>
-                                    <th>Suplier</th>
-                                    <th>Priority</th>
                                     <th>Material</th>
                                     <th>Qty</th>
                                     <th>Unit</th>
                                     <th>Price</th>
                                     <th>Total</th>
-                                    {{-- <th>Created At</th> --}}
                                     <th>Action</th>
 
                                 </tr>
                             </thead>
                             <tbody height="10px">
-                                @php $i=1 @endphp
-                                @foreach ($purchasingdetail as $purchasing)
+                             @php $i=1 @endphp
+                                @foreach ($procurementdetail as $procurement)
                                 <tr>
                                     <td>{{ $i++ }}</td>
-                                    <td>{{ $purchasing->CodePurchasing }}</td>
-                                    <td>{{ $purchasing->IdProcurement }}</td>
-                                    <td>{{ $purchasing->Name }}</td>
-                                    <td>{{ $purchasing->DatePurchasing }}</td>
-                                    <td>{{ $purchasing->DateRequired }}</td>
-                                    <td>{{ $purchasing->PaymentDate }}</td>
-                                    <td>{{ $purchasing->NamaPayment }}</td>
-                                    <td>{{ $purchasing->NamaSuplier }}</td>
-                                    <td>{{ $purchasing->NamePriority }}</td>
-                                    <td>{{ $purchasing->MaterialName }}</td>
-                                    <td>@currency($purchasing->Qty)</td>
-                                    <td>{{ $purchasing->NameUnit }}</td>
-                                    <td>{{ $purchasing->Price }}</td>
-                                    <td>@currency($purchasing->Total)</td>
-                                    {{-- <td>{{ $purchasing->CreatedAt }}</td> --}}
+                                    <td>{{ $procurement->BomCode }}</td>
+                                    <td>{{ $procurement->CodeProcurement }}</td>
+                                    <td>{{ $procurement->NamaDepartement }}</td>
+                                    <td>{{ $procurement->NamaDepartement }}</td>
+                                    <td>{{ $procurement->DateProcurement }}</td>
+                                    <td>{{ $procurement->Name }}</td>
+                                    <td>{{ $procurement->CreatedBy }}</td>
+                                    <td>{{ $procurement->CheckedBy }}</td>
+                                    <td>{{ $procurement->ApprovedBy }}</td>
+                                    <td>{{ $procurement->DateRequired }}</td>
+                                    <td>{{ $procurement->MaterialName }}</td>
+                                    <td>@currency($procurement->Qty)</td>
+                                    <td>{{ $procurement->NameUnit }}</td>
+                                    <td>{{ $procurement->Price }}</td>
+                                    <td>@currency($procurement->Total)</td>
                         <td>
                         <a href="" title="Print" class="btn btn-primary btn-xs" role="button"><i class="fas fa-print"></i> Print</a>
-                            <a href="/purchasing/edit/{{ $purchasing->IdPurchasingDetail }}" title="Edit" class="btn btn-warning btn-xs" role="button"><i class="fas fa-pen"></i> Edit</a>
+                            <a href="" title="Edit" class="btn btn-warning btn-xs" role="button"><i class="fas fa-pen"></i> Edit</a>
                             
-                            <form action= "/purchasing/delete/{{ $purchasing->IdPurchasingDetail}}" method="post" >
+                            <form action= "" method="post" >
                             @csrf
                             @method('put')
                             <button type="submit" class="btn btn-danger btn-xs">Delete</button>

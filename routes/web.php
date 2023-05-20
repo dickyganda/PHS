@@ -3,10 +3,11 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SalesController;
+use App\Http\Controllers\BomController;
+use App\Http\Controllers\ProcurementController;
 use App\Http\Controllers\PurchasingController;
 use App\Http\Controllers\IssuedController;
 use App\Http\Controllers\FinanceController;
-use App\Http\Controllers\BomController;
 use App\Http\Controllers\AuthController;
 
 /*
@@ -60,11 +61,14 @@ Route::get('/bom/edit/{IdBomDetail}', [BomController::class, 'edit'])->name('bom
 Route::put('/bom/update/{IdBomDetail}', [BomController::class, 'update'])->name('bomupdate');
 Route::put('/bom/delete/{IdBomDetail}', [BomController::class, 'destroy'])->name('bomdestroy');
 
+Route::get('/procurement/index', [ProcurementController::class, 'index'])->name('procurementindex');
+
 Route::get('/purchasing/index', [PurchasingController::class, 'index'])->name('purchasingindex');
 Route::get('/purchasing/create', [PurchasingController::class, 'create'])->name('purchasingcreate');
 Route::post('/purchasing/store', [PurchasingController::class, 'store'])->name('purchasingstore');
 Route::get('/purchasing/edit/{IdPurchasingDetail}', [PurchasingController::class, 'edit'])->name('purchasingedit');
 Route::put('/purchasing/update/{IdPurchasingDetail}', [PurchasingController::class, 'update'])->name('purchasingupdate');
+Route::put('/purchasing/delete/{IdPurchasingDetail}', [PurchasingController::class, 'destroy'])->name('purchasingdestroy');
 
 Route::resource('/issued', IssuedController::class);
 

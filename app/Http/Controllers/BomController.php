@@ -210,5 +210,7 @@ class BomController extends Controller
         $bom_detail->update([
             'DeletedAt' => date('Y-m-d h:i:s')
         ]);
+
+        return redirect('/bom/index')->with('success', 'Data Berhasil Dihapus');
     }
 }

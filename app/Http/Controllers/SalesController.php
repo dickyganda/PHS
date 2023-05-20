@@ -204,21 +204,6 @@ public function destroy($IdSalesDetail)
             'DeletedAt' => date('Y-m-d h:i:s')
         ]);
 
-    // $now = Carbon::now();
-	// DB::table('m_sales_detail')->where('IdSalesDetail',$IdSalesDetail)->update([
-	// 	'DeletedAt' => date('Y-m-d h:i:s')
-	// ]);
-    // dd($IdSalesDetail);
-
-    // $salesdetail = SalesDetail::where('IdSalesDetail', $IdSalesDetail)->update([
-    //     'DeletedAt' => Carbon::now()
-    // ]);
-
-    // SalesDetail::find($IdSalesDetail)->delete();
-    // Sales::find($IdSalesDetail)->delete();
-
-        // dd($salesdetail);
-
     return redirect('/sales/index')->with('success', 'Data Berhasil Dihapus');
     
 }

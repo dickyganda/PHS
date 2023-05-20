@@ -135,7 +135,7 @@ class PurchasingController extends Controller
         ->leftJoin('m_departement as depto', 'depto.IdDepartement', '=', 'm_purchasing.TOIdDepartement')
         ->leftJoin('m_payment', 'm_payment.IdPayment', '=', 'm_purchasing.IdPayment')
         ->leftJoin('m_suplier', 'm_suplier.IdSuplier', '=', 'm_purchasing.IdSuplier')
-        ->leftJoin('m_priority', 'm_priority.IdPriority', '=', 'm_purchasing_detail.IdPriority')
+        ->leftJoin('m_priority', 'm_priority.IdPriority', '=', 'm_purchasing_detail.Priority')
         ->leftJoin('m_unit', 'm_unit.IdUnit', '=', 'm_purchasing_detail.Unit')
         ->leftJoin('m_material', 'm_material.IdMaterial', '=', 'm_purchasing_detail.IdMaterial')
         ->where('IdPurchasingDetail',$IdPurchasingDetail)->get();
@@ -177,20 +177,36 @@ class PurchasingController extends Controller
         DB::table('m_purchasing')
         ->leftJoin('m_purchasing_detail', 'm_purchasing_detail.IdPurchasing', '=', 'm_purchasing.IdPurchasing')
         ->where('IdPurchasingDetail',$IdPurchasingDetail)->update([
-            'TOIdDepartement' => $request->IdSbu,
-            'FROMIdDepartement' => $request->IdHolding,
-            'IdPayment' => $request->IdProduct,
-            'IdSuplier' => $request->IdMaterial,
-            // 'IdUnit' => $request->IdUnit,
-            // 'Qty' => $request->Qty,
-            // 'Price' => $request->Price,
-            // 'm_bom.UpdatedAt' => date('Y-m-d h:i:s'),
-            // 'm_bom_detail.UpdatedAt' => date('Y-m-d h:i:s')
+            'FROMIdDepartement' => $request->FROMIdDepartement,
+            'TOIdDepartement' => $request->TOIdDepartement,
+            'DateRequired' => $request->DateRequired,
+            'IdPayment' => $request->IdPayment,
+            'IdSuplier' => $request->IdSuplier,
+            'm_purchasing.UpdatedAt' => Carbon::now(),
+            'Priority' => $request->IdPriority,
+            'IdMaterial' => $request->IdMaterial,
+            'Qty' => $request->Qty,
+            'Unit' => $request->Unit,
+            'Price' => $request->Price,
+            'Total' => $request->Total,
+            'm_purchasing_detail.UpdatedAt' => Carbon::now(),
         ]);
 
         // dd($request);
 
-        return redirect('/bom/index')->with('success', 'Data Berhasil Diupdate');
+        return redirect('/purchasing/index')->with('success', 'Data Berhasil Diupdate');
+    }
+
+    public function destroy($IdPurchasingDetail)
+    {
+
+        $purchasing_detail = DB::table('m_purchasing_detail')->where('IdPurchasingDetail', $IdPurchasingDetail);
+        $id_penjualan = $purchasing_detail->first('IdPurchasing');
+        $purchasing_detail->update([
+            'DeletedAt' => Carbon::now(),
+        ]);
+
+        return redirect('/purchasing/index')->with('success', 'Data Berhasil Dihapus');
     }
 
 }

@@ -62,6 +62,11 @@ Route::put('/bom/update/{IdBomDetail}', [BomController::class, 'update'])->name(
 Route::put('/bom/delete/{IdBomDetail}', [BomController::class, 'destroy'])->name('bomdestroy');
 
 Route::get('/procurement/index', [ProcurementController::class, 'index'])->name('procurementindex');
+Route::get('/procurement/create', [ProcurementController::class, 'create'])->name('procurementcreate');
+Route::post('/procurement/store', [ProcurementController::class, 'store'])->name('procurementstore');
+Route::get('/procurement/edit/{IdProcurementDetail}', [ProcurementController::class, 'edit'])->name('procurementedit');
+Route::put('/procurement/update/{IdProcurementDetail}', [ProcurementController::class, 'update'])->name('procurementupdate');
+Route::put('/procurement/delete/{IdProcurementDetail}', [ProcurementController::class, 'destroy'])->name('procurementdestroy');
 
 Route::get('/purchasing/index', [PurchasingController::class, 'index'])->name('purchasingindex');
 Route::get('/purchasing/create', [PurchasingController::class, 'create'])->name('purchasingcreate');
@@ -69,6 +74,7 @@ Route::post('/purchasing/store', [PurchasingController::class, 'store'])->name('
 Route::get('/purchasing/edit/{IdPurchasingDetail}', [PurchasingController::class, 'edit'])->name('purchasingedit');
 Route::put('/purchasing/update/{IdPurchasingDetail}', [PurchasingController::class, 'update'])->name('purchasingupdate');
 Route::put('/purchasing/delete/{IdPurchasingDetail}', [PurchasingController::class, 'destroy'])->name('purchasingdestroy');
+Route::get('/purchasing/printpurchasingorder/{IdPurchasing}', [PurchasingController::class, 'printpurchasingorder'])->name('purchasingprint');
 
 Route::resource('/issued', IssuedController::class);
 

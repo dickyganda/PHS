@@ -36,7 +36,7 @@ Sales Order
                             <thead>
                                 <tr>
                                     <th>No.</th>
-                                    <th>ID Sales</th>
+                                    {{-- <th>ID Sales</th> --}}
                                     <th>User</th>
                                     <th>Product</th>
                                     <th>Qty</th>
@@ -60,7 +60,7 @@ Sales Order
                                 @foreach ($salesdetail as $sd)
                                 <tr>
                                     <td>{{ $i++ }}</td>
-                                    <td>{{ $sd->IdSales }}</td>
+                                    {{-- <td>{{ $sd->IdSales }}</td> --}}
                                     <td>{{ $sd->Name }}</td>
                                     {{-- <td>{{ Session::get('IdUser') }}</td> --}}
                                     <td>{{ $sd->NameProduct }}</td>
@@ -72,7 +72,7 @@ Sales Order
                                     {{-- <td>{{ $sales->IdUserFK }}</td> --}}
                                     <td>{{ $sd->NamaDepartement }}</td>
                                     <td>{{ $sd->NamaDepartement }}</td>
-                                    <td>{{ $sd->CreatedBy }}</td>
+                                    <td>{{ $sd->Name }}</td>
                                     <td>{{ $sd->CheckedBy }}</td>
                                     <td>{{ $sd->ApprovedBy }}</td>
                                     <td>{{ $carbon::parse($sd->DateRequired)->format('d/m/Y H:i:s') }}</td>

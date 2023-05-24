@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Session;
 use Carbon\Carbon;
 
+use App\Models\Bom;
 use App\Models\Purchasing;
 use App\Models\PurchasingDetail;
 
@@ -207,6 +208,57 @@ class PurchasingController extends Controller
         ]);
 
         return redirect('/purchasing/index')->with('success', 'Data Berhasil Dihapus');
+    }
+
+    function printpurchasingorder($IdPurchasing){
+
+        $detailPurchasing = DB::table('m_purchasing')
+        ->leftJoin('m_purchasing_detail', 'm_purchasing_detail.IdPurchasing', '=', 'm_purchasing.IdPurchasing')
+        ->leftJoin('m_bom', 'm_bom.IdBom', '=', 'm_purchasing.IdBom')
+        ->leftJoin('m_user', 'm_user.IdUser', '=', 'm_purchasing.IdUser')
+        ->leftJoin('m_departement as depto', 'depto.IdDepartement', '=', 'm_purchasing.TOIdDepartement')
+        ->leftJoin('m_departement as depfrom', 'depfrom.IdDepartement', '=', 'm_purchasing.FROMIdDepartement')
+        ->leftJoin('m_payment', 'm_payment.IdPayment', '=', 'm_purchasing.IdPayment')
+        ->leftJoin('m_suplier', 'm_suplier.IdSuplier', '=', 'm_purchasing.IdSuplier')
+        ->leftJoin('m_priority', 'm_priority.IdPriority', '=', 'm_purchasing_detail.Priority')
+        ->leftJoin('m_procurement', 'm_procurement.IdProcurement', '=', 'm_purchasing.IdProcurement')
+        ->leftJoin('m_material', 'm_material.IdMaterial', '=', 'm_purchasing_detail.IdMaterial')
+        ->leftJoin('m_unit', 'm_unit.IdUnit', '=', 'm_purchasing_detail.Unit')
+        ->where('m_purchasing.IdPurchasing', '=', $IdPurchasing)
+        ->get();
+            // dd($detailSales);
+
+            $detailpurchasing = DB::table('m_purchasing')
+        ->leftJoin('m_purchasing_detail', 'm_purchasing_detail.IdPurchasing', '=', 'm_purchasing.IdPurchasing')
+        ->leftJoin('m_bom', 'm_bom.IdBom', '=', 'm_purchasing.IdBom')
+        ->leftJoin('m_user', 'm_user.IdUser', '=', 'm_purchasing.IdUser')
+        ->leftJoin('m_departement as depto', 'depto.IdDepartement', '=', 'm_purchasing.TOIdDepartement')
+        ->leftJoin('m_departement as depfrom', 'depfrom.IdDepartement', '=', 'm_purchasing.FROMIdDepartement')
+        ->leftJoin('m_payment', 'm_payment.IdPayment', '=', 'm_purchasing.IdPayment')
+        ->leftJoin('m_suplier', 'm_suplier.IdSuplier', '=', 'm_purchasing.IdSuplier')
+        ->leftJoin('m_priority', 'm_priority.IdPriority', '=', 'm_purchasing_detail.Priority')
+        ->leftJoin('m_procurement', 'm_procurement.IdProcurement', '=', 'm_purchasing.IdProcurement')
+        ->leftJoin('m_material', 'm_material.IdMaterial', '=', 'm_purchasing_detail.IdMaterial')
+        ->leftJoin('m_unit', 'm_unit.IdUnit', '=', 'm_purchasing_detail.Unit')
+        ->leftJoin('m_sales', 'm_sales.IdSales', '=', 'm_purchasing.IdSales')
+        ->where('m_purchasing.IdPurchasing', '=', $IdPurchasing)
+        ->first();
+        // dd($detailpurchasing);
+
+            $bom = Bom::find($IdPurchasing);
+            // dd($bom);
+            $sales = Purchasing::find($IdPurchasing);
+            // dd($sales);
+            
+
+        return view('purchasing.printpurchasingorder', [
+            'detailPurchasing' => $detailPurchasing,
+            'detailpurchasing' => $detailpurchasing,
+            // 'detailsales' => $detailsales,
+            'sales' => $sales,
+            // 'bom' => $bom
+        ]);
+
     }
 
 }

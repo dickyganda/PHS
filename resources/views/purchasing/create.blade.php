@@ -25,7 +25,7 @@ Insert Purchasing
                     <div class="panel-content">
                         <div>
                         {{-- form insert purchasing --}}
-                        <form action="/purchasing/store" method="POST" id="insertsales">
+                        <form action="/purchasing/store" method="POST" id="insertpurchasing">
                         @csrf
 
                         <div class="form-group">

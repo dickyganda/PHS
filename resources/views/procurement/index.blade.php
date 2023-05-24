@@ -27,7 +27,7 @@ Procurement
                         <table>
             <tr>
             <td>
-            {{-- <a href="/purchasing/create" class="btn btn-success btn-xs" title="Tambah Data Baru" role="button"><i class="fas fa-plus-circle"></i>Tambah</a> --}}
+            <a href="/procurement/create" class="btn btn-success btn-xs" title="Tambah Data Baru" role="button"><i class="fas fa-plus-circle"></i>Tambah</a>
             </td>
             </tr>
             </table>
@@ -75,10 +75,10 @@ Procurement
                                     <td>{{ $procurement->Price }}</td>
                                     <td>@currency($procurement->Total)</td>
                         <td>
-                        <a href="" title="Print" class="btn btn-primary btn-xs" role="button"><i class="fas fa-print"></i> Print</a>
-                            <a href="" title="Edit" class="btn btn-warning btn-xs" role="button"><i class="fas fa-pen"></i> Edit</a>
+                        {{-- <a href="" title="Print" class="btn btn-primary btn-xs" role="button"><i class="fas fa-print"></i> Print</a> --}}
+                            <a href="/procurement/edit/{{ $procurement->IdProcurementDetail }}" title="Edit" class="btn btn-warning btn-xs" role="button"><i class="fas fa-pen"></i> Edit</a>
                             
-                            <form action= "" method="post" >
+                            <form action= "/procurement/delete/{{ $procurement->IdProcurementDetail}}" method="post" >
                             @csrf
                             @method('put')
                             <button type="submit" class="btn btn-danger btn-xs">Delete</button>

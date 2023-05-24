@@ -30,7 +30,6 @@ class SalesController extends Controller
         ->leftJoin('m_harga', 'm_harga.IdHarga', '=', 'm_sales_detail.IdHarga')
         ->leftJoin('m_user', 'm_user.IdUser', '=', 'm_sales.IdUser')
         ->where('m_sales_detail.DeletedAt', '=', null)
-        // ->groupBy('m_sales.IdSales')
         ->get();
         // dd($salesdetail);
 
@@ -102,6 +101,11 @@ class SalesController extends Controller
         // dd($sales);
 
         foreach ($request->IdProduct as $key => $value){
+
+            $dataharga = DB::table('m_harga')
+        ->where('HargaSatuan', '=', $request->IdHarga[$key])
+        ->first();
+
             $salesdetail = new SalesDetail();
             $salesdetail->IdSales = $sales->IdSales;
             $salesdetail->IdProduct = $value;
@@ -113,7 +117,7 @@ class SalesController extends Controller
             $salesdetail->IdPayment = $request->IdPayment[$key];
             $salesdetail->IdSuplier = $request->IdSuplier[$key];
             $salesdetail->Qty = $request->Qty[$key];
-            $salesdetail->IdHarga = $request->IdHarga[$key];
+            $salesdetail->IdHarga = $dataharga->IdHarga;
             $salesdetail->Amount = $request->Amount[$key];
             $salesdetail->CreatedAt = Carbon::now();
             $salesdetail->save();
@@ -138,6 +142,21 @@ class SalesController extends Controller
 
     function printsalesorder($IdSales){
 
+        $detailsales = DB::table('m_bom')
+        ->leftJoin('m_bom_detail', 'm_bom.IdBom', '=', 'm_bom_detail.IdBom')
+        ->leftJoin('m_sales', 'm_bom.IdSales', '=', 'm_sales.IdSales')
+        ->leftJoin('m_sales_detail', 'm_sales.IdSales', '=', 'm_sales_detail.IdSales')
+        ->leftJoin('m_payment', 'm_sales_detail.IdPayment', '=', 'm_payment.IdPayment')
+        ->leftJoin('m_suplier', 'm_sales_detail.IdSuplier', '=', 'm_suplier.IdSuplier')
+        ->leftJoin('m_product', 'm_sales_detail.IdProduct', '=', 'm_product.IdProduct')
+        ->leftJoin('m_unit', 'm_sales_detail.IdUnit', '=', 'm_unit.IdUnit')
+        ->leftJoin('m_harga', 'm_harga.IdHarga', '=', 'm_sales_detail.IdHarga')
+        ->leftJoin('m_buyer as buyerfrom', 'buyerfrom.IdBuyer', '=', 'm_sales.SOFrom')
+        ->leftJoin('m_buyer as buyerto', 'buyerto.IdBuyer', '=', 'm_sales.ShipTo')
+        ->where('m_sales.IdSales', '=', $IdSales)
+        ->first();
+            // dd($detailsales);
+
         $detailSales = DB::table('m_bom')
         ->leftJoin('m_bom_detail', 'm_bom.IdBom', '=', 'm_bom_detail.IdBom')
         ->leftJoin('m_sales', 'm_bom.IdSales', '=', 'm_sales.IdSales')
@@ -153,25 +172,25 @@ class SalesController extends Controller
         ->get();
             // dd($detailSales);
 
-            $bom = Bom::find($IdSales);
+            // $bom = Bom::find($IdSales);
             // dd($bom);
+
             $sales = Sales::find($IdSales);
             // dd($sales);
             
 
         return view('sales.printsalesorder', [
             'detailSales' => $detailSales,
+            'detailsales' => $detailsales,
             'sales' => $sales,
-            'bom' => $bom
+            // 'bom' => $bom,
+            // 'buyer' => $buyer
         ]);
 
     }
 
     public function edit($IdSalesDetail)
     {
-        //
-        // $salesdetail = SalesDetail::findOrFail($IdSalesDetail);
-        // dd($salesdetail);
         $salesdetail = DB::table('m_sales_detail')->where('IdSalesDetail',$IdSalesDetail)->get();
 
         return view('sales.edit', [

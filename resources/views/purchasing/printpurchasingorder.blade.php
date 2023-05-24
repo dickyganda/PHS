@@ -15,6 +15,7 @@
 
 .header{
     margin-right: 10mm;
+    padding-top: 0mm
 }
 
 .dataitem{
@@ -60,39 +61,44 @@ img {
 <table class="header table-sm">
 <tr>
 <td colspan="2" rowspan="4"><img src="{{ asset('assets/img/logo_PHS.png') }}"></td>
-<td style="font-size:10pt" colspan="2">SALES ORDER</td>
+<td style="font-size:10pt" colspan="2">PURCHASING ORDER</td>
 </tr>
 
 <tr>
 <td style="font-size:10pt">#</td>
-<td style="font-size:10pt">{{ $sales->CodeSales}}</td>
+<td style="font-size:10pt">{{ $detailpurchasing->CodePurchasing}}</td>
 </tr>
 
 <tr>
-<td style="font-size:10pt">Sales Order Date</td>
-<td style="font-size:10pt">{{ $sales->CreatedAt}}</td>
+<td style="font-size:10pt">Purchasing Date</td>
+<td style="font-size:10pt">{{ $detailpurchasing->DatePurchasing}}</td>
 </tr>
 
 <tr>
-<td style="font-size:10pt">Ship Date</td>
-<td style="font-size:10pt">{{ $sales->ShipDate}}</td>
+<td style="font-size:10pt">Delivery Date</td>
+{{-- <td style="font-size:10pt">{{ $sales->ShipDate}}</td> --}}
 </tr>
 
 <tr>
-<td colspan ="2">Sales Order From</td>
+<td colspan ="2">Purchasing Order To</td>
 <td style="font-size:10pt">BOM</td>
-<td style="font-size:10pt">{{ $detailsales->BomCode }}</td>
+<td style="font-size:10pt">{{ $detailpurchasing->BomCode }}</td>
 </tr>
 
 <tr>
-<td colspan="4"><h2>{{ $detailsales->SOFrom}}</h2></td>
+    <td> CV SUPLIER</td>
+    <td></td>
+    <td style="font-size:10pt">Sales Order</td>
+<td style="font-size:10pt">{{ $detailpurchasing->CodeSales }}</td>
+{{-- <td colspan="4"><h2>{{ $detailsales->SOFrom}}</h2></td> --}}
 </tr>
 
 <tr>
 <td style="font-size:10pt">Phone</td>
 <td style="font-size:10pt">+62 264 202041</td>
-<td style="font-size:10pt">Ship to</td>
-<td style="font-size:10pt">{{ $detailsales->ShipTo }}</td>
+<td style="font-size:10pt">Phone</td>
+<td style="font-size:10pt">+62 264 202041</td>
+
 </tr>
 
 <tr>
@@ -104,10 +110,12 @@ img {
 
 <tr>
 <td style="font-size:10pt">address</td>
-<td style="font-size:10pt">{{ $detailsales->Address }}	
+<td style="font-size:10pt">address 1</td>
+{{-- <td style="font-size:10pt">{{ $detailsales->Address }}	 --}}
 </td>
 <td style="font-size:10pt">address</td>
-<td style="font-size:10pt">{{ $detailsales->Address}}
+<td style="font-size:10pt">address 2</td>
+{{-- <td style="font-size:10pt">{{ $detailsales->Address}} --}}
 </td>
 </tr>
 </table>
@@ -135,18 +143,18 @@ $total = 0;
 $i=1
 @endphp
 
-@foreach($detailSales as $item)
+@foreach($detailPurchasing as $item)
 <tr>
 <td>{{ $i++ }}</td>
-<td>{{ $item->NameProduct }}</td>
+<td>{{ $item->MaterialName }}</td>
 <td align="right">@currency($item->Qty)</td>
 <td>{{ $item->NameUnit }}</td>
-<td align="right">@currency($item->HargaSatuan)</td>
-<td align="right">@currency($item->Amount)</td>
+<td align="right">@currency($item->Price)</td>
+<td align="right">@currency($item->Total)</td>
 </tr>
 
 @php
-$subtotal += $item->Amount;
+$subtotal += $item->Total;
 $ppn = $subtotal * 11 / 100;
 $total = $subtotal + $ppn;
 @endphp

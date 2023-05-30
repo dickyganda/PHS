@@ -78,6 +78,7 @@ class SalesController extends Controller
         // kode sale = inc/ so-phs/bln/thn
         // $increment = 1;
         // $increment++; //reset per bulan
+        $so = 'SO-PHS';
         $bln = Date('m');
         $thn = Date('y');
         $codesales = Sales::where('CodeSales','like','%'. $bln.'/'.$thn)->count() + 1;
@@ -91,7 +92,7 @@ class SalesController extends Controller
         // ship to
         $sales = new Sales();
         $sales->IdUser = $request->session()->get('IdUser', $user->IdUser);
-        $sales->CodeSales = $codesales.'/'.'SO-PHS'.'/'.$bln.'/'.$thn;
+        $sales->CodeSales = $codesales.'/'.$so.'/'.$bln.'/'.$thn;
         $sales->ShipDate = $request->ShipDate;
         $sales->SOFrom = $request->SOFrom;
         $sales->ShipTo = $request->ShipTo;
@@ -204,7 +205,7 @@ class SalesController extends Controller
 	DB::table('m_sales_detail')->where('IdSalesDetail',$IdSalesDetail)->update([
 		'FROMIdDepartement' => $request->FROMIdDepartement,
 		'TOIdDepartement' => $request->TOIdDepartement,
-		'CheckedBy' => $request->CheckedBy,
+		'm_sales_detail.CheckedBy' => $request->CheckedBy,
 		'ApprovedBy' => $request->ApprovedBy,
         'UpdatedAt' => date('Y-m-d h:i:s')
 	]);
@@ -212,6 +213,7 @@ class SalesController extends Controller
     // dd($request);
 
     return redirect('/sales/index')->with('success', 'Data Berhasil Diupdate');
+    // return response()->json(array('status'=> 'success', 'reason' => 'Sukses Edit Data'));
     
 }
 

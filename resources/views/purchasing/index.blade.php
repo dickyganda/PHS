@@ -1,4 +1,5 @@
 @extends('layouts.main')
+@inject('carbon', 'Carbon\Carbon')
 
 @section('title')
 Purchasing
@@ -36,7 +37,7 @@ Purchasing
                                 <tr>
                                     <th>No.</th>
                                     <th>Code</th>
-                                    <th>ID Procurement</th>
+                                    <th>Code Procurement</th>
                                     <th>User</th>
                                     <th>Date Purchasing</th>
                                     <th>Date Required</th>
@@ -60,18 +61,18 @@ Purchasing
                                 <tr>
                                     <td>{{ $i++ }}</td>
                                     <td>{{ $purchasing->CodePurchasing }}</td>
-                                    <td>{{ $purchasing->IdProcurement }}</td>
+                                    <td>{{ $purchasing->CodeProcurement }}</td>
                                     <td>{{ $purchasing->Name }}</td>
-                                    <td>{{ $purchasing->DatePurchasing }}</td>
-                                    <td>{{ $purchasing->DateRequired }}</td>
-                                    <td>{{ $purchasing->PaymentDate }}</td>
+                                    <td>{{ $carbon::parse($purchasing->DatePurchasing)->format('d/m/Y H:i:s') }}</td>
+                                    <td>{{ $carbon::parse($purchasing->DateRequired)->format('d/m/Y H:i:s') }}</td>
+                                    <td>{{ $carbon::parse($purchasing->PaymentDate)->format('d/m/Y H:i:s') }}</td>
                                     <td>{{ $purchasing->NamaPayment }}</td>
                                     <td>{{ $purchasing->NamaSuplier }}</td>
                                     <td>{{ $purchasing->NamePriority }}</td>
                                     <td>{{ $purchasing->MaterialName }}</td>
                                     <td>@currency($purchasing->Qty)</td>
                                     <td>{{ $purchasing->NameUnit }}</td>
-                                    <td>{{ $purchasing->Price }}</td>
+                                    <td>@currency($purchasing->Price)</td>
                                     <td>@currency($purchasing->Total)</td>
                                     {{-- <td>{{ $purchasing->CreatedAt }}</td> --}}
                         <td>

@@ -56,13 +56,13 @@ BOM
                                 <tr>
                                     <td>{{ $i++ }}</td>
                                     <td>{{ $bom->BomCode }}</td>
-                                    <td>{{ $carbon::parse($bom->BomDate)->format('d-m-Y H:i:s') }}</td>
+                                    <td>{{ $carbon::parse($bom->BomDate)->format('d/m/Y H:i:s') }}</td>
                                     <td>{{ $bom->Name }}</td>
                                     <td>{{ $bom->NameHolding }}</td>
                                     <td>{{ $bom->NameProduct }}</td>
                                     <td>{{ $bom->MaterialName }}</td>
-                                    <td>{{ $bom->Qty }}</td>
-                                    <td>{{ $bom->Price }}</td>
+                                    <td>@currency($bom->Qty)</td>
+                                    <td>@currency($bom->Price)</td>
                                     <td>{{ $bom->NameUnit }}</td>
                                     <td>
                                     <a href="/bom/edit/{{ $bom->IdBomDetail }}" class="btn btn-warning btn-xs" role="button">Edit</a>

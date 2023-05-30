@@ -1,4 +1,6 @@
 @extends('layouts.main')
+@inject('carbon', 'Carbon\Carbon')
+
 
 @section('title')
 Issued
@@ -27,7 +29,7 @@ Issued
                         <table>
             <tr>
             <td>
-            <a href={{ route('issued.create')}} class="btn btn-success btn-xs" title="Tambah Data Baru" role="button"><i class="fas fa-plus-circle"></i>Tambah</a>
+            {{-- <a href={{ route('issued.create')}} class="btn btn-success btn-xs" title="Tambah Data Baru" role="button"><i class="fas fa-plus-circle"></i>Tambah</a> --}}
             </td>
             </tr>
             </table>
@@ -35,12 +37,12 @@ Issued
                             <thead>
                                 <tr>
                                     <th>No.</th>
-                                    <th>ID Sales</th>
+                                    <th>Code Issued</th>
                                     <th>User</th>
                                     <th>Product</th>
                                     <th>Qty</th>
                                     <th>Unit</th>
-                                    {{-- <th>Rate</th> --}}
+                                    <th>Rate</th>
                                     <th>Amount</th>
                                     <th>From Departement</th>
                                     <th>To Departement</th>
@@ -59,31 +61,32 @@ Issued
                                 @foreach ($issueddetail as $issued)
                                 <tr>
                                     <td>{{ $i++ }}</td>
-                                    <td>{{ $issued->IdSalesFK }}</td>
-                                    <td>{{ $issued->IdUserFK }}</td>
-                                    <td>{{ $issued->IdProductFK }}</td>
-                                    <td>{{ $issued->Qty }}</td>
-                                    {{-- <td>{{ $sales->IdHargaFK }}</td> --}}
-                                    <td>{{ $issued->Amount }}</td>
-                                    {{-- <td>{{ $sales->IdUserFK }}</td> --}}
-                                    <td>{{ $issued->FROMIdDepartementFK }}</td>
-                                    <td>{{ $issued->TOIdDepartementFK }}</td>
+                                    <td>{{ $issued->CodeIssued }}</td>
+                                    <td>{{ $issued->Name }}</td>
+                                    <td>{{ $issued->NameProduct }}</td>
+                                    <td>@currency($issued->Qty)</td>
+                                    <td>{{ $issued->NameUnit }}</td>
+                                    <td>@currency($issued->HargaSatuan)</td>
+                                    <td>@currency($issued->Amount)</td>
+                                    <td>{{ $issued->FROMIdDepartement }}</td>
+                                    <td>{{ $issued->TOIdDepartement }}</td>
                                     <td>{{ $issued->CreatedBy }}</td>
                                     <td>{{ $issued->CheckedBy }}</td>
                                     <td>{{ $issued->ApprovedBy }}</td>
-                                    <td>{{ $issued->DateRequired }}</td>
-                                    <td>{{ $issued->PaymentDate }}</td>
-                                    {{-- <td>{{ $sales->IdPaymentFK }}</td> --}}
-                                    <td>{{ $issued->IdSuplierFK }}</td>
+                                    <td>{{ $carbon::parse($issued->DateRequired)->format('d/m/Y H:i:s') }}</td>
+                                    <td>{{ $carbon::parse($issued->PaymentDate)->format('d/m/Y H:i:s') }}</td>
+                                    <td>{{ $issued->NamaSuplier }}</td>
                         <td>
+                            <a href="/issued/printissued/{{$issued->IdIssued}}" title="Print" class="btn btn-primary btn-xs" role="button"><i class="fas fa-print"></i> Print</a>
+                            
 
-                            <a href="{{ route('issued.edit', $issued->IdSalesDetail) }}" title="Edit" class="btn btn-warning btn-xs" role="button"><i class="fas fa-pen"></i> Edit</a>
-<form action="{{ route('issued.destroy', $issued->IdSalesDetail) }}" method="post" type="button" class="btn btn-danger btn-xs" onsubmit="return confirm('Delete')">
-@csrf
+                            {{-- <a href="{{ route('issued.edit', $issued->IdSalesDetail) }}" title="Edit" class="btn btn-warning btn-xs" role="button"><i class="fas fa-pen"></i> Edit</a> --}}
+{{-- <form action="{{ route('issued.destroy', $issued->IdSalesDetail) }}" method="post" type="button" class="btn btn-danger btn-xs" onsubmit="return confirm('Delete')"> --}}
+{{-- @csrf
 @method('delete')
 
 <button class="btn btn-danger btn-xs">Delete</button>
-</form>
+</form> --}}
 
                             {{-- <a href="{{ route('sales.destroy', $sales->IdSalesDetail) }}" method="post" title="Hapus" class="btn btn-danger btn-xs" role="button"><i class="fas fa-trash"></i> Delete</a> --}}
                         </td>

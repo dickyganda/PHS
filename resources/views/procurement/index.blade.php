@@ -1,4 +1,5 @@
 @extends('layouts.main')
+@inject('carbon', 'Carbon\Carbon')
 
 @section('title')
 Procurement
@@ -63,16 +64,16 @@ Procurement
                                     <td>{{ $procurement->CodeProcurement }}</td>
                                     <td>{{ $procurement->NamaDepartement }}</td>
                                     <td>{{ $procurement->NamaDepartement }}</td>
-                                    <td>{{ $procurement->DateProcurement }}</td>
+                                    <td>{{ $carbon::parse($procurement->DateProcurement)->format('d-m-Y H:i:s') }}</td>
                                     <td>{{ $procurement->Name }}</td>
                                     <td>{{ $procurement->CreatedBy }}</td>
                                     <td>{{ $procurement->CheckedBy }}</td>
                                     <td>{{ $procurement->ApprovedBy }}</td>
-                                    <td>{{ $procurement->DateRequired }}</td>
+                                    <td>{{ $carbon::parse($procurement->DateRequired)->format('d-m-Y H:i:s') }}</td>
                                     <td>{{ $procurement->MaterialName }}</td>
                                     <td>@currency($procurement->Qty)</td>
                                     <td>{{ $procurement->NameUnit }}</td>
-                                    <td>{{ $procurement->Price }}</td>
+                                    <td>@currency($procurement->Price)</td>
                                     <td>@currency($procurement->Total)</td>
                         <td>
                         {{-- <a href="" title="Print" class="btn btn-primary btn-xs" role="button"><i class="fas fa-print"></i> Print</a> --}}

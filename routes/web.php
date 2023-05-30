@@ -76,7 +76,22 @@ Route::put('/purchasing/update/{IdPurchasingDetail}', [PurchasingController::cla
 Route::put('/purchasing/delete/{IdPurchasingDetail}', [PurchasingController::class, 'destroy'])->name('purchasingdestroy');
 Route::get('/purchasing/printpurchasingorder/{IdPurchasing}', [PurchasingController::class, 'printpurchasingorder'])->name('purchasingprint');
 
-Route::resource('/issued', IssuedController::class);
+Route::get('/issued/index', [IssuedController::class, 'index'])->name('issuedindex');
+Route::get('/issued/create', [IssuedController::class, 'create'])->name('issuedcreate');
+Route::post('/issued/store', [IssuedController::class, 'store'])->name('issuedstore');
+Route::get('/issued/edit/{IdPurchasingDetail}', [IssuedController::class, 'edit'])->name('issuededit');
+Route::put('/issued/update/{IdPurchasingDetail}', [IssuedController::class, 'update'])->name('issuedupdate');
+Route::put('/issued/delete/{IdPurchasingDetail}', [IssuedController::class, 'destroy'])->name('issueddestroy');
+Route::get('/issued/printissued/{IdIssued}', [IssuedController::class, 'printissued'])->name('issuedprint');
 
-Route::resource('/finance', FinanceController::class);
+Route::get('/finance/index', [FinanceController::class, 'index'])->name('financeindex');
+Route::get('/finance/create', [FinanceController::class, 'create'])->name('financecreate');
+Route::post('/finance/store', [FinanceController::class, 'store'])->name('financestore');
+Route::get('/finance/edit/{IdPurchasingDetail}', [FinanceController::class, 'edit'])->name('financeedit');
+Route::put('/finance/update/{IdPurchasingDetail}', [FinanceController::class, 'update'])->name('financeupdate');
+Route::put('/finance/delete/{IdPurchasingDetail}', [FinanceController::class, 'destroy'])->name('financedestroy');
+Route::get('/finance/printissued/{IdIssued}', [FinanceController::class, 'printissued'])->name('financeprint');
+// Route::resource('/issued', IssuedController::class);
+
+// Route::resource('/finance', FinanceController::class);
 

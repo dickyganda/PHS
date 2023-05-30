@@ -26,7 +26,7 @@ Edit Sales Order
                         <div>
                         {{-- form edit sales order --}}
                         @foreach($salesdetail as $sales)
-                        <form action={{ route('salesupdate', $sales->IdSalesDetail) }} method="POST">
+                        <form action={{ route('salesupdate', $sales->IdSalesDetail) }} method="POST" id="editsales">
                         @csrf
                         @method('put')
                         <div class="form-group">
@@ -149,3 +149,8 @@ Edit Sales Order
         
 </main>
 @endsection
+@push('script')
+<script>
+   
+</script>
+@endpush

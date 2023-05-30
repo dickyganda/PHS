@@ -239,5 +239,28 @@ function addRows() {
                         tableRow.querySelector("#Amount").value = result;
                     }
                 }
+
+    $("#insertbom").submit(function(event){
+    event.preventDefault();
+    var formdata = new FormData(this);
+    $.ajax({
+      type:'POST',
+      dataType: 'json',
+      url: '/bom/store',
+      data: formdata,
+      contentType: false,
+      cache: false,
+      processData: false,
+      success:function(data){
+        Swal.fire(
+          'Sukses!',
+          data.reason,
+          'success'
+        ).then(() => {
+          location.replace("/bom/index");
+        });
+      }
+    });
+  });
 </script>
 @endpush

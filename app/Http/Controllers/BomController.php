@@ -108,7 +108,8 @@ class BomController extends Controller
             $bomdetail->save();
         }
 
-        return redirect('/bom/index')->with('success', 'Data Berhasil Ditambahkan');
+        // return redirect('/bom/index')->with('success', 'Data Berhasil Ditambahkan');
+        return response()->json(array('status' => 'success', 'reason' => 'Sukses Tambah Data'));
     }
 
     /**

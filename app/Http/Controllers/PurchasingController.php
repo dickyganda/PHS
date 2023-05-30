@@ -84,16 +84,22 @@ class PurchasingController extends Controller
         ->first();
         // dd($user);
 
-        $po = 'PO';
-        $tgl = date('d');
+        $po = 'PO-PHS';
+        $thn = date('y');
         $bln = date('m');
+        $codepo = Purchasing::where('CodePurchasing','like','%'. $bln.'/'.$thn)->count() + 1;
+        if ($codepo < 10) {
+            $codepo = '00' . $codepo;
+        } else if ($codepo >= 10) {
+            $codepo = '0' . $codepo;
+        }
 
         // insert to tabel m_bom
         $purchasing = new Purchasing();
         $purchasing->IdProcurement = $request->IdProcurement;
         $purchasing->IdBom = $request->IdBom;
         $purchasing->IdUser = $request->session()->get('IdUser', $user->IdUser);
-        $purchasing->CodePurchasing = $po.$tgl.$bln;
+        $purchasing->CodePurchasing = $codepo.'/'.$po.'/'.$bln.'/'.$thn;
         $purchasing->FROMIdDepartement = $request->FROMIdDepartement;
         $purchasing->TOIdDepartement = $request->TOIdDepartement;
         $purchasing->DatePurchasing = Carbon::now();
@@ -122,7 +128,8 @@ class PurchasingController extends Controller
 
         // dd($salesdetail);
 
-        return redirect('/purchasing/index')->with('success', 'Data Berhasil Ditambahkan');
+        // return redirect('/purchasing/index')->with('success', 'Data Berhasil Ditambahkan');
+        return response()->json(array('status' => 'success', 'reason' => 'Sukses Tambah Data'));
     }
 
     public function edit($IdPurchasingDetail)

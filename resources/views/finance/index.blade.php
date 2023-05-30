@@ -27,7 +27,7 @@ Finance
                         <table>
             <tr>
             <td>
-            <a href={{ route('finance.create')}} class="btn btn-success btn-xs" title="Tambah Data Baru" role="button"><i class="fas fa-plus-circle"></i>Tambah</a>
+            {{-- <a href={{ route('finance.create')}} class="btn btn-success btn-xs" title="Tambah Data Baru" role="button"><i class="fas fa-plus-circle"></i>Tambah</a> --}}
             </td>
             </tr>
             </table>
@@ -35,15 +35,16 @@ Finance
                             <thead>
                                 <tr>
                                     <th>No.</th>
-                                    <th>ID Sales</th>
-                                    <th>User</th>
+                                    <th>Code Finance</th>
+                                    <th>Invoice Date</th>
+                                    <th>Due Date</th>
+                                    <th>Delivery Order</th>
+                                    <th>Sales Order</th>
                                     <th>Product</th>
                                     <th>Qty</th>
                                     <th>Unit</th>
-                                    {{-- <th>Rate</th> --}}
+                                    <th>Rate</th>
                                     <th>Amount</th>
-                                    <th>From Departement</th>
-                                    <th>To Departement</th>
                                     <th>Created By</th>
                                     <th>Checked By</th>
                                     <th>Approved By</th>
@@ -59,33 +60,24 @@ Finance
                                 @foreach ($financedetail as $finance)
                                 <tr>
                                     <td>{{ $i++ }}</td>
-                                    <td>{{ $finance->IdSalesFK }}</td>
-                                    <td>{{ $finance->IdUserFK }}</td>
-                                    <td>{{ $finance->IdProductFK }}</td>
+                                    <td>{{ $finance->IdSales }}</td>
+                                    <td>{{ $finance->IdUser }}</td>
+                                    <td>{{ $finance->IdProduct }}</td>
                                     <td>{{ $finance->Qty }}</td>
                                     {{-- <td>{{ $sales->IdHargaFK }}</td> --}}
                                     <td>{{ $finance->Amount }}</td>
                                     {{-- <td>{{ $sales->IdUserFK }}</td> --}}
-                                    <td>{{ $finance->FROMIdDepartementFK }}</td>
-                                    <td>{{ $finance->TOIdDepartementFK }}</td>
+                                    <td>{{ $finance->FROMIdDepartement }}</td>
+                                    <td>{{ $finance->TOIdDepartement }}</td>
                                     <td>{{ $finance->CreatedBy }}</td>
                                     <td>{{ $finance->CheckedBy }}</td>
                                     <td>{{ $finance->ApprovedBy }}</td>
                                     <td>{{ $finance->DateRequired }}</td>
                                     <td>{{ $finance->PaymentDate }}</td>
                                     {{-- <td>{{ $sales->IdPaymentFK }}</td> --}}
-                                    <td>{{ $finance->IdSuplierFK }}</td>
+                                    <td>{{ $finance->IdSuplier }}</td>
                         <td>
 
-                            <a href="{{ route('finance.edit', $finance->IdSalesDetail) }}" title="Edit" class="btn btn-warning btn-xs" role="button"><i class="fas fa-pen"></i> Edit</a>
-<form action="{{ route('finance.destroy', $finance->IdSalesDetail) }}" method="post" type="button" class="btn btn-danger btn-xs" onsubmit="return confirm('Delete')">
-@csrf
-@method('delete')
-
-<button class="btn btn-danger btn-xs">Delete</button>
-</form>
-
-                            {{-- <a href="{{ route('sales.destroy', $sales->IdSalesDetail) }}" method="post" title="Hapus" class="btn btn-danger btn-xs" role="button"><i class="fas fa-trash"></i> Delete</a> --}}
                         </td>
                         </tr>
                         @endforeach

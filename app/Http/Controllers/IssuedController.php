@@ -8,8 +8,8 @@ use Illuminate\Support\Facades\DB;
 use Session;
 use Carbon\Carbon;
 
-use App\Models\Sales;
-use App\Models\SalesDetail;
+use App\Models\Issued;
+use App\Models\IssuedDetail;
 
 class IssuedController extends Controller
 {
@@ -74,47 +74,48 @@ class IssuedController extends Controller
         $sj = 'SJ-PHS';
         $bln = Date('m');
         $thn = Date('y');
-        $codesales = Sales::where('CodeSales','like','%'. $bln.'/'.$thn)->count() + 1;
-        if ($codesales < 10) {
-            $codesales = '00' . $codesales;
-        } else if ($codesales >= 10) {
-            $codesales = '0' . $codesales;
+        $codeissued = Issued::where('CodeIssued','like','%'. $bln.'/'.$thn)->count() + 1;
+        if ($codeissued < 10) {
+            $codeissued = '00' . $codeissued;
+        } else if ($codeissued >= 10) {
+            $codeissued = '0' . $codeissued;
         }
         // ship date = tgl kirim
         // so from
         // ship to
-        $sales = new Sales();
-        $sales->IdUser = $request->session()->get('IdUser', $user->IdUser);
-        $sales->CodeSales = $codesales.'/'.$sj.'/'.$bln.'/'.$thn;
-        $sales->ShipDate = $request->ShipDate;
-        $sales->SOFrom = $request->SOFrom;
-        $sales->ShipTo = $request->ShipTo;
-        $sales->CreatedBy = $request->session()->get('IdUser', $user->IdUser);
-        $sales->CreatedAt = Carbon::now();
-        $sales->save();
+        $issued = new Issued();
+        $issued->IdSales = $request->IdSales;
+        $issued->IdUser = $request->session()->get('IdUser', $user->IdUser);
+        $issued->CodeIssued = $codeissued.'/'.$sj.'/'.$bln.'/'.$thn;
+        $issued->ShipDate = $request->ShipDate;
+        $issued->SOFrom = $request->SOFrom;
+        $issued->DeliveredTo = $request->DeliveredTo;
+        $issued->PreparedBy = $request->PreparedBy;
+        $issued->CreatedBy = $request->session()->get('IdUser', $user->IdUser);
+        $issued->CreatedAt = Carbon::now();
+        $issued->save();
         // dd($sales);
 
         foreach ($request->IdProduct as $key => $value){
-
             $dataharga = DB::table('m_harga')
         ->where('HargaSatuan', '=', $request->IdHarga[$key])
         ->first();
 
-            $salesdetail = new SalesDetail();
-            $salesdetail->IdSales = $sales->IdSales;
-            $salesdetail->IdProduct = $value;
-            $salesdetail->IdUnit = $request->IdUnit[$key];
-            $salesdetail->FROMIdDepartement = $request->FROMIdDepartement[$key];
-            $salesdetail->TOIdDepartement = $request->TOIdDepartement[$key];
-            $salesdetail->DateRequired = $request->DateRequired[$key];
-            $salesdetail->PaymentDate = $request->PaymentDate[$key];
-            $salesdetail->IdPayment = $request->IdPayment[$key];
-            $salesdetail->IdSuplier = $request->IdSuplier[$key];
-            $salesdetail->Qty = $request->Qty[$key];
-            $salesdetail->IdHarga = $dataharga->IdHarga;
-            $salesdetail->Amount = $request->Amount[$key];
-            $salesdetail->CreatedAt = Carbon::now();
-            $salesdetail->save();
+            $issueddetail = new IssuedDetail();
+            $issueddetail->IdIssued = $issued->IdIssued;
+            $issueddetail->IdProduct = $value;
+            $issueddetail->IdUnit = $request->IdUnit[$key];
+            $issueddetail->FROMIdDepartement = $request->FROMIdDepartement[$key];
+            $issueddetail->TOIdDepartement = $request->TOIdDepartement[$key];
+            $issueddetail->DateRequired = $request->DateRequired[$key];
+            $issueddetail->PaymentDate = $request->PaymentDate[$key];
+            $issueddetail->IdPayment = $request->IdPayment[$key];
+            $issueddetail->IdSuplier = $request->IdSuplier[$key];
+            $issueddetail->Qty = $request->Qty[$key];
+            $issueddetail->IdHarga = $dataharga->IdHarga;
+            $issueddetail->Amount = $request->Amount[$key];
+            $issueddetail->CreatedAt = Carbon::now();
+            $issueddetail->save();
         }
 
         // dd($salesdetail);
@@ -122,6 +123,66 @@ class IssuedController extends Controller
         // return redirect('/sales/index')->with('success', 'Data Berhasil Ditambahkan');
         return response()->json(array('status' => 'success', 'reason' => 'Sukses Tambah Data'));
     }
+
+    public function getproduct(Request $request)
+    {
+        //
+        $getproduct = DB::table('m_product')
+        ->leftJoin('m_harga', 'm_harga.IdHarga', '=', 'm_product.IdHarga')
+        ->where('IdProduct', $request->input('IdProduct'))->first();
+        // dd($getproduct);
+
+        return response()->json($getproduct);
+    }
+
+    public function edit($IdIssuedDetail)
+    {
+        $issueddetail = DB::table('m_issued_detail')->where('IdIssuedDetail',$IdIssuedDetail)->get();
+
+        $departement = DB::table('m_departement')
+        ->get();
+
+        return view('issued.edit', [
+            'issueddetail' => $issueddetail,
+            'departement' =>$departement,
+        ]);
+
+    }
+
+    public function update(Request $request, $IdIssuedDetail)
+{
+    $user = DB::table('m_user')
+        ->first();
+
+        DB::table('m_issued')
+        ->leftJoin('m_issued_detail', 'm_issued_detail.IdIssued', '=', 'm_issued.IdIssued')
+        ->where('IdIssuedDetail',$IdIssuedDetail)->update([
+		'm_issued_detail.FROMIdDepartement' => $request->FROMIdDepartement,
+		'm_issued_detail.TOIdDepartement' => $request->TOIdDepartement,
+		'm_issued_detail.CheckedBy' => $request->CheckedBy,
+		'm_issued_detail.ApprovedBy' => $request->session()->get('IdUser', $user->IdUser),
+        'm_issued.UpdatedAt' => Carbon::now(),
+        'm_issued_detail.UpdatedAt' => Carbon::now(),
+	]);
+
+    // dd($request);
+
+    return redirect('/issued/index')->with('success', 'Data Berhasil Diupdate');
+    // return response()->json(array('status'=> 'success', 'reason' => 'Sukses Edit Data'));
+    
+}
+
+public function destroy($IdIssuedDetail)
+{
+    $issued_detail = DB::table('m_issued_detail')->where('IdIssuedDetail', $IdIssuedDetail);
+        $id_issued = $issued_detail->first('IdIssued');
+        $issued_detail->update([
+            'DeletedAt' => Carbon::now(),
+        ]);
+
+    return redirect('/issued/index')->with('success', 'Data Berhasil Dihapus');
+    
+}
 
     function printissued($IdIssued){
 
@@ -156,7 +217,7 @@ class IssuedController extends Controller
             // $bom = Bom::find($IdSales);
             // dd($bom);
 
-            $issued = Sales::find($IdIssued);
+            $issued = Issued::find($IdIssued);
             // dd($sales);
             
 

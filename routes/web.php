@@ -79,18 +79,20 @@ Route::get('/purchasing/printpurchasingorder/{IdPurchasing}', [PurchasingControl
 Route::get('/issued/index', [IssuedController::class, 'index'])->name('issuedindex');
 Route::get('/issued/create', [IssuedController::class, 'create'])->name('issuedcreate');
 Route::post('/issued/store', [IssuedController::class, 'store'])->name('issuedstore');
-Route::get('/issued/edit/{IdPurchasingDetail}', [IssuedController::class, 'edit'])->name('issuededit');
-Route::put('/issued/update/{IdPurchasingDetail}', [IssuedController::class, 'update'])->name('issuedupdate');
-Route::put('/issued/delete/{IdPurchasingDetail}', [IssuedController::class, 'destroy'])->name('issueddestroy');
+Route::post('/issued/getproduct', [IssuedController::class, 'getproduct']);
+Route::get('/issued/edit/{IdIssuedDetail}', [IssuedController::class, 'edit'])->name('issuededit');
+Route::put('/issued/update/{IdIssuedDetail}', [IssuedController::class, 'update'])->name('issuedupdate');
+Route::put('/issued/delete/{IdIssuedDetail}', [IssuedController::class, 'destroy'])->name('issueddestroy');
 Route::get('/issued/printissued/{IdIssued}', [IssuedController::class, 'printissued'])->name('issuedprint');
 
 Route::get('/finance/index', [FinanceController::class, 'index'])->name('financeindex');
 Route::get('/finance/create', [FinanceController::class, 'create'])->name('financecreate');
 Route::post('/finance/store', [FinanceController::class, 'store'])->name('financestore');
-Route::get('/finance/edit/{IdPurchasingDetail}', [FinanceController::class, 'edit'])->name('financeedit');
-Route::put('/finance/update/{IdPurchasingDetail}', [FinanceController::class, 'update'])->name('financeupdate');
-Route::put('/finance/delete/{IdPurchasingDetail}', [FinanceController::class, 'destroy'])->name('financedestroy');
-Route::get('/finance/printissued/{IdIssued}', [FinanceController::class, 'printissued'])->name('financeprint');
+Route::post('/finance/getproduct', [FinanceController::class, 'getproduct']);
+Route::get('/finance/edit/{IdInvoiceDetail}', [FinanceController::class, 'edit'])->name('financeedit');
+Route::put('/finance/update/{IdInvoiceDetail}', [FinanceController::class, 'update'])->name('financeupdate');
+Route::put('/finance/delete/{IdInvoiceDetail}', [FinanceController::class, 'destroy'])->name('financedestroy');
+Route::get('/finance/printinvoice/{IdInvoice}', [FinanceController::class, 'printissued'])->name('financeprint');
 // Route::resource('/issued', IssuedController::class);
 
 // Route::resource('/finance', FinanceController::class);

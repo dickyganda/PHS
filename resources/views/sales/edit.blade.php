@@ -59,7 +59,7 @@ Edit Sales Order
                                                             @endforeach
                                                         </select> --}}
 
-      <input type="text" class="form-control" id="TOIdDepartementFK" placeholder="TOIdDepartementFK" name="TOIdDepartement" value="{{ $sales->TOIdDepartement }}">
+      <input type="text" class="form-control" id="TOIdDepartement" placeholder="TOIdDepartement" name="TOIdDepartement" value="{{ $sales->TOIdDepartement }}">
 
     </div>
     </div>
@@ -68,7 +68,7 @@ Edit Sales Order
     <div class="col-lg-6">
     <div class="form-group">
       <label>FROMIdDepartementFK</label>
-      <input type="text" class="form-control" id="FROMIdDepartementFK" placeholder="FROMIdDepartement" name="FROMIdDepartement" value="{{ $sales->FROMIdDepartement }}">
+      <input type="text" class="form-control" id="FROMIdDepartement" placeholder="FROMIdDepartement" name="FROMIdDepartement" value="{{ $sales->FROMIdDepartement }}">
     </div>
     </div>
     {{-- <div class="col-lg-6">

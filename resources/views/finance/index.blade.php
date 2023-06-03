@@ -1,4 +1,5 @@
 @extends('layouts.main')
+@inject('carbon', 'Carbon\Carbon')
 
 @section('title')
 Finance
@@ -27,7 +28,7 @@ Finance
                         <table>
             <tr>
             <td>
-            {{-- <a href={{ route('finance.create')}} class="btn btn-success btn-xs" title="Tambah Data Baru" role="button"><i class="fas fa-plus-circle"></i>Tambah</a> --}}
+            <a href="/finance/create" class="btn btn-success btn-xs" title="Tambah Data Baru" role="button"><i class="fas fa-plus-circle"></i>Tambah</a>
             </td>
             </tr>
             </table>
@@ -35,11 +36,12 @@ Finance
                             <thead>
                                 <tr>
                                     <th>No.</th>
-                                    <th>Code Finance</th>
+                                    <th>Code Invoice</th>
+                                    <th>Code SJ</th>
+                                    <th>Sales Order</th>
                                     <th>Invoice Date</th>
                                     <th>Due Date</th>
-                                    <th>Delivery Order</th>
-                                    <th>Sales Order</th>
+                                    {{-- <th>Delivery Order</th> --}}
                                     <th>Product</th>
                                     <th>Qty</th>
                                     <th>Unit</th>
@@ -60,24 +62,35 @@ Finance
                                 @foreach ($financedetail as $finance)
                                 <tr>
                                     <td>{{ $i++ }}</td>
-                                    <td>{{ $finance->IdSales }}</td>
-                                    <td>{{ $finance->IdUser }}</td>
-                                    <td>{{ $finance->IdProduct }}</td>
-                                    <td>{{ $finance->Qty }}</td>
-                                    {{-- <td>{{ $sales->IdHargaFK }}</td> --}}
-                                    <td>{{ $finance->Amount }}</td>
+                                    <td>{{ $finance->CodeInvoice }}</td>
+                                    <td>{{ $finance->CodeIssued }}</td>
+                                    <td>{{ $finance->CodeInvoice }}</td>
+                                    <td>{{ $carbon::parse($finance->CreatedAt)->format('d/m/Y H:i:s')}}</td>
+                                    <td>{{ $finance->DueDate }}</td>
+                                    {{-- <td>{{ $finance->CodeSales }}</td> --}}
+                                    <td>{{ $finance->NameProduct }}</td>
+                                    <td>@currency($finance->Qty)</td>
+                                    <td>{{ $finance->NameUnit }}</td>
+                                    <td>@currency($finance->HargaSatuan)</td>
+                                    <td>@currency($finance->Amount)</td>
                                     {{-- <td>{{ $sales->IdUserFK }}</td> --}}
-                                    <td>{{ $finance->FROMIdDepartement }}</td>
-                                    <td>{{ $finance->TOIdDepartement }}</td>
-                                    <td>{{ $finance->CreatedBy }}</td>
+                                    {{-- <td>{{ $finance->FROMIdDepartement }}</td> --}}
+                                    {{-- <td>{{ $finance->TOIdDepartement }}</td> --}}
+                                    <td>{{ $finance->Name }}</td>
                                     <td>{{ $finance->CheckedBy }}</td>
                                     <td>{{ $finance->ApprovedBy }}</td>
-                                    <td>{{ $finance->DateRequired }}</td>
-                                    <td>{{ $finance->PaymentDate }}</td>
-                                    {{-- <td>{{ $sales->IdPaymentFK }}</td> --}}
-                                    <td>{{ $finance->IdSuplier }}</td>
+                                    <td>{{ $carbon::parse($finance->DateRequired)->format('d/m/Y H:i:s') }}</td>
+                                    {{-- <td>{{ $finance->PaymentDate }}</td> --}}
+                                    <td>{{ $finance->NamaPayment }}</td>
+                                    <td>{{ $finance->NamaSuplier }}</td>
                         <td>
-
+                            <a href="/finance/printinvoice/{{$finance->IdInvoice}}" title="Print" class="btn btn-primary btn-xs" role="button"><i class="fas fa-print"></i> Print</a>
+                            <a href="/finance/edit/{{ $finance->IdInvoiceDetail }}" title="Edit" class="btn btn-warning btn-xs" role="button"><i class="fas fa-pen"></i> Edit</a>
+                            <form action= "/finance/delete/{{ $finance->IdInvoiceDetail}}" method="post" >
+                                @csrf
+                                @method('put')
+                                <button type="submit" class="btn btn-danger btn-xs">Delete</button>
+                                </form>
                         </td>
                         </tr>
                         @endforeach

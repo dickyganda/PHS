@@ -29,7 +29,7 @@ Issued
                         <table>
             <tr>
             <td>
-            {{-- <a href={{ route('issued.create')}} class="btn btn-success btn-xs" title="Tambah Data Baru" role="button"><i class="fas fa-plus-circle"></i>Tambah</a> --}}
+            <a href="/issued/create" class="btn btn-success btn-xs" title="Tambah Data Baru" role="button"><i class="fas fa-plus-circle"></i>Tambah</a>
             </td>
             </tr>
             </table>
@@ -78,17 +78,12 @@ Issued
                                     <td>{{ $issued->NamaSuplier }}</td>
                         <td>
                             <a href="/issued/printissued/{{$issued->IdIssued}}" title="Print" class="btn btn-primary btn-xs" role="button"><i class="fas fa-print"></i> Print</a>
-                            
-
-                            {{-- <a href="{{ route('issued.edit', $issued->IdSalesDetail) }}" title="Edit" class="btn btn-warning btn-xs" role="button"><i class="fas fa-pen"></i> Edit</a> --}}
-{{-- <form action="{{ route('issued.destroy', $issued->IdSalesDetail) }}" method="post" type="button" class="btn btn-danger btn-xs" onsubmit="return confirm('Delete')"> --}}
-{{-- @csrf
-@method('delete')
-
-<button class="btn btn-danger btn-xs">Delete</button>
-</form> --}}
-
-                            {{-- <a href="{{ route('sales.destroy', $sales->IdSalesDetail) }}" method="post" title="Hapus" class="btn btn-danger btn-xs" role="button"><i class="fas fa-trash"></i> Delete</a> --}}
+                            <a href="/issued/edit/{{ $issued->IdIssuedDetail }}" title="Edit" class="btn btn-warning btn-xs" role="button"><i class="fas fa-pen"></i> Edit</a>
+                            <form action= "/issued/delete/{{ $issued->IdIssuedDetail}}" method="post" >
+                                @csrf
+                                @method('put')
+                                <button type="submit" class="btn btn-danger btn-xs">Delete</button>
+                                </form>
                         </td>
                         </tr>
                         @endforeach

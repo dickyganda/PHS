@@ -60,55 +60,61 @@ img {
 <table class="header table-sm">
 <tr>
 <td colspan="2" rowspan="4"><img src="{{ asset('assets/img/logo_PHS.png') }}"></td>
-<td style="font-size:10pt" colspan="2">DELIVERY ORDER</td>
+<td style="font-size:10pt" colspan="2">INVOICE</td>
 </tr>
 
 <tr>
 <td style="font-size:10pt">#</td>
-<td style="font-size:10pt">{{ $issued->CodeIssued}}</td>
+<td style="font-size:10pt">{{ $invoice->CodeInvoice}}</td>
 </tr>
 
 <tr>
 <td style="font-size:10pt">Delivery Order Date</td>
-<td style="font-size:10pt">{{ $issued->CreatedAt}}</td>
+{{-- <td style="font-size:10pt">{{ $issued->CreatedAt}}</td> --}}
 </tr>
 
 <tr>
 <td style="font-size:10pt">Sales Order</td>
-<td style="font-size:10pt">{{ $issued->ShipDate}}</td>
+{{-- <td style="font-size:10pt">{{ $issued->ShipDate}}</td> --}}
 </tr>
 
 <tr>
-<td colspan ="2">Delivered To</td>
+<td colspan ="2">Invoice To</td>
 {{-- <td style="font-size:10pt">BOM</td> --}}
 {{-- <td style="font-size:10pt">{{ $detailissued->BomCode }}</td> --}}
 </tr>
 
 <tr>
-<td colspan="4"><h2>{{ $detailissued->SOFrom}}</h2></td>
+<td colspan="4"><h2>{{ $detailinvoice->SOFrom}}</h2></td>
 </tr>
 
 <tr>
 <td style="font-size:10pt">Phone</td>
 <td style="font-size:10pt">+62 264 202041</td>
-<td style="font-size:10pt">Ship to</td>
-<td style="font-size:10pt">{{ $detailissued->DeliveredTo }}</td>
+<td style="font-size:10pt">Invoice Date</td>
+<td style="font-size:10pt">{{ $detailinvoice->CreatedAt }}</td>
 </tr>
 
 <tr>
 <td style="font-size:10pt">Email</td>
 <td style="font-size:10pt">factory.ibr@adityabirla.com</td>
-<td style="font-size:10pt">Email</td>
-<td style="font-size:10pt">factory.ibr@adityabirla.com</td>
+<td style="font-size:10pt">Due Date</td>
+<td style="font-size:10pt">{{ $detailinvoice->DueDate }}</td>
 </tr>
 
 <tr>
 <td style="font-size:10pt">address</td>
-<td style="font-size:10pt">{{ $detailissued->Address }}	
+{{-- <td style="font-size:10pt">{{ $detailissued->Address }}	 --}}
 </td>
-<td style="font-size:10pt">address</td>
-<td style="font-size:10pt">{{ $detailissued->Address}}
+<td style="font-size:10pt">Delivery Order</td>
+{{-- <td style="font-size:10pt">{{ $detailinvoice->Address}} --}}
 </td>
+</tr>
+<tr>
+    <td></td>
+    <td></td>
+    <td style="font-size:10pt">Sales Order</td>
+    <td style="font-size:10pt">{{ $detailinvoice->CodeSales }}</td>
 </tr>
 </table>
 
@@ -135,7 +141,7 @@ $total = 0;
 $i=1
 @endphp
 
-@foreach($detailIssued as $item)
+@foreach($detailInvoice as $item)
 <tr>
 <td>{{ $i++ }}</td>
 <td>{{ $item->NameProduct }}</td>
@@ -174,37 +180,33 @@ $total = $subtotal + $ppn;
 
 <br>
 <br>
-<p>NOTE</p>
-<table border="1" width="20%" height="10%" class="note">
-<tr>
-<td></td>
-</tr>
-</table>
-<br><br><br>
+<p>PAYMENT OPTION</p>
 <table>
-    <tr>
-        <td>Prepared By</td>
-        <td>Checked By</td>
-        <td>Approved By</td>
-        <td>Driver</td>
-        <td>Security</td>
+<tr>
+<td>Account Name</td>
+<td>PT. Putra Hamzah Sejahterah</td>
+</tr>
+<tr>
+    <td>Bank Name</td>
+    <td>Bank Mandiri</td>
+</tr>
+<tr>
+    <td>Account Number</td>
+    <td>1400079944444</td>
+</tr>
+<tr>
+    <td>Bank Name</td>
+    <td>Bank Central Asia</td>
+</tr>
+<tr>
+    <td>Account Number</td>
+    <td>3301056875</td>
+</tr>
 
-    </tr>
-    <tr>
-        <td width="20%" height="50%">1</td>
-        <td width="20%" height="10%">2</td>
-        <td width="20%" height="10%">3</td>
-        <td width="20%" height="10%">4</td>
-        <td width="20%" height="10%">5</td>
-    </tr>
-    <tr>
-        <td>Nama Created</td>
-        <td>Nama Checked</td>
-        <td>Nama Approval</td>
-        <td>Nama Driver</td>
-        <td>Nama Security</td>
-    </tr>
 </table>
+
+<p align="right" id="bestregard">Best Regard</p><br><br><br>
+<p align="right" id="nama"><b>Nur Hamzah</b></p>
 
 <br><br><br><br><br>
 <table>

@@ -66,21 +66,23 @@ class ProcurementController extends Controller
         // kode sale = inc/ so-phs/bln/thn
         // $increment = 1;
         // $increment++; //reset per bulan
-        $bln = Date('m');
+        $array_bln = array(1=>"I","II","III","IV","V","VI","VII","VIII","IX","X","XI","XII");
+        $bln = $array_bln[date('n')];
+        // $bln = Date('m');
         $thn = Date('y');
         $phs = 'SO-PHS';
-        $codesales = Procurement::where('CodeProcurement','like','%'. $bln.'/'.$thn)->count() + 1;
-        if ($codesales < 10) {
-            $codesales = '00' . $codesales;
-        } else if ($codesales >= 10) {
-            $codesales = '0' . $codesales;
+        $codeprocurement = Procurement::where('CodeProcurement','like','%'. $bln.'/'.$thn)->count() + 1;
+        if ($codeprocurement < 10) {
+            $codeprocurement = '00' . $codeprocurement;
+        } else if ($codeprocurement >= 10) {
+            $codeprocurement = '0' . $codeprocurement;
         }
         // ship date = tgl kirim
         // so from
         // ship to
         $procurement = new Procurement();
         $procurement->IdBom = $request->IdBom;
-        $procurement->CodeProcurement = $codesales.'/'.$phs.'/'.$bln.'/'.$thn;
+        $procurement->CodeProcurement = $codeprocurement.'/'.$phs.'/'.$bln.'/'.$thn;
         $procurement->FROMIdDepartement = $request->FROMIdDepartement;
         $procurement->TOIdDepartement = $request->TOIdDepartement;
         $procurement->DateProcurement = Carbon::now();

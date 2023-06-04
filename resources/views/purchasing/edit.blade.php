@@ -26,7 +26,8 @@ Edit Purchasing
                         <div>
                             {{-- form edit sales order --}}
                             @foreach($purchasingdetail as $purchasing)
-                            <form action="{{ route('purchasingupdate', $purchasing->IdPurchasingDetail) }}" method="POST">
+                            <form action="{{ route('purchasingupdate', $purchasing->IdPurchasingDetail) }}"
+                                method="POST">
                                 @csrf
                                 @method('put')
                                 <div class="form-group">
@@ -34,66 +35,82 @@ Edit Purchasing
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label>Priority</label>
-                                                     <select id="Priority" name="Priority" style="width: 100%" class="form-control form-control-sm select2">
-                                                            <option disabled selected>Select Priority</option>
-                                                            @foreach ($priority as $priority)
-                                                            <option value="{{ $priority->IdPriority }}">
-                                                                {{ $priority->NamePriority }}
-                                                            </option>
-                                                            @endforeach
-                                                        </select>
+                                                <select id="Priority" name="Priority" style="width: 100%"
+                                                    class="form-control form-control-sm select2">
+                                                    <option disabled selected>Select Priority</option>
+                                                    @foreach ($priority as $priority)
+                                                    <option value="{{ $priority->IdPriority }}">
+                                                        {{ $priority->NamePriority }}
+                                                    </option>
+                                                    @endforeach
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label>Qty</label>
-                                                <input type="text" class="form-control" id="Qty"
-                                                    placeholder="Qty" name="Qty"
-                                                    value="{{ $purchasing->Qty }}">
+                                                <input type="text" class="form-control" id="Qty" placeholder="Qty"
+                                                    name="Qty" value="{{ $purchasing->Qty }}">
                                             </div>
                                         </div>
 
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label>Unit</label>
-                                                    <select id="Unit" name="Unit" style="width: 100%" class="form-control form-control-sm select2">
-                                                            <option disabled selected>Select Unit</option>
-                                                            @foreach ($unit as $unit)
-                                                            <option value="{{ $unit->IdUnit }}">
-                                                                {{ $unit->NameUnit }}
-                                                            </option>
-                                                            @endforeach
-                                                        </select>
+                                                <select id="Unit" name="Unit" style="width: 100%"
+                                                    class="form-control form-control-sm select2">
+                                                    <option disabled selected>Select Unit</option>
+                                                    @foreach ($unit as $unit)
+                                                    <option value="{{ $unit->IdUnit }}">
+                                                        {{ $unit->NameUnit }}
+                                                    </option>
+                                                    @endforeach
+                                                </select>
                                             </div>
                                         </div>
-                                        
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label>Suplier</label>
+                                                <select id="IdSuplier" name="IdSuplier" style="width: 100%"
+                                                    class="form-control form-control-sm select2">
+                                                    <option disabled selected>Select Suplier</option>
+                                                    @foreach ($suplier as $suplier)
+                                                    <option value="{{ $suplier->IdSuplier }}">
+                                                        {{ $suplier->NamaSuplier }}
+                                                    </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <div class="row">
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label>Payment</label>
-                                                    <select id="IdPayment" name="IdPayment" style="width: 100%" class="form-control form-control-sm select2">
-                                                            <option disabled selected>Select Payment</option>
-                                                            @foreach ($payment as $pay)
-                                                            <option value="{{ $pay->IdPayment }}">
-                                                                {{ $pay->NamaPayment }}
-                                                            </option>
-                                                            @endforeach
-                                                        </select>
+                                                <select id="IdPayment" name="IdPayment" style="width: 100%"
+                                                    class="form-control form-control-sm select2">
+                                                    <option disabled selected>Select Payment</option>
+                                                    @foreach ($payment as $pay)
+                                                    <option value="{{ $pay->IdPayment }}">
+                                                        {{ $pay->NamaPayment }}
+                                                    </option>
+                                                    @endforeach
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="form-group">
-                                                <label>Suplier</label>
-                                                <select id="IdSuplier" name="IdSuplier" style="width: 100%" class="form-control form-control-sm select2">
-                                                            <option disabled selected>Select Suplier</option>
-                                                            @foreach ($suplier as $suplier)
-                                                            <option value="{{ $suplier->IdSuplier }}">
-                                                                {{ $suplier->NamaSuplier }}
-                                                            </option>
-                                                            @endforeach
-                                                        </select>
+                                                <label>To Departement</label>
+                                                <select id="TOIdDepartement" name="TOIdDepartement" style="width: 100%"
+                                                    class="form-control form-control-sm select2">
+                                                    <option disabled selected>Select Departement</option>
+                                                    @foreach ($departement as $depto)
+                                                    <option value="{{ $depto->IdDepartement }}">
+                                                        {{ $depto->NamaDepartement }}
+                                                    </option>
+                                                    @endforeach
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
@@ -102,30 +119,17 @@ Edit Purchasing
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label>From Departement</label>
-                                                    <select id="FROMIdDepartement" name="FROMIdDepartement" style="width: 100%" class="form-control form-control-sm select2">
-                                                            <option disabled selected>Select Departement</option>
-                                                            @foreach ($departement as $depfrom)
-                                                            <option value="{{ $depfrom->IdDepartement }}">
-                                                                {{ $depfrom->NamaDepartement }}
-                                                            </option>
-                                                            @endforeach
-                                                        </select>
+                                                <select id="FROMIdDepartement" name="FROMIdDepartement"
+                                                    style="width: 100%" class="form-control form-control-sm select2">
+                                                    <option disabled selected>Select Departement</option>
+                                                    @foreach ($departement as $depfrom)
+                                                    <option value="{{ $depfrom->IdDepartement }}">
+                                                        {{ $depfrom->NamaDepartement }}
+                                                    </option>
+                                                    @endforeach
+                                                </select>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6">
-                                            <div class="form-group">
-                                                <label>To Departement</label>
-                                                    <select id="TOIdDepartement" name="TOIdDepartement" style="width: 100%" class="form-control form-control-sm select2">
-                                                            <option disabled selected>Select Departement</option>
-                                                            @foreach ($departement as $depto)
-                                                            <option value="{{ $depto->IdDepartement }}">
-                                                                {{ $depto->NamaDepartement }}
-                                                            </option>
-                                                            @endforeach
-                                                        </select>
-                                            </div>
-                                        </div>
-
                                     </div>
 
                                 </div>
@@ -142,3 +146,33 @@ Edit Purchasing
 
 </main>
 @endsection
+@push('script')
+<script>
+    $(document).ready(function () {
+        $('#Priority').select2({
+            placeholder: "Select Priority"
+        });
+
+        $('#Unit').select2({
+            placeholder: "Select Unit"
+        });
+
+        $('#IdSuplier').select2({
+            placeholder: "Select Suplier"
+        });
+
+        $('#IdPayment').select2({
+            placeholder: "Select Payment"
+        });
+
+        $('#FROMIdDepartement').select2({
+            placeholder: "Select Departement"
+        });
+
+        $('#TOIdDepartement').select2({
+            placeholder: "Select Departement"
+        });
+    });
+
+</script>
+@endpush

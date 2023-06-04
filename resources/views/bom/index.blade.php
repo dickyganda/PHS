@@ -13,11 +13,11 @@ BOM
         <li class="breadcrumb-item active">Analytics Dashboard</li>
         <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
     </ol> --}}
-    
+
     <div class="row">
 
         <div class="col-lg-12">
-            
+
             <div id="panel-3" class="panel">
                 <div class="panel-hdr">
                     <h2>BOM</h2>
@@ -25,61 +25,64 @@ BOM
                 <div class="panel-container show">
                     <div class="panel-content">
                         <div>
-                        <table>
-            <tr>
-            <td>
-            <a href="/bom/create" class="btn btn-success btn-xs" title="Tambah Data Baru" role="button"><i class="fas fa-plus-circle"></i>Tambah</a>
-            </td>
-            </tr>
-            </table>
-                        <table id="dt-basic-example" class="table table-responsive table-bordered table-hover table-striped w-100">
-                            <thead>
+                            <table>
                                 <tr>
-                                    <th>No.</th>
-                                    <th>BomCode</th>
-                                    <th>BomDate</th>
-                                    <th>SBU</th>
-                                    <th>Holding</th>
-                                    <th>Product</th>
-                                    <th>Material</th>
-                                    <th>Qty</th>
-                                    <th>Price</th>
-                                    <th>Unit</th>
-                                    <th>Action</th>
-                                    
-
-                                </tr>
-                            </thead>
-                            <tbody height="10px">
-                                @php $i=1 @endphp
-                                @foreach ($bomdetail as $bom)
-                                <tr>
-                                    <td>{{ $i++ }}</td>
-                                    <td>{{ $bom->BomCode }}</td>
-                                    <td>{{ $carbon::parse($bom->BomDate)->format('d/m/Y H:i:s') }}</td>
-                                    <td>{{ $bom->Name }}</td>
-                                    <td>{{ $bom->NameHolding }}</td>
-                                    <td>{{ $bom->NameProduct }}</td>
-                                    <td>{{ $bom->MaterialName }}</td>
-                                    <td>@currency($bom->Qty)</td>
-                                    <td>@currency($bom->Price)</td>
-                                    <td>{{ $bom->NameUnit }}</td>
                                     <td>
-                                    <a href="/bom/edit/{{ $bom->IdBomDetail }}" class="btn btn-warning btn-xs" role="button">Edit</a>
-                                    
-                                    <form action= "/bom/delete/{{ $bom->IdBomDetail}}" method="post" >
-                            @csrf
-                            @method('put')
-                            <button type="submit" class="btn btn-danger btn-xs">Delete</button>
-                            </form>
+                                        <a href="/bom/create" class="btn btn-success btn-xs" title="Tambah Data Baru"
+                                            role="button"><i class="fas fa-plus-circle"></i>Tambah</a>
                                     </td>
-                                    
-                        </tr>
-                        @endforeach
-                        </tbody>
+                                </tr>
+                            </table>
+                            <table id="dt-basic-example"
+                                class="table table-responsive table-bordered table-hover table-striped w-100">
+                                <thead>
+                                    <tr>
+                                        <th>No.</th>
+                                        <th>BomCode</th>
+                                        <th>BomDate</th>
+                                        <th>SBU</th>
+                                        <th>Holding</th>
+                                        <th>Product</th>
+                                        <th>Material</th>
+                                        <th>Qty</th>
+                                        <th>Price</th>
+                                        <th>Unit</th>
+                                        <th>Action</th>
 
-                        </table>
-                        
+
+                                    </tr>
+                                </thead>
+                                <tbody height="10px">
+                                    @php $i=1 @endphp
+                                    @foreach ($bomdetail as $bom)
+                                    <tr>
+                                        <td>{{ $i++ }}</td>
+                                        <td>{{ $bom->BomCode }}</td>
+                                        <td>{{ $carbon::parse($bom->BomDate)->format('d/m/Y H:i:s') }}</td>
+                                        <td>{{ $bom->Name }}</td>
+                                        <td>{{ $bom->NameHolding }}</td>
+                                        <td>{{ $bom->NameProduct }}</td>
+                                        <td>{{ $bom->MaterialName }}</td>
+                                        <td>@currency($bom->Qty)</td>
+                                        <td>@currency($bom->Price)</td>
+                                        <td>{{ $bom->NameUnit }}</td>
+                                        <td>
+                                            <a href="/bom/edit/{{ $bom->IdBomDetail }}" class="btn btn-warning btn-xs"
+                                                role="button">Edit</a>
+
+                                            <form action="/bom/delete/{{ $bom->IdBomDetail}}" method="post">
+                                                @csrf
+                                                @method('put')
+                                                <button type="submit" class="btn btn-danger btn-xs">Delete</button>
+                                            </form>
+                                        </td>
+
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+
+                            </table>
+
                         </div>
                     </div>
                 </div>
@@ -99,7 +102,7 @@ BOM
             </div>
             
         </div> --}}
-        
+
 </main>
 
 <script src="{{asset('assets/js/vendors.bundle.js') }}"></script>
@@ -107,11 +110,12 @@ BOM
 <script src="{{asset('assets/js/datagrid/datatables/datatables.bundle.js') }}"></script>
 @push('script')
 <script>
-$(document).ready(function() {
-            $('#dt-basic-example').DataTable({
-                "order": []
-            });
+    $(document).ready(function () {
+        $('#dt-basic-example').DataTable({
+            "order": []
         });
+    });
+
 </script>
- @endpush
+@endpush
 @endsection

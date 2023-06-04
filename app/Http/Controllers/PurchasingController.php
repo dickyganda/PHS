@@ -85,8 +85,10 @@ class PurchasingController extends Controller
         // dd($user);
 
         $po = 'PO-PHS';
+        $array_bln = array(1=>"I","II","III","IV","V","VI","VII","VIII","IX","X","XI","XII");
+        $bln = $array_bln[date('n')];
+        // $bln = date('m');
         $thn = date('y');
-        $bln = date('m');
         $codepo = Purchasing::where('CodePurchasing','like','%'. $bln.'/'.$thn)->count() + 1;
         if ($codepo < 10) {
             $codepo = '00' . $codepo;

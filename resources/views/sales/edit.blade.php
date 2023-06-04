@@ -30,98 +30,60 @@ Edit Sales Order
                         @csrf
                         @method('put')
                         <div class="form-group">
-      {{-- <label>ID BOM</label> --}}
-      {{-- <div class="row">
-      <div class="col-lg-6">
-    <div class="form-group">
-      <label>ID Sales</label>
-      <input type="text" class="form-control" id="IdSalesFK" placeholder="ID Sales" name="IdSalesFK">
-    </div>
-    </div>
-      </div> --}}
     <div class="row">
-    {{-- <div class="col-lg-6">
+    <div class="col-sm-6">
     <div class="form-group">
-      <label>ID User</label>
-      <input type="text" class="form-control" id="IdUserFK" placeholder="User" name="IdUserFK">
-    </div>
-    </div> --}}
-    <div class="col-lg-6">
-    <div class="form-group">
-      <label>TOIdDepartementFK</label>
-      {{-- <input type="text" class="form-control" id="TOIdDepartementFK" placeholder="TOIdDepartementFK" name="TOIdDepartementFK" value="{{ $salesdetail->TOIdDepartement }}"> --}}
-      {{-- <select id="TOIdDepartement" name="TOIdDepartement" style="width: 100%" class="form-control form-control-sm select2">
+      <label>TO Departement</label>
+      <select id="TOIdDepartement" name="TOIdDepartement" style="width: 100%" class="form-control form-control-sm select2">
                                                             <option disabled selected>Select Departement</option>
-                                                            @foreach ($salesdetail as $sale)
-                                                            <option value="{{ $sale->TOIdDepartement }}">
-                                                                {{ $sale->TOIdDepartement }}
+                                                            @foreach ($departement as $depto)
+                                                            <option value="{{ $depto->IdDepartement }}">
+                                                                {{ $depto->NamaDepartement }}
                                                             </option>
                                                             @endforeach
-                                                        </select> --}}
-
-      <input type="text" class="form-control" id="TOIdDepartement" placeholder="TOIdDepartement" name="TOIdDepartement" value="{{ $sales->TOIdDepartement }}">
+                                                        </select>
 
     </div>
     </div>
-    </div>
-    <div class="row">
-    <div class="col-lg-6">
-    <div class="form-group">
-      <label>FROMIdDepartementFK</label>
-      <input type="text" class="form-control" id="FROMIdDepartement" placeholder="FROMIdDepartement" name="FROMIdDepartement" value="{{ $sales->FROMIdDepartement }}">
-    </div>
-    </div>
-    {{-- <div class="col-lg-6">
-    <div class="form-group">
-      <label for="pwd">CreatedBy</label>
-      <input type="text" class="form-control" id="CreatedBy" placeholder="CreatedBy" name="CreatedBy">
-    </div>
-    </div> --}}
-    </div>
-    <div class="row">
-    <div class="col-lg-6">
-    <div class="form-group">
-      <label for="pwd">CheckedBy</label>
-      <input type="text" class="form-control" id="CheckedBy" placeholder="CheckedBy" name="CheckedBy" value="{{ $sales->CheckedBy }}">
-    </div>
-    </div>
-    <div class="col-lg-6">
-    <div class="form-group">
-      <label>ApprovedBy</label>
-      <input type="text" class="form-control" id="ApprovedBy" placeholder="ApprovedBy" name="ApprovedBy" value="{{ $sales->ApprovedBy }}">
-    </div>
-    </div>
-    </div>
-    <div class="row">
-    {{-- <div class="col-lg-6">
-    <div class="form-group">
-      <label>DateRequired</label>
-      <input type="date" class="form-control" id="DateRequired" placeholder="DateRequired" name="DateRequired" value="{{ $salesdetail->DateRequired }}">
-    </div>
-    </div> --}}
-    {{-- <div class="col-lg-6">
-    <div class="form-group">
-      <label>PaymentDate</label>
-      <input type="date" class="form-control" id="PaymentDate" placeholder="PaymentDate" name="PaymentDate" value="{{ $salesdetail->PaymentDate }}">
-    </div>
-    </div> --}}
-    </div>
-    <div class="row">
-    {{-- <div class="col-lg-6">
-    <div class="form-group">
-      <label>IdPaymentFK</label>
-      <input type="text" class="form-control" id="IdPaymentFK" placeholder="IdPaymentFK" name="IdPaymentFK">
-    </div>
-    </div> --}}
-    {{-- <div class="col-lg-6">
-    <div class="form-group">
-      <label>IdSuplierFK</label>
-      <input type="text" class="form-control" id="IdSuplierFK" placeholder="IdSuplierFK" name="IdSuplierFK">
-    </div>
-    </div> --}}
+
+    <div class="col-sm-6">
+      <div class="form-group">
+        <label>FROMIdDepartement</label>
+        <select id="FROMIdDepartement" name="FROMIdDepartement" style="width: 100%" class="form-control form-control-sm select2">
+          <option disabled selected>Select Departement</option>
+          @foreach ($departement as $depfrom)
+          <option value="{{ $depfrom->IdDepartement }}">
+              {{ $depfrom->NamaDepartement }}
+          </option>
+          @endforeach
+      </select>
+      </div>
+      </div>
     </div>
 
-      {{-- <input type="text" class="form-control" id="IdSales" placeholder="" name="IdSales" hidden> --}}
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="form-group">
+          <label>Qty</label>
+          <input type="text" class="form-control" id="Qty" placeholder="Qty" name="Qty" value="{{ $sales->Qty }}">
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="form-group">
+          <label>Unit</label>
+          <select id="IdUnit" name="IdUnit" style="width: 100%" class="form-control form-control-sm select2">
+            <option disabled selected>Select Unit</option>
+            @foreach ($unit as $unit)
+            <option value="{{ $unit->IdUnit }}">
+                {{ $unit->NameUnit }}
+            </option>
+            @endforeach
+        </select>
+        </div>
+      </div>
+
+    </div>
+
     </div>
     
     <button type="submit" class="btn btn-default">Submit</button>
@@ -151,6 +113,18 @@ Edit Sales Order
 @endsection
 @push('script')
 <script>
-   
+   $(document).ready(function () {
+        $('#IdUnit').select2({
+            placeholder: "Select Unit"
+        });
+
+        $('#FROMIdDepartement').select2({
+            placeholder: "Select Departement"
+        });
+
+        $('#TOIdDepartement').select2({
+            placeholder: "Select Departement"
+        });
+    });
 </script>
 @endpush

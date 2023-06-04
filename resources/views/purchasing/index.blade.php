@@ -74,7 +74,6 @@ Purchasing
                                     <td>{{ $purchasing->NameUnit }}</td>
                                     <td>@currency($purchasing->Price)</td>
                                     <td>@currency($purchasing->Total)</td>
-                                    {{-- <td>{{ $purchasing->CreatedAt }}</td> --}}
                         <td>
                         <a href="/purchasing/printpurchasingorder/{{$purchasing->IdPurchasing}}" title="Print" class="btn btn-primary btn-xs" role="button"><i class="fas fa-print"></i> Print</a>
                             <a href="/purchasing/edit/{{ $purchasing->IdPurchasingDetail }}" title="Edit" class="btn btn-warning btn-xs" role="button"><i class="fas fa-pen"></i> Edit</a>

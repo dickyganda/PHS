@@ -20,7 +20,6 @@ class BomController extends Controller
     public function index()
     {
         // menampilkan data build of material
-
         $bomdetail = DB::table('m_bom')
         ->leftJoin('m_bom_detail', 'm_bom_detail.IdBom', '=', 'm_bom.IdBom')
         ->leftJoin('m_sbu', 'm_sbu.IdSbu', '=', 'm_bom.IdSbu')
@@ -41,12 +40,10 @@ class BomController extends Controller
     public function create()
     {
         $sales = DB::table('m_sales')
-        // ->join('m_harga', 'm_harga.IdHarga', '=', 'm_product.IdHarga')
         ->get();
 
         // mengambil nama product
         $material = DB::table('m_material')
-        // ->join('m_harga', 'm_harga.IdHarga', '=', 'm_product.IdHarga')
         ->get();
         
         // mengambil nama departement
@@ -108,7 +105,6 @@ class BomController extends Controller
             $bomdetail->save();
         }
 
-        // return redirect('/bom/index')->with('success', 'Data Berhasil Ditambahkan');
         return response()->json(array('status' => 'success', 'reason' => 'Sukses Tambah Data'));
     }
 
@@ -136,9 +132,6 @@ class BomController extends Controller
         ->where('IdBomDetail',$IdBomDetail)->get();
         // dd($bomdetail);
 
-        // $sales = DB::table('m_sales')
-        // ->get();
-
         // mengambil nama product
         $material = DB::table('m_material')
         ->get();
@@ -161,7 +154,6 @@ class BomController extends Controller
         return view('bom.edit', [
             'bomdetail' => $bomdetail,
             'sbu' => $sbu,
-            // 'sales' => $sales,
             'material' => $material,
             'holding' => $holding,
             'product' => $product,
@@ -179,16 +171,13 @@ class BomController extends Controller
         DB::table('m_bom')
         ->leftJoin('m_bom_detail', 'm_bom_detail.IdBom', '=', 'm_bom.IdBom')
         ->where('IdBomDetail',$IdBomDetail)->update([
-            // 'IdMaterial' => $request->IdMaterial,
-            'IdSbu' => $request->IdSbu,
-            'IdHolding' => $request->IdHolding,
-            'IdProduct' => $request->IdProduct,
-            'IdMaterial' => $request->IdMaterial,
-            'IdUnit' => $request->IdUnit,
-            'Qty' => $request->Qty,
-            'Price' => $request->Price,
-            'm_bom.UpdatedAt' => date('Y-m-d h:i:s'),
-            'm_bom_detail.UpdatedAt' => date('Y-m-d h:i:s')
+            'm_bom.IdSbu' => $request->IdSbu,
+            'm_bom.IdHolding' => $request->IdHolding,
+            'm_bom_detail.IdUnit' => $request->IdUnit,
+            'm_bom_detail.Qty' => $request->Qty,
+            'm_bom_detail.Price' => $request->Price,
+            'm_bom.UpdatedAt' => Carbon::now(),
+            'm_bom_detail.UpdatedAt' => Carbon::now(),
         ]);
 
         // dd($request);
@@ -202,14 +191,10 @@ class BomController extends Controller
     public function destroy($IdBomDetail)
     {
         //
-        // DB::table('m_bom_detail')->where('IdBomDetail',$IdBomDetail)->update([
-        //     'DeletedAt' => Carbon::now(),
-        // ]);
-
         $bom_detail = DB::table('m_bom_detail')->where('IdBomDetail', $IdBomDetail);
         $id_penjualan = $bom_detail->first('IdBom');
         $bom_detail->update([
-            'DeletedAt' => date('Y-m-d h:i:s')
+            'DeletedAt' => Carbon::now()
         ]);
 
         return redirect('/bom/index')->with('success', 'Data Berhasil Dihapus');

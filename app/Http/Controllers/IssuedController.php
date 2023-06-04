@@ -72,7 +72,9 @@ class IssuedController extends Controller
         // dd($user);
 
         $sj = 'SJ-PHS';
-        $bln = Date('m');
+        // $bln = Date('m');
+        $array_bln = array(1=>"I","II","III","IV","V","VI","VII","VIII","IX","X","XI","XII");
+        $bln = $array_bln[date('n')];
         $thn = Date('y');
         $codeissued = Issued::where('CodeIssued','like','%'. $bln.'/'.$thn)->count() + 1;
         if ($codeissued < 10) {

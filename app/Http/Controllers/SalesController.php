@@ -78,8 +78,10 @@ class SalesController extends Controller
         // kode sale = inc/ so-phs/bln/thn
         // $increment = 1;
         // $increment++; //reset per bulan
+        $array_bln = array(1=>"I","II","III","IV","V","VI","VII","VIII","IX","X","XI","XII");
+        $bln = $array_bln[date('n')];
         $so = 'SO-PHS';
-        $bln = Date('m');
+        // $bln = Date('m');
         $thn = Date('y');
         $codesales = Sales::where('CodeSales','like','%'. $bln.'/'.$thn)->count() + 1;
         if ($codesales < 10) {
@@ -192,22 +194,38 @@ class SalesController extends Controller
 
     public function edit($IdSalesDetail)
     {
+        $departement = DB::table('m_departement')
+        ->get();
+
+        $unit = DB::table('m_unit')
+        ->get();
+
         $salesdetail = DB::table('m_sales_detail')->where('IdSalesDetail',$IdSalesDetail)->get();
 
         return view('sales.edit', [
-            'salesdetail' => $salesdetail
+            'salesdetail' => $salesdetail,
+            'departement' => $departement,
+            'unit' => $unit
         ]);
 
     }
 
     public function update(Request $request, $IdSalesDetail)
 {
-	DB::table('m_sales_detail')->where('IdSalesDetail',$IdSalesDetail)->update([
-		'FROMIdDepartement' => $request->FROMIdDepartement,
-		'TOIdDepartement' => $request->TOIdDepartement,
-		'm_sales_detail.CheckedBy' => $request->CheckedBy,
-		'ApprovedBy' => $request->ApprovedBy,
-        'UpdatedAt' => date('Y-m-d h:i:s')
+    // $dataharga = DB::table('m_harga')
+    //     ->where('HargaSatuan', '=', $request->IdHarga)
+    //     ->first();
+
+	DB::table('m_sales')
+    ->leftJoin('m_sales_detail', 'm_sales_detail.IdSales', '=', 'm_sales.IdSales')
+    ->where('IdSalesDetail',$IdSalesDetail)->update([
+		'm_sales_detail.FROMIdDepartement' => $request->FROMIdDepartement,
+		'm_sales_detail.TOIdDepartement' => $request->TOIdDepartement,
+		'm_sales_detail.Qty' => $request->Qty,
+		// 'm_sales_detail.Amount' => ($request->Qty * $dataharga->IdHarga),
+		'm_sales_detail.IdUnit' => $request->IdUnit,
+        'm_sales_detail.UpdatedAt' => Carbon::now(),
+        'm_sales.UpdatedAt' => Carbon::now(),
 	]);
 
     // dd($request);

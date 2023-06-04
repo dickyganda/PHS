@@ -26,7 +26,8 @@ Edit Procurement
                         <div>
                             {{-- form edit sales order --}}
                             @foreach($procurementdetail as $procurement)
-                            <form action="{{ route('procurementupdate', $procurement->IdProcurementDetail) }}" method="POST">
+                            <form action="{{ route('procurementupdate', $procurement->IdProcurementDetail) }}"
+                                method="POST">
                                 @csrf
                                 @method('put')
                                 <div class="form-group">
@@ -34,53 +35,47 @@ Edit Procurement
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label>Material</label>
-                                                     <select id="IdMaterial" name="IdMaterial" style="width: 100%" class="form-control form-control-sm select2">
-                                                            <option disabled selected>Select Material</option>
-                                                            @foreach ($material as $material)
-                                                            <option value="{{ $material->IdMaterial }}">
-                                                                {{ $material->MaterialName }}
-                                                            </option>
-                                                            @endforeach
-                                                        </select>
+                                                <select id="IdMaterial" name="IdMaterial" style="width: 100%"
+                                                    class="form-control form-control-sm select2">
+                                                    <option disabled selected>Select Material</option>
+                                                    @foreach ($material as $material)
+                                                    <option value="{{ $material->IdMaterial }}">
+                                                        {{ $material->MaterialName }}
+                                                    </option>
+                                                    @endforeach
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label>Qty</label>
-                                                <input type="text" class="form-control" id="Qty"
-                                                    placeholder="Qty" name="Qty"
-                                                    value="{{ $procurement->Qty }}">
+                                                <input type="text" class="form-control" id="Qty" placeholder="Qty"
+                                                    name="Qty" value="{{ $procurement->Qty }}">
                                             </div>
                                         </div>
 
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label>Unit</label>
-                                                {{-- <input type="text" class="form-control" id="IdUnit"
-                                                    placeholder="Unit" name="IdUnit"
-                                                    value="{{ $bom->IdUnit }}"> --}}
-                                                    <select id="Unit" name="Unit" style="width: 100%" class="form-control form-control-sm select2">
-                                                            <option disabled selected>Select Unit</option>
-                                                            @foreach ($unit as $unit)
-                                                            <option value="{{ $unit->IdUnit }}">
-                                                                {{ $unit->NameUnit }}
-                                                            </option>
-                                                            @endforeach
-                                                        </select>
+                                                <select id="Unit" name="Unit" style="width: 100%"
+                                                    class="form-control form-control-sm select2">
+                                                    <option disabled selected>Select Unit</option>
+                                                    @foreach ($unit as $unit)
+                                                    <option value="{{ $unit->IdUnit }}">
+                                                        {{ $unit->NameUnit }}
+                                                    </option>
+                                                    @endforeach
+                                                </select>
                                             </div>
                                         </div>
-                                        
-                                    </div>
-
-                                    <div class="row">
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label>Price</label>
-                                                <input type="text" class="form-control" id="Price"
-                                                    placeholder="Price" name="Price"
-                                                    value="{{ $procurement->Price }}">
+                                                <input type="text" class="form-control" id="Price" placeholder="Price"
+                                                    name="Price" value="{{ $procurement->Price }}">
                                             </div>
                                         </div>
+
                                     </div>
 
                                 </div>
@@ -94,6 +89,23 @@ Edit Procurement
             </div>
         </div>
 
-
 </main>
 @endsection
+@push('script')
+<script>
+    $(document).ready(function () {
+        $('#IdMaterial').select2({
+            placeholder: "Select Material"
+        });
+
+        $('#IdUnit').select2({
+            placeholder: "Select Unit"
+        });
+
+        $('#Unit').select2({
+            placeholder: "Select Unit"
+        });
+    });
+
+</script>
+@endpush

@@ -81,7 +81,6 @@ class SalesController extends Controller
         $array_bln = array(1=>"I","II","III","IV","V","VI","VII","VIII","IX","X","XI","XII");
         $bln = $array_bln[date('n')];
         $so = 'SO-PHS';
-        // $bln = Date('m');
         $thn = Date('y');
         $codesales = Sales::where('CodeSales','like','%'. $bln.'/'.$thn)->count() + 1;
         if ($codesales < 10) {
@@ -89,15 +88,14 @@ class SalesController extends Controller
         } else if ($codesales >= 10) {
             $codesales = '0' . $codesales;
         }
-        // ship date = tgl kirim
-        // so from
-        // ship to
+
         $sales = new Sales();
         $sales->IdUser = $request->session()->get('IdUser', $user->IdUser);
         $sales->CodeSales = $codesales.'/'.$so.'/'.$bln.'/'.$thn;
         $sales->ShipDate = $request->ShipDate;
         $sales->SOFrom = $request->SOFrom;
         $sales->ShipTo = $request->ShipTo;
+        $sales->StatusSales = 0;
         $sales->CreatedBy = $request->session()->get('IdUser', $user->IdUser);
         $sales->CreatedAt = Carbon::now();
         $sales->save();
@@ -121,6 +119,9 @@ class SalesController extends Controller
             $salesdetail->IdSuplier = $request->IdSuplier[$key];
             $salesdetail->Qty = $request->Qty[$key];
             $salesdetail->IdHarga = $dataharga->IdHarga;
+            $salesdetail->Amount = $request->Amount[$key];
+            $salesdetail->StatusChecked = '0'[$key];
+            $salesdetail->StatusApproved = '0'[$key];
             $salesdetail->Amount = $request->Amount[$key];
             $salesdetail->CreatedAt = Carbon::now();
             $salesdetail->save();
@@ -246,5 +247,45 @@ public function destroy($IdSalesDetail)
     return redirect('/sales/index')->with('success', 'Data Berhasil Dihapus');
     
 }
+
+public function checked(Request $request, $IdSalesDetail)
+{
+    $user = DB::table('m_user')
+        ->first();
+
+	DB::table('m_sales')
+    ->leftJoin('m_sales_detail', 'm_sales_detail.IdSales', '=', 'm_sales.IdSales')
+    ->where('IdSalesDetail',$IdSalesDetail)->update([
+		'm_sales_detail.StatusChecked' => 1,
+		'm_sales_detail.CheckedBy' => $request->session()->get('IdUser', $user->IdUser),
+		'm_sales_detail.UpdatedAt' => Carbon::now(),
+	]);
+
+    // dd($SalesChecked);
+
+    return redirect('/sales/index')->with('success', 'Data Berhasil Diupdate');
+    
+}
+
+public function approved(Request $request, $IdSalesDetail)
+{
+    $user = DB::table('m_user')
+        ->first();
+
+	$SalesApproved = DB::table('m_sales')
+    ->leftJoin('m_sales_detail', 'm_sales_detail.IdSales', '=', 'm_sales.IdSales')
+    ->where('IdSalesDetail',$IdSalesDetail)->update([
+		'm_sales_detail.StatusApproved' => 1,
+		'm_sales_detail.ApprovedBy' => $request->session()->get('IdUser', $user->IdUser),
+		'm_sales_detail.UpdatedAt' => Carbon::now(),
+	]);
+
+    // dd($SalesApproved);
+
+    return redirect('/sales/index')->with('success', 'Data Berhasil Diupdate');
+    
+}
+
+
 
 }

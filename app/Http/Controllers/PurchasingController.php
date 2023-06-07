@@ -124,6 +124,8 @@ class PurchasingController extends Controller
             $purchasingdetail->Price = $request->Price[$key];
             $purchasingdetail->Total = $request->Total[$key];
             $purchasingdetail->Priority = $request->Priority[$key];
+            $purchasingdetail->StatusChecked = '0'[$key];
+            $purchasingdetail->StatusApproved = '0'[$key];
             $purchasingdetail->CreatedAt = Carbon::now();
             $purchasingdetail->save();
         }
@@ -269,5 +271,43 @@ class PurchasingController extends Controller
         ]);
 
     }
+
+    public function checked(Request $request, $IdPurchasingDetail)
+{
+    $user = DB::table('m_user')
+        ->first();
+
+	DB::table('m_purchasing')
+    ->leftJoin('m_purchasing_detail', 'm_purchasing_detail.IdPurchasing', '=', 'm_purchasing.IdPurchasing')
+    ->where('IdPurchasingDetail',$IdPurchasingDetail)->update([
+		'm_purchasing_detail.StatusChecked' => 1,
+		'm_purchasing_detail.CheckedBy' => $request->session()->get('IdUser', $user->IdUser),
+		'm_purhasing_detail.UpdatedAt' => Carbon::now(),
+	]);
+
+    // dd($SalesChecked);
+
+    return redirect('/sales/index')->with('success', 'Data Berhasil Diupdate');
+    
+}
+
+public function approved(Request $request, $IdPurchasingDetail)
+{
+    $user = DB::table('m_user')
+        ->first();
+
+	DB::table('m_purchasing')
+    ->leftJoin('m_purchasing_detail', 'm_purchasing_detail.IdPurchasing', '=', 'm_purchasing.IdPurchasing')
+    ->where('IdPurchasingDetail',$IdPurchasingDetail)->update([
+		'm_purchasing_detail.StatusApproved' => 1,
+		'm_purchasing_detail.ApprovedBy' => $request->session()->get('IdUser', $user->IdUser),
+		'm_purhasing_detail.UpdatedAt' => Carbon::now(),
+	]);
+
+    // dd($SalesChecked);
+
+    return redirect('/sales/index')->with('success', 'Data Berhasil Diupdate');
+    
+}
 
 }

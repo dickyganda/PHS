@@ -40,6 +40,7 @@ class BomController extends Controller
     public function create()
     {
         $sales = DB::table('m_sales')
+        ->where('StatusSales', '=', 0)
         ->get();
 
         // mengambil nama product
@@ -104,6 +105,13 @@ class BomController extends Controller
             $bomdetail->CreatedAt = Carbon::now();
             $bomdetail->save();
         }
+
+        DB::table('m_sales')
+        ->leftJoin('m_sales_detail', 'm_sales_detail.IdSales', '=', 'm_sales.IdSales')
+        ->where('IdSalesDetail',$request->IdSalesDetail)->update([
+            'm_sales.StatusSales' => 1,
+            'm_sales.UpdatedAt' => Carbon::now(),
+        ]);
 
         return response()->json(array('status' => 'success', 'reason' => 'Sukses Tambah Data'));
     }

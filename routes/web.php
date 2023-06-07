@@ -9,6 +9,7 @@ use App\Http\Controllers\PurchasingController;
 use App\Http\Controllers\IssuedController;
 use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\MenuController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,6 +44,8 @@ Route::controller(AuthController::class)->group(function() {
     Route::get('/logout', 'logout')->name('logout');
 });
 
+Route::get('/layouts/sidebar', [MenuController::class, 'index'])->name('menu');
+
 Route::get('/dashboard/index', [DashboardController::class, 'index'])->name('dashboard');
 
 Route::get('/sales/index', [SalesController::class, 'index'])->name('salesindex');
@@ -51,6 +54,8 @@ Route::post('/sales/store', [SalesController::class, 'store'])->name('salesstore
 Route::get('/sales/edit/{IdSalesDetail}', [SalesController::class, 'edit'])->name('salesedit');
 Route::put('/sales/update/{IdSalesDetail}', [SalesController::class, 'update'])->name('salesupdate');
 Route::put('/sales/delete/{IdSalesDetail}', [SalesController::class, 'destroy'])->name('salesdestroy');
+Route::put('/sales/checked/{IdSalesDetail}', [SalesController::class, 'checked'])->name('saleschecked');
+Route::put('/sales/approved/{IdSalesDetail}', [SalesController::class, 'approved'])->name('salesapproved');
 Route::post('/sales/getproduct', [SalesController::class, 'getproduct']);
 Route::get('/sales/printsalesorder/{IdSales}', [SalesController::class, 'printsalesorder'])->name('salesprint');
 
@@ -74,6 +79,8 @@ Route::post('/purchasing/store', [PurchasingController::class, 'store'])->name('
 Route::get('/purchasing/edit/{IdPurchasingDetail}', [PurchasingController::class, 'edit'])->name('purchasingedit');
 Route::put('/purchasing/update/{IdPurchasingDetail}', [PurchasingController::class, 'update'])->name('purchasingupdate');
 Route::put('/purchasing/delete/{IdPurchasingDetail}', [PurchasingController::class, 'destroy'])->name('purchasingdestroy');
+Route::put('/purchasing/checked/{IdPurchasingDetail}', [PurchasingController::class, 'checked'])->name('purchasingchecked');
+Route::put('/purchasing/approved/{IdPurchasingDetail}', [PurchasingController::class, 'approved'])->name('purchasingapproved');
 Route::get('/purchasing/printpurchasingorder/{IdPurchasing}', [PurchasingController::class, 'printpurchasingorder'])->name('purchasingprint');
 
 Route::get('/issued/index', [IssuedController::class, 'index'])->name('issuedindex');

@@ -83,9 +83,38 @@ Purchasing
                             @method('put')
                             <button type="submit" class="btn btn-danger btn-xs">Delete</button>
                             </form>
-                            <a href="" title="Edit" class="btn btn-warning btn-xs" role="button"><i class="fas fa-pen"></i>Check</a>
-                            <a href="" title="Edit" class="btn btn-success btn-xs" role="button"><i class="fas fa-pen"></i>Approve</a>
 
+                            @if($purchasing->StatusChecked == 0)
+                            <form action="/purchasing/checked/{{ $purchasing->IdPurchasingDetail}}" method="post">
+                                @csrf
+                                @method('put')
+                                <button type="submit" class="btn btn-warning btn-xs">Checked</button>
+                            </form>
+
+                            <form action="/purchasing/approved/{{ $purchasing->IdPurchasingDetail}}" method="post">
+                                <button type="submit" class="btn btn-primary btn-xs" hidden>Approved</button>
+                            </form>
+                            @endif
+
+                        @if($purchasing->StatusChecked == 1 && $purchasing->StatusApproved == 0 )
+                            <form action="/purchasing/checked/{{ $purchasing->IdPurchasingDetail}}" method="post">
+                                <button type="submit" class="btn btn-warning btn-xs" hidden>Checked</button>
+                            </form>
+                            <form action="/purchasing/approved/{{ $purchasing->IdPurchasingDetail}}" method="post">
+                                @csrf
+                                @method('put')
+                                <button type="submit" class="btn btn-primary btn-xs">Approved</button>
+                            </form>
+                            @endif
+
+                            @if($purchasing->StatusChecked == 1 && $purchasing->StatusApproved == 1)
+                            <form action="/purchasing/checked/{{ $purchasing->IdPurchasingDetail}}" method="post">
+                                <button type="submit" class="btn btn-warning btn-xs" hidden>Checked</button>
+                            </form>
+                            <form action="/purchasing/approved/{{ $purchasing->IdPurchasingDetail}}" method="post">
+                                <button type="submit" class="btn btn-primary btn-xs" hidden>Approved</button>
+                            </form>
+                            @endif
                         </td>
                         </tr>
                         @endforeach

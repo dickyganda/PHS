@@ -35,8 +35,8 @@ Insert Sales Order
                                             <select id="SOFrom" name="SOFrom" style="width: 100%"
                                                 class="form-control form-control-sm select2">
                                                 <option disabled selected>Select SO From</option>
-                                                @foreach ($buyer as $buy)
-                                                <option value="{{ $buy->IdBuyer }}">
+                                                @foreach ($buyerholding as $buy)
+                                                <option value="{{ $buy->IdBuyerHolding }}">
                                                     {{ $buy->NamaBuyer }}
                                                 </option>
                                                 @endforeach
@@ -49,8 +49,8 @@ Insert Sales Order
                                             <select id="ShipTo" name="ShipTo" style="width: 100%"
                                                 class="form-control form-control-sm select2">
                                                 <option disabled selected>Select Ship To</option>
-                                                @foreach ($buyer as $buy)
-                                                <option value="{{ $buy->IdBuyer }}">
+                                                @foreach ($buyerholding as $buy)
+                                                <option value="{{ $buy->IdBuyerHolding }}">
                                                     {{ $buy->NamaBuyer }}
                                                 </option>
                                                 @endforeach
@@ -63,7 +63,7 @@ Insert Sales Order
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label>Ship Date</label>
-                                            <input type="date" class="form-control" id="ShipDate" placeholder="ShipDate"
+                                            <input type="datetime-local" class="form-control" id="ShipDate" placeholder="ShipDate"
                                                 name="ShipDate">
                                         </div>
                                     </div>

@@ -54,13 +54,13 @@ Insert Purchasing
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div class="form-group">
-                                            <label>Code Procurement</label>
-                                            <select id="IdProcurement" name="IdProcurement" style="width: 100%"
+                                            <label>Code Sales</label>
+                                            <select id="IdSales" name="IdSales" style="width: 100%"
                                                 class="form-control form-control-sm select2">
-                                                <option disabled selected>Select Procurement</option>
-                                                @foreach ($procurement as $procurement)
-                                                <option value="{{ $procurement->IdProcurement }}">
-                                                    {{ $procurement->CodeProcurement }}
+                                                <option disabled selected>Select Code Sales</option>
+                                                @foreach ($sales as $sales)
+                                                <option value="{{ $sales->IdSales }}">
+                                                    {{ $sales->CodeSales }}
                                                 </option>
                                                 @endforeach
                                             </select>
@@ -119,6 +119,20 @@ Insert Purchasing
                                             <label>Payment Date</label>
                                             <input type="date" class="form-control" id="DateRequired"
                                                 placeholder="DateRequired" name="DateRequired">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Suplier</label>
+                                            <select id="IdSuplier" name="IdSuplier" style="width: 100%"
+                                                class="form-control form-control-sm select2">
+                                                <option disabled selected>Select Suplier</option>
+                                                @foreach ($suplier as $suplier)
+                                                <option value="{{ $suplier->IdSuplier }}">
+                                                    {{ $suplier->NamaSuplier }}
+                                                </option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
@@ -255,8 +269,8 @@ Insert Purchasing
             placeholder: "Select BOM"
         });
 
-        $('#IdProcurement').select2({
-            placeholder: "Select Procurement"
+        $('#IdSales').select2({
+            placeholder: "Select Sales"
         });
 
         $('#FROMIdDepartement').select2({
@@ -269,6 +283,10 @@ Insert Purchasing
 
         $('#IdPayment').select2({
             placeholder: "Select Payment"
+        });
+
+        $('#IdSuplier').select2({
+            placeholder: "Select Suplier"
         });
     });
 

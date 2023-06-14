@@ -31,7 +31,7 @@ class FinanceController extends Controller
         ->leftJoin('m_user', 'm_user.IdUser', '=', 'm_invoice.IdUser')
         ->leftJoin('m_sales', 'm_sales.IdSales', '=', 'm_invoice.IdSales')
         ->leftJoin('m_issued', 'm_issued.IdIssued', '=', 'm_invoice.IdIssued')
-        ->where('m_invoice_detail.DeletedAt', '=', null)
+        ->where('m_invoice_detail.StatusDeleted', '=', 0)
         ->get();
 
         return view('finance.index', compact('financedetail'));
@@ -63,10 +63,20 @@ class FinanceController extends Controller
        $unit = DB::table('m_unit')
        ->get();
        
-       $buyer = DB::table('m_buyer')
+       $buyerholding = DB::table('m_buyer_holding')
        ->get();
 
-       return view('finance.create', compact('product','departement','payment','suplier','unit','buyer'));
+       $sales = DB::table('m_sales')
+        ->where([
+            ['StatusSales', '=', '0'],
+        ['StatusDeleted', '=', '0'],
+        ])
+        ->get();
+
+       $issued = DB::table('m_issued')
+       ->get();
+
+       return view('finance.create', compact('product','departement','payment','suplier','unit','buyerholding','sales','issued'));
 
     }
 
@@ -103,6 +113,7 @@ class FinanceController extends Controller
         $invoice->SOFrom = $request->SOFrom;
         $invoice->InvoiceTo = $request->InvoiceTo;
         $invoice->DueDate = $request->DueDate;
+        $invoice->StatusDeleted = 0;
         $invoice->CreatedBy = $request->session()->get('IdUser', $user->IdUser);
         $invoice->CreatedAt = Carbon::now();
         $invoice->save();
@@ -126,6 +137,7 @@ class FinanceController extends Controller
             $invoicedetail->Qty = $request->Qty[$key];
             $invoicedetail->IdHarga = $dataharga->IdHarga;
             $invoicedetail->Amount = $request->Amount[$key];
+            $invoicedetail->StatusDeleted = '0'[$key];
             $invoicedetail->CreatedAt = Carbon::now();
             $invoicedetail->save();
         }
@@ -208,6 +220,7 @@ class FinanceController extends Controller
         $id_invoice = $invoice_detail->first('IdInvoice');
         $invoice_detail->update([
             'DeletedAt' => Carbon::now(),
+            'StatusDeleted' => 1,
         ]);
 
     return redirect('/finance/index')->with('success', 'Data Berhasil Dihapus');

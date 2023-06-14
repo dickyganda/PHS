@@ -30,12 +30,42 @@ Insert Invoice
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div class="form-group">
+                                            <label>Code Sales</label>
+                                            <select id="IdSales" name="IdSales" style="width: 100%"
+                                                class="form-control form-control-sm select2">
+                                                <option disabled selected>Select Code Sales</option>
+                                                @foreach ($sales as $sales)
+                                                <option value="{{ $sales->IdSales }}">
+                                                    {{ $sales->CodeSales }}
+                                                </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Code Surat Jalan</label>
+                                            <select id="IdIssued" name="IdIssued" style="width: 100%"
+                                                class="form-control form-control-sm select2">
+                                                <option disabled selected>Select Code Issued</option>
+                                                @foreach ($issued as $issued)
+                                                <option value="{{ $issued->IdIssued }}">
+                                                    {{ $issued->CodeIssued }}
+                                                </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
                                             <label>Sales From</label>
                                             <select id="SOFrom" name="SOFrom" style="width: 100%"
                                                 class="form-control form-control-sm select2">
                                                 <option disabled selected>Select SO From</option>
-                                                @foreach ($buyer as $buy)
-                                                <option value="{{ $buy->IdBuyer }}">
+                                                @foreach ($buyerholding as $buy)
+                                                <option value="{{ $buy->IdBuyerHolding }}">
                                                     {{ $buy->NamaBuyer }}
                                                 </option>
                                                 @endforeach
@@ -48,8 +78,8 @@ Insert Invoice
                                             <select id="InvoiceTo" name="InvoiceTo" style="width: 100%"
                                                 class="form-control form-control-sm select2">
                                                 <option disabled selected>Select Invoice To</option>
-                                                @foreach ($buyer as $buy)
-                                                <option value="{{ $buy->IdBuyer }}">
+                                                @foreach ($buyerholding as $buy)
+                                                <option value="{{ $buy->IdBuyerHolding }}">
                                                     {{ $buy->NamaBuyer }}
                                                 </option>
                                                 @endforeach
@@ -281,6 +311,14 @@ Insert Invoice
 
         $('#InvoiceTo').select2({
             placeholder: "Select Invoice To"
+        });
+
+        $('#IdSales').select2({
+            placeholder: "Select Code Sales"
+        });
+
+        $('#IdIssued').select2({
+            placeholder: "Select CodeIssued"
         });
     });
 

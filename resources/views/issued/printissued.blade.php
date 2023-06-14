@@ -75,7 +75,7 @@ img {
 
 <tr>
 <td style="font-size:10pt">Sales Order</td>
-<td style="font-size:10pt">{{ $issued->ShipDate}}</td>
+<td style="font-size:10pt">{{ $detailissued->CodeSales}}</td>
 </tr>
 
 <tr>

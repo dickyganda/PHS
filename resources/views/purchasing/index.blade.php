@@ -37,7 +37,8 @@ Purchasing
                                 <tr>
                                     <th>No.</th>
                                     <th>Code</th>
-                                    <th>Code Procurement</th>
+                                    <th>Code Sales</th>
+                                    <th>Code BOM</th>
                                     <th>User</th>
                                     <th>Date Purchasing</th>
                                     <th>Date Required</th>
@@ -61,7 +62,8 @@ Purchasing
                                 <tr>
                                     <td>{{ $i++ }}</td>
                                     <td>{{ $purchasing->CodePurchasing }}</td>
-                                    <td>{{ $purchasing->CodeProcurement }}</td>
+                                    <td>{{ $purchasing->CodeSales }}</td>
+                                    <td>{{ $purchasing->BomCode }}</td>
                                     <td>{{ $purchasing->Name }}</td>
                                     <td>{{ $carbon::parse($purchasing->DatePurchasing)->format('d/m/Y H:i:s') }}</td>
                                     <td>{{ $carbon::parse($purchasing->DateRequired)->format('d/m/Y H:i:s') }}</td>

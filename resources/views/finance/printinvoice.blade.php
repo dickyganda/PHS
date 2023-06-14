@@ -69,12 +69,12 @@ img {
 </tr>
 
 <tr>
-<td style="font-size:10pt">Delivery Order Date</td>
+{{-- <td style="font-size:10pt">Delivery Order Date</td> --}}
 {{-- <td style="font-size:10pt">{{ $issued->CreatedAt}}</td> --}}
 </tr>
 
 <tr>
-<td style="font-size:10pt">Sales Order</td>
+{{-- <td style="font-size:10pt">Sales Order</td> --}}
 {{-- <td style="font-size:10pt">{{ $issued->ShipDate}}</td> --}}
 </tr>
 
@@ -104,11 +104,9 @@ img {
 
 <tr>
 <td style="font-size:10pt">address</td>
-{{-- <td style="font-size:10pt">{{ $detailissued->Address }}	 --}}
-</td>
+<td style="font-size:10pt">Alamat	</td>
 <td style="font-size:10pt">Delivery Order</td>
-{{-- <td style="font-size:10pt">{{ $detailinvoice->Address}} --}}
-</td>
+<td style="font-size:10pt">{{ $detailinvoice->CodeIssued }}</td>
 </tr>
 <tr>
     <td></td>

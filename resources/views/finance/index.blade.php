@@ -126,7 +126,11 @@ Finance
 <script src="{{asset('assets/js/datagrid/datatables/datatables.bundle.js') }}"></script>
 @push('script')
 <script>
-
+$(document).ready(function () {
+        $('#dt-basic-example').DataTable({
+            "order": []
+        });
+    });
 </script>
 @endpush
 @endsection

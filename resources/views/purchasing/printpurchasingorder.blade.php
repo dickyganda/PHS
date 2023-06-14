@@ -86,7 +86,7 @@ img {
 </tr>
 
 <tr>
-    <td> CV SUPLIER</td>
+    <td>{{ $detailpurchasing->NamaSuplier }}</td>
     <td></td>
     <td style="font-size:10pt">Sales Order</td>
 <td style="font-size:10pt">{{ $detailpurchasing->CodeSales }}</td>

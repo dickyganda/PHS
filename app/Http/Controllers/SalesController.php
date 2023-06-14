@@ -29,7 +29,7 @@ class SalesController extends Controller
         ->leftJoin('m_unit', 'm_unit.IdUnit', '=', 'm_sales_detail.IdUnit')
         ->leftJoin('m_harga', 'm_harga.IdHarga', '=', 'm_sales_detail.IdHarga')
         ->leftJoin('m_user', 'm_user.IdUser', '=', 'm_sales.IdUser')
-        ->where('m_sales_detail.DeletedAt', '=', null)
+        ->where('m_sales_detail.StatusDeleted', '=', 0)
         ->get();
         // dd($salesdetail);
 
@@ -59,11 +59,11 @@ class SalesController extends Controller
        $unit = DB::table('m_unit')
        ->get();
        
-       $buyer = DB::table('m_buyer')
+       $buyerholding = DB::table('m_buyer_holding')
        ->get();
 
 
-        return view('sales.create', compact('product','departement','payment','suplier','unit','buyer'));
+        return view('sales.create', compact('product','departement','payment','suplier','unit','buyerholding'));
 
     }
 
@@ -96,6 +96,7 @@ class SalesController extends Controller
         $sales->SOFrom = $request->SOFrom;
         $sales->ShipTo = $request->ShipTo;
         $sales->StatusSales = 0;
+        $sales->StatusDeleted = 0;
         $sales->CreatedBy = $request->session()->get('IdUser', $user->IdUser);
         $sales->CreatedAt = Carbon::now();
         $sales->save();
@@ -122,6 +123,7 @@ class SalesController extends Controller
             $salesdetail->Amount = $request->Amount[$key];
             $salesdetail->StatusChecked = '0'[$key];
             $salesdetail->StatusApproved = '0'[$key];
+            $salesdetail->StatusDeleted = '0'[$key];
             $salesdetail->Amount = $request->Amount[$key];
             $salesdetail->CreatedAt = Carbon::now();
             $salesdetail->save();
@@ -155,8 +157,8 @@ class SalesController extends Controller
         ->leftJoin('m_product', 'm_sales_detail.IdProduct', '=', 'm_product.IdProduct')
         ->leftJoin('m_unit', 'm_sales_detail.IdUnit', '=', 'm_unit.IdUnit')
         ->leftJoin('m_harga', 'm_harga.IdHarga', '=', 'm_sales_detail.IdHarga')
-        ->leftJoin('m_buyer as buyerfrom', 'buyerfrom.IdBuyer', '=', 'm_sales.SOFrom')
-        ->leftJoin('m_buyer as buyerto', 'buyerto.IdBuyer', '=', 'm_sales.ShipTo')
+        ->leftJoin('m_buyer_holding as buyerfrom', 'buyerfrom.IdBuyerHolding', '=', 'm_sales.SOFrom')
+        ->leftJoin('m_buyer_holding as buyerto', 'buyerto.IdBuyerHolding', '=', 'm_sales.ShipTo')
         ->where('m_sales.IdSales', '=', $IdSales)
         ->first();
             // dd($detailsales);
@@ -170,8 +172,8 @@ class SalesController extends Controller
         ->leftJoin('m_product', 'm_sales_detail.IdProduct', '=', 'm_product.IdProduct')
         ->leftJoin('m_unit', 'm_sales_detail.IdUnit', '=', 'm_unit.IdUnit')
         ->leftJoin('m_harga', 'm_harga.IdHarga', '=', 'm_sales_detail.IdHarga')
-        ->leftJoin('m_buyer as buyerfrom', 'buyerfrom.IdBuyer', '=', 'm_sales.SOFrom')
-        ->leftJoin('m_buyer as buyerto', 'buyerto.IdBuyer', '=', 'm_sales.ShipTo')
+        ->leftJoin('m_buyer_holding as buyerfrom', 'buyerfrom.IdBuyerHolding', '=', 'm_sales.SOFrom')
+        ->leftJoin('m_buyer_holding as buyerto', 'buyerto.IdBuyerHolding', '=', 'm_sales.ShipTo')
         ->where('m_sales.IdSales', '=', $IdSales)
         ->get();
             // dd($detailSales);
@@ -238,10 +240,14 @@ class SalesController extends Controller
 
 public function destroy($IdSalesDetail)
 {
-    $sales_detail = DB::table('m_sales_detail')->where('IdSalesDetail', $IdSalesDetail);
+    $sales_detail = DB::table('m_sales')
+    ->leftJoin('m_sales_detail', 'm_sales_detail.IdSales', '=', 'm_sales.IdSales')
+    ->where('IdSalesDetail', $IdSalesDetail);
         $id_penjualan = $sales_detail->first('IdSales');
         $sales_detail->update([
-            'DeletedAt' => date('Y-m-d h:i:s')
+            'DeletedAt' => Carbon::now(),
+            'm_sales.StatusDeleted' => '1',
+            'm_sales_detail.StatusDeleted' => '1'
         ]);
 
     return redirect('/sales/index')->with('success', 'Data Berhasil Dihapus');
@@ -285,7 +291,4 @@ public function approved(Request $request, $IdSalesDetail)
     return redirect('/sales/index')->with('success', 'Data Berhasil Diupdate');
     
 }
-
-
-
 }

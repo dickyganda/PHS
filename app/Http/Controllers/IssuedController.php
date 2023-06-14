@@ -25,7 +25,8 @@ class IssuedController extends Controller
         ->leftJoin('m_unit', 'm_unit.IdUnit', '=', 'm_issued_detail.IdUnit')
         ->leftJoin('m_harga', 'm_harga.IdHarga', '=', 'm_issued_detail.IdHarga')
         ->leftJoin('m_user', 'm_user.IdUser', '=', 'm_issued.IdUser')
-        ->where('m_Issued_detail.DeletedAt', '=', null)
+        ->leftJoin('m_sales', 'm_sales.IdSales', '=', 'm_issued.IdSales')
+        ->where('m_Issued_detail.StatusDeleted', '=', 0)
         ->get();
             // dd($purchasingdetail);
     
@@ -56,11 +57,18 @@ class IssuedController extends Controller
        $unit = DB::table('m_unit')
        ->get();
        
-       $buyer = DB::table('m_buyer')
+       $buyerholding = DB::table('m_buyer_holding')
        ->get();
 
+       $sales = DB::table('m_sales')
+        ->where([
+            ['StatusSales', '=', '0'],
+        ['StatusDeleted', '=', '0'],
+        ])
+        ->get();
 
-        return view('issued.create', compact('product','departement','payment','suplier','unit','buyer'));
+
+        return view('issued.create', compact('product','departement','payment','suplier','unit','buyerholding','sales'));
 
     }
 
@@ -95,6 +103,7 @@ class IssuedController extends Controller
         $issued->PreparedBy = $request->PreparedBy;
         $issued->CreatedBy = $request->session()->get('IdUser', $user->IdUser);
         $issued->CreatedAt = Carbon::now();
+        $issued->StatusDeleted = 0;
         $issued->save();
         // dd($sales);
 
@@ -116,6 +125,7 @@ class IssuedController extends Controller
             $issueddetail->Qty = $request->Qty[$key];
             $issueddetail->IdHarga = $dataharga->IdHarga;
             $issueddetail->Amount = $request->Amount[$key];
+            $issueddetail->StatusDeleted = '0'[$key];
             $issueddetail->CreatedAt = Carbon::now();
             $issueddetail->save();
         }
@@ -180,6 +190,7 @@ public function destroy($IdIssuedDetail)
         $id_issued = $issued_detail->first('IdIssued');
         $issued_detail->update([
             'DeletedAt' => Carbon::now(),
+            'StatusDeleted' => 1,
         ]);
 
     return redirect('/issued/index')->with('success', 'Data Berhasil Dihapus');
@@ -198,9 +209,10 @@ public function destroy($IdIssuedDetail)
         ->leftJoin('m_unit', 'm_unit.IdUnit', '=', 'm_issued_detail.IdUnit')
         ->leftJoin('m_harga', 'm_harga.IdHarga', '=', 'm_issued_detail.IdHarga')
         ->leftJoin('m_user', 'm_user.IdUser', '=', 'm_issued.IdUser')
+        ->leftJoin('m_sales', 'm_sales.IdSales', '=', 'm_issued.IdSales')
         ->where('m_issued.IdIssued', '=', $IdIssued)
         ->first();
-            // dd($detailsales);
+            // dd($detailissued);
 
             $detailIssued = DB::table('m_issued')
             ->leftJoin('m_issued_detail', 'm_issued_detail.IdIssued', '=', 'm_issued.IdIssued')
@@ -212,6 +224,7 @@ public function destroy($IdIssuedDetail)
             ->leftJoin('m_unit', 'm_unit.IdUnit', '=', 'm_issued_detail.IdUnit')
             ->leftJoin('m_harga', 'm_harga.IdHarga', '=', 'm_issued_detail.IdHarga')
             ->leftJoin('m_user', 'm_user.IdUser', '=', 'm_issued.IdUser')
+            ->leftJoin('m_sales', 'm_sales.IdSales', '=', 'm_issued.IdSales')
             ->where('m_issued.IdIssued', '=', $IdIssued)
             ->get();
             // dd($detailSales);

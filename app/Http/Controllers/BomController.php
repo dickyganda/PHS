@@ -40,7 +40,10 @@ class BomController extends Controller
     public function create()
     {
         $sales = DB::table('m_sales')
-        ->where('StatusSales', '=', 0)
+        ->where([
+            ['StatusSales', '=', '0'],
+        ['StatusDeleted', '=', '0'],
+        ])
         ->get();
 
         // mengambil nama product

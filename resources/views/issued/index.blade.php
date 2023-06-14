@@ -40,6 +40,7 @@ Issued
                                     <tr>
                                         <th>No.</th>
                                         <th>Code Issued</th>
+                                        <th>Code Sales</th>
                                         <th>User</th>
                                         <th>Product</th>
                                         <th>Qty</th>
@@ -64,6 +65,7 @@ Issued
                                     <tr>
                                         <td>{{ $i++ }}</td>
                                         <td>{{ $issued->CodeIssued }}</td>
+                                        <td>{{ $issued->CodeSales }}</td>
                                         <td>{{ $issued->Name }}</td>
                                         <td>{{ $issued->NameProduct }}</td>
                                         <td>@currency($issued->Qty)</td>
@@ -124,7 +126,11 @@ Issued
 <script src="{{asset('assets/js/datagrid/datatables/datatables.bundle.js') }}"></script>
 @push('script')
 <script>
-
+$(document).ready(function () {
+        $('#dt-basic-example').DataTable({
+            "order": []
+        });
+    });
 </script>
 @endpush
 @endsection

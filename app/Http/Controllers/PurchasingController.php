@@ -19,16 +19,17 @@ class PurchasingController extends Controller
     $purchasingdetail = DB::table('m_purchasing')
         ->leftJoin('m_purchasing_detail', 'm_purchasing_detail.IdPurchasing', '=', 'm_purchasing.IdPurchasing')
         ->leftJoin('m_bom', 'm_bom.IdBom', '=', 'm_purchasing.IdBom')
+        ->leftJoin('m_sales', 'm_sales.IdSales', '=', 'm_purchasing.IdSales')
         ->leftJoin('m_user', 'm_user.IdUser', '=', 'm_purchasing.IdUser')
         ->leftJoin('m_departement as depto', 'depto.IdDepartement', '=', 'm_purchasing.TOIdDepartement')
         ->leftJoin('m_departement as depfrom', 'depfrom.IdDepartement', '=', 'm_purchasing.FROMIdDepartement')
         ->leftJoin('m_payment', 'm_payment.IdPayment', '=', 'm_purchasing.IdPayment')
         ->leftJoin('m_suplier', 'm_suplier.IdSuplier', '=', 'm_purchasing.IdSuplier')
         ->leftJoin('m_priority', 'm_priority.IdPriority', '=', 'm_purchasing_detail.Priority')
-        ->leftJoin('m_procurement', 'm_procurement.IdProcurement', '=', 'm_purchasing.IdProcurement')
+        // ->leftJoin('m_procurement', 'm_procurement.IdProcurement', '=', 'm_purchasing.IdProcurement')
         ->leftJoin('m_material', 'm_material.IdMaterial', '=', 'm_purchasing_detail.IdMaterial')
         ->leftJoin('m_unit', 'm_unit.IdUnit', '=', 'm_purchasing_detail.Unit')
-        ->where('m_purchasing_detail.DeletedAt', '=', null)
+        ->where('m_purchasing_detail.StatusDeleted', '=', 0)
         ->get();
         // dd($purchasingdetail);
 
@@ -40,6 +41,10 @@ class PurchasingController extends Controller
     {
         // mengambil data bom
         $bom = DB::table('m_bom')
+       ->get();
+
+    //    mengambil data sales
+       $sales = DB::table('m_sales')
        ->get();
 
        // mengambil nama departement
@@ -70,10 +75,10 @@ class PurchasingController extends Controller
        $harga = DB::table('m_harga')
        ->get();
 
-       $procurement = DB::table('m_procurement')
-       ->get();
+    //    $procurement = DB::table('m_procurement')
+    //    ->get();
 
-        return view('purchasing.create', compact('product','departement','payment','suplier','unit','priority','harga','procurement','material','bom'));
+        return view('purchasing.create', compact('product','departement','payment','suplier','unit','priority','harga','material','bom','sales'));
 
     }
 
@@ -98,7 +103,7 @@ class PurchasingController extends Controller
 
         // insert to tabel m_bom
         $purchasing = new Purchasing();
-        $purchasing->IdProcurement = $request->IdProcurement;
+        $purchasing->IdSales = $request->IdSales;
         $purchasing->IdBom = $request->IdBom;
         $purchasing->IdUser = $request->session()->get('IdUser', $user->IdUser);
         $purchasing->CodePurchasing = $codepo.'/'.$po.'/'.$bln.'/'.$thn;
@@ -109,6 +114,7 @@ class PurchasingController extends Controller
         $purchasing->DateRequired = $request->DateRequired;
         $purchasing->PaymentDate = $request->PaymentDate;
         $purchasing->IdPayment = $request->IdPayment;
+        $purchasing->StatusDeleted = 0;
         $purchasing->IdSuplier = $request->IdSuplier;
         $purchasing->CreatedAt = Carbon::now();
         $purchasing->save();
@@ -126,6 +132,7 @@ class PurchasingController extends Controller
             $purchasingdetail->Priority = $request->Priority[$key];
             $purchasingdetail->StatusChecked = '0'[$key];
             $purchasingdetail->StatusApproved = '0'[$key];
+            $purchasingdetail->StatusDeleted = '0'[$key];
             $purchasingdetail->CreatedAt = Carbon::now();
             $purchasingdetail->save();
         }
@@ -141,7 +148,7 @@ class PurchasingController extends Controller
         //
         $purchasingdetail = DB::table('m_purchasing')
         ->leftJoin('m_purchasing_detail', 'm_purchasing_detail.IdPurchasing', '=', 'm_Purchasing.IdPurchasing')
-        ->leftJoin('m_procurement', 'm_procurement.IdProcurement', '=', 'm_purchasing.IdPurchasing')
+        ->leftJoin('m_sales', 'm_sales.IdSales', '=', 'm_purchasing.IdSales')
         ->leftJoin('m_bom', 'm_bom.IdBom', '=', 'm_procurement.IdBom')
         ->leftJoin('m_departement as depfrom', 'depfrom.IdDepartement', '=', 'm_purchasing.FROMIdDepartement')
         ->leftJoin('m_departement as depto', 'depto.IdDepartement', '=', 'm_purchasing.TOIdDepartement')
@@ -216,6 +223,7 @@ class PurchasingController extends Controller
         $id_penjualan = $purchasing_detail->first('IdPurchasing');
         $purchasing_detail->update([
             'DeletedAt' => Carbon::now(),
+            'StatusDeleted' => 1,
         ]);
 
         return redirect('/purchasing/index')->with('success', 'Data Berhasil Dihapus');
@@ -232,7 +240,7 @@ class PurchasingController extends Controller
         ->leftJoin('m_payment', 'm_payment.IdPayment', '=', 'm_purchasing.IdPayment')
         ->leftJoin('m_suplier', 'm_suplier.IdSuplier', '=', 'm_purchasing.IdSuplier')
         ->leftJoin('m_priority', 'm_priority.IdPriority', '=', 'm_purchasing_detail.Priority')
-        ->leftJoin('m_procurement', 'm_procurement.IdProcurement', '=', 'm_purchasing.IdProcurement')
+        ->leftJoin('m_sales', 'm_sales.IdSales', '=', 'm_purchasing.Idsales')
         ->leftJoin('m_material', 'm_material.IdMaterial', '=', 'm_purchasing_detail.IdMaterial')
         ->leftJoin('m_unit', 'm_unit.IdUnit', '=', 'm_purchasing_detail.Unit')
         ->where('m_purchasing.IdPurchasing', '=', $IdPurchasing)
@@ -248,7 +256,7 @@ class PurchasingController extends Controller
         ->leftJoin('m_payment', 'm_payment.IdPayment', '=', 'm_purchasing.IdPayment')
         ->leftJoin('m_suplier', 'm_suplier.IdSuplier', '=', 'm_purchasing.IdSuplier')
         ->leftJoin('m_priority', 'm_priority.IdPriority', '=', 'm_purchasing_detail.Priority')
-        ->leftJoin('m_procurement', 'm_procurement.IdProcurement', '=', 'm_purchasing.IdProcurement')
+        // ->leftJoin('m_procurement', 'm_procurement.IdProcurement', '=', 'm_purchasing.IdProcurement')
         ->leftJoin('m_material', 'm_material.IdMaterial', '=', 'm_purchasing_detail.IdMaterial')
         ->leftJoin('m_unit', 'm_unit.IdUnit', '=', 'm_purchasing_detail.Unit')
         ->leftJoin('m_sales', 'm_sales.IdSales', '=', 'm_purchasing.IdSales')

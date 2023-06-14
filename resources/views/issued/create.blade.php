@@ -28,35 +28,49 @@ Insert Surat Jalan
                             <form action="/sales/store" method="POST" id="insertissued">
                                 @csrf
                                 <div class="row">
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label>Code Sales</label>
+                                            <select id="IdSales" name="IdSales" style="width: 100%"
+                                                class="form-control form-control-sm select2">
+                                                <option disabled selected>Select Code Sales</option>
+                                                @foreach ($sales as $sales)
+                                                <option value="{{ $sales->IdSales }}">
+                                                    {{ $sales->CodeSales }}
+                                                </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
                                         <div class="form-group">
                                             <label>Sales From</label>
                                             <select id="SOFrom" name="SOFrom" style="width: 100%"
                                                 class="form-control form-control-sm select2">
                                                 <option disabled selected>Select SO From</option>
-                                                @foreach ($buyer as $buy)
-                                                <option value="{{ $buy->IdBuyer }}">
+                                                @foreach ($buyerholding as $buy)
+                                                <option value="{{ $buy->IdBuyerHolding }}">
                                                     {{ $buy->NamaBuyer }}
                                                 </option>
                                                 @endforeach
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-3">
                                         <div class="form-group">
                                             <label>Delivered To</label>
                                             <select id="DeliveredTo" name="DeliveredTo" style="width: 100%"
                                                 class="form-control form-control-sm select2">
                                                 <option disabled selected>Select Delivered To</option>
-                                                @foreach ($buyer as $buy)
-                                                <option value="{{ $buy->IdBuyer }}">
+                                                @foreach ($buyerholding as $buy)
+                                                <option value="{{ $buy->IdBuyerHolding }}">
                                                     {{ $buy->NamaBuyer }}
                                                 </option>
                                                 @endforeach
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-3">
                                         <div class="form-group">
                                             <label>Ship Date</label>
                                             <input type="date" class="form-control" id="ShipDate" placeholder="ShipDate"
@@ -271,6 +285,10 @@ Insert Surat Jalan
 
         $('#DeliveredTo').select2({
             placeholder: "Select Delivered To"
+        });
+
+        $('#IdSales').select2({
+            placeholder: "Select Code Sales"
         });
     });
 

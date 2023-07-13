@@ -36,7 +36,30 @@ class AuthController extends Controller
             return response()->json(array('status' => 'failed', 'reason' => 'data tidak ada'));
         }
         // Session::put('level_user', $query->level_user);
+        
+        $datamenu = DB::table('m_action')
+        ->join('m_jabatan','m_jabatan.IdJabatan', '=', 'm_action.IdJabatan')
+        ->join('m_menu','m_menu.IdMenu', '=', 'm_action.IdMenu')
+        ->join('m_user','m_user.IdJabatan', '=', 'm_jabatan.IdJabatan')
+        ->where('IdUser', $query->IdUser)
+        ->orderBy('m_menu.MainMenu')
+        ->orderBy('m_menu.MenuKategori')
+        ->get();
+        
+        $main_menu = [];
+        foreach($datamenu as $data){
+            $main_menu[] = $data->MainMenu;
+        }
+
+        $menu = DB::table('m_menu')
+        ->where('MenuKategori', 1)
+        ->whereIn('MainMenu', $main_menu)
+        ->orderBy('IdMenu')
+        ->get();
+        
         Session::put('IdUser', $query->IdUser);
+        Session::put('datamenu', $datamenu);
+        Session::put('menu', $menu);
 
         // dd($query->nama_user);
         return response()->json(array('status' => 'success', 'reason' => 'sukses'));

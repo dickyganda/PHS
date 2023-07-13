@@ -13,6 +13,8 @@ use App\Models\InvoiceDetail;
 
 class FinanceController extends Controller
 {
+    private $menuname = 'Finance';
+
     /**
      * Display a listing of the resource.
      */
@@ -34,7 +36,10 @@ class FinanceController extends Controller
         ->where('m_invoice_detail.StatusDeleted', '=', 0)
         ->get();
 
-        return view('finance.index', compact('financedetail'));
+        return view('finance.index', [
+            'menuname' => $this->menuname,
+            'financedetail' => $financedetail
+        ]);
     }
 
     /**

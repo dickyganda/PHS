@@ -14,6 +14,8 @@ use App\Models\BomDetail;
 
 class BomController extends Controller
 {
+    private $menuname = 'BOM';
+
     /**
      * Display a listing of the resource.
      */
@@ -31,7 +33,10 @@ class BomController extends Controller
         ->get();
         // dd($bomdetail);
 
-        return view('bom.index', compact('bomdetail'));
+        return view('bom.index', [
+            'menuname' => $this->menuname,
+            'bomdetail' => $bomdetail
+        ]);
     }
 
     /**

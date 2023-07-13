@@ -33,75 +33,52 @@
             </a>
         </div>
         <ul id="js-nav-menu" class="nav-menu">
-            <li>
-                <a href="/dashboard/index" title="Application Intel" data-filter-tags="application intel">
-                    <i class="fal fa-info-circle"></i>
-                    <span class="nav-link-text" data-i18n="nav.application_intel">Dashboard</span>
-                </a>
-                {{-- <ul>
-                    <li class="active">
-                        <a href="intel_analytics_dashboard.html" title="Analytics Dashboard" data-filter-tags="application intel analytics dashboard">
-                            <span class="nav-link-text" data-i18n="nav.application_intel_analytics_dashboard">Analytics Dashboard</span>
+            @php
+            use Illuminate\Support\Facades\Session;
+
+                $sessiondatamenu = Session::get('datamenu');
+                $sessionmenu = Session::get('menu');
+                @endphp
+
+                @foreach ($sessionmenu as $itemmenu )
+
+                    <li class="active open">
+                        <a href="{{ $itemmenu->Url }}" data-filter-tags="application intel">
+                            <i class="{{ $itemmenu->IconMenu }}"></i>
+                            <span class="nav-link-text" data-i18n="nav.application_intel">{{ $itemmenu->NamaMenu }}</span>
                         </a>
+                        <ul>
+                
+                        @foreach ($sessiondatamenu as $itemdatamenu)
+                            {{-- jika punya parent --}}
+                            @if($itemdatamenu->MainMenu == $itemmenu->IdMenu)
+                                <li>
+                                    <a href={{ $itemdatamenu->Url }} title="Application Intel" data-filter-tags="application intel">
+                                        {{-- <i class="{{ $itemdatamenu->IconMenu }}"></i> --}}
+                                        <span class="nav-link-text" data-i18n="nav.application_intel">{{ $itemdatamenu->NamaMenu }}</span>
+                                    </a>
+                                </li>                                
+                            @endif
+
+                        @endforeach
+
+                        </ul>
                     </li>
+
+                @endforeach
+
+            @foreach ($sessiondatamenu as $itemdatamenu)
+                {{-- jika punya parent --}}
+                @if($itemdatamenu->MainMenu === '0')
                     <li>
-                        <a href="intel_marketing_dashboard.html" title="Marketing Dashboard" data-filter-tags="application intel marketing dashboard">
-                            <span class="nav-link-text" data-i18n="nav.application_intel_marketing_dashboard">Marketing Dashboard</span>
+                        <a href={{ $itemdatamenu->Url }} title="Application Intel" data-filter-tags="application intel">
+                            <i class="{{ $itemdatamenu->IconMenu }}"></i>
+                            <span class="nav-link-text" data-i18n="nav.application_intel">{{ $itemdatamenu->NamaMenu }}</span>
                         </a>
-                    </li>
-                    <li>
-                        <a href="intel_introduction.html" title="Introduction" data-filter-tags="application intel introduction">
-                            <span class="nav-link-text" data-i18n="nav.application_intel_introduction">Introduction</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="intel_privacy.html" title="Privacy" data-filter-tags="application intel privacy">
-                            <span class="nav-link-text" data-i18n="nav.application_intel_privacy">Privacy</span>
-                        </a>
-                    </li>
-                </ul> --}}
-            </li>
-            <li>
-                <a href="/sales/index" title="Application Intel" data-filter-tags="application intel">
-                    <i class="fal fa-info-circle"></i>
-                    <span class="nav-link-text" data-i18n="nav.application_intel">Sales</span>
-                </a>
-            </li>
+                    </li>                                
+                @endif
 
-            <li>
-            <a href="/bom/index" title="Application Intel" data-filter-tags="application intel">
-                    <i class="fal fa-info-circle"></i>
-                    <span class="nav-link-text" data-i18n="nav.application_intel">BOM</span>
-                </a>
-            </li>
-
-            {{-- <li>
-            <a href="/procurement/index" title="Application Intel" data-filter-tags="application intel">
-                    <i class="fal fa-info-circle"></i>
-                    <span class="nav-link-text" data-i18n="nav.application_intel">Procurement</span>
-                </a>
-            </li> --}}
-
-            <li>
-            <a href="/purchasing/index" title="Application Intel" data-filter-tags="application intel">
-                    <i class="fal fa-info-circle"></i>
-                    <span class="nav-link-text" data-i18n="nav.application_intel">Purchasing</span>
-                </a>
-            </li>
-
-            <li>
-            <a href="/issued/index" title="Application Intel" data-filter-tags="application intel">
-                    <i class="fal fa-info-circle"></i>
-                    <span class="nav-link-text" data-i18n="nav.application_intel">Issued</span>
-                </a>
-            </li>
-
-            <li>
-            <a href="/finance/index" title="Application Intel" data-filter-tags="application intel">
-                    <i class="fal fa-info-circle"></i>
-                    <span class="nav-link-text" data-i18n="nav.application_intel">Finance</span>
-                </a>
-            </li>
+            @endforeach
 
         </ul>
         <div class="filter-message js-filter-message bg-success-600"></div>

@@ -15,10 +15,11 @@ use App\Models\Bom;
 class SalesController extends Controller
 {
     //
+    private $menuname = 'Sales';
+    
     public function index()
     {
         // menampilkan data build of material
-
         $salesdetail = DB::table('m_sales')
         ->leftJoin('m_sales_detail', 'm_sales_detail.IdSales', '=', 'm_sales.IdSales')
         ->leftJoin('m_departement as depfrom', 'depfrom.IdDepartement', '=', 'm_sales_detail.FROMIdDepartement')
@@ -33,7 +34,10 @@ class SalesController extends Controller
         ->get();
         // dd($salesdetail);
 
-        return view('sales.index', compact('salesdetail'));
+        return view('sales.index', [
+            'menuname' => $this->menuname,
+            'salesdetail' =>$salesdetail
+        ]);
     }
 
     public function create()

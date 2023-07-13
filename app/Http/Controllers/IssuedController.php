@@ -13,6 +13,8 @@ use App\Models\IssuedDetail;
 
 class IssuedController extends Controller
 {
+    private $menuname = 'Issued';
+
     public function index(){
         //
         $issueddetail = DB::table('m_issued')
@@ -30,7 +32,10 @@ class IssuedController extends Controller
         ->get();
             // dd($purchasingdetail);
     
-            return view('issued.index', compact('issueddetail'));
+            return view('issued.index', [
+                'menuname' => $this->menuname,
+                'issueddetail' => $issueddetail
+            ]);
     
         }
 

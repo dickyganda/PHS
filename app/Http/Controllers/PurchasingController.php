@@ -14,6 +14,8 @@ use App\Models\PurchasingDetail;
 
 class PurchasingController extends Controller
 {
+    private $menuname = 'Purchasing';
+
     public function index(){
     //
     $purchasingdetail = DB::table('m_purchasing')
@@ -33,7 +35,10 @@ class PurchasingController extends Controller
         ->get();
         // dd($purchasingdetail);
 
-        return view('purchasing.index', compact('purchasingdetail'));
+        return view('purchasing.index', [
+            'menuname' => $this->menuname,
+            'purchasingdetail' => $purchasingdetail
+        ]);
 
     }
 

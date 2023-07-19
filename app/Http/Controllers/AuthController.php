@@ -45,7 +45,8 @@ class AuthController extends Controller
         ->orderBy('m_menu.MainMenu')
         ->orderBy('m_menu.MenuKategori')
         ->get();
-        
+        // dd($datamenu);
+
         $main_menu = [];
         foreach($datamenu as $data){
             $main_menu[] = $data->MainMenu;

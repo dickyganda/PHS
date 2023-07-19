@@ -51,7 +51,7 @@
                 
                         @foreach ($sessiondatamenu as $itemdatamenu)
                             {{-- jika punya parent --}}
-                            @if($itemdatamenu->MainMenu == $itemmenu->IdMenu)
+                            @if($itemdatamenu->MainMenu == $itemmenu->IdMenu && $itemdatamenu->Index == 1)
                                 <li>
                                     <a href={{ $itemdatamenu->Url }} title="Application Intel" data-filter-tags="application intel">
                                         {{-- <i class="{{ $itemdatamenu->IconMenu }}"></i> --}}
@@ -69,7 +69,7 @@
 
             @foreach ($sessiondatamenu as $itemdatamenu)
                 {{-- jika punya parent --}}
-                @if($itemdatamenu->MainMenu === '0')
+                @if($itemdatamenu->MainMenu === '0' && $itemdatamenu->Index == 1)
                     <li>
                         <a href={{ $itemdatamenu->Url }} title="Application Intel" data-filter-tags="application intel">
                             <i class="{{ $itemdatamenu->IconMenu }}"></i>

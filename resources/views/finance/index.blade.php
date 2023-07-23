@@ -25,14 +25,25 @@ Finance
                 <div class="panel-container show">
                     <div class="panel-content">
                         <div>
+                            @php
+            use Illuminate\Support\Facades\Session;
+
+                $sessiondatamenu = Session::get('datamenu');
+                $sessionmenu = Session::get('menu');
+                @endphp
                             <table>
-                                <tr>
-                                    <td>
-                                        <a href="/finance/create" class="btn btn-success btn-xs"
-                                            title="Tambah Data Baru" role="button"><i
-                                                class="fas fa-plus-circle"></i>Tambah</a>
-                                    </td>
-                                </tr>
+                                @foreach ($sessiondatamenu as $action )
+                                    @if($action->Add == 1 && $action->IdMenu == 6)
+                                    <tr>
+                                        <td>
+                                            <a href="/finance/create" class="btn btn-success btn-xs"
+                                                title="Tambah Data Baru" role="button"><i
+                                                    class="fas fa-plus-circle"></i>Tambah</a>
+                                        </td>
+                                    </tr>
+                                    @endif
+                                @endforeach
+                                
                             </table>
                             <table id="dt-basic-example"
                                 class="table table-responsive table-bordered table-hover table-striped w-100">
@@ -75,8 +86,8 @@ Finance
                                         <td>@currency($finance->HargaSatuan)</td>
                                         <td>@currency($finance->Amount)</td>
                                         <td>{{ $finance->Name }}</td>
-                                        <td>{{ $finance->CheckedBy }}</td>
-                                        <td>{{ $finance->ApprovedBy }}</td>
+                                        <td>{{ $finance->Name }}</td>
+                                        <td>{{ $finance->Name }}</td>
                                         <td>{{ $carbon::parse($finance->DateRequired)->format('d/m/Y H:i:s') }}</td>
                                         <td>{{ $finance->NamaPayment }}</td>
                                         <td>{{ $finance->NamaSuplier }}</td>

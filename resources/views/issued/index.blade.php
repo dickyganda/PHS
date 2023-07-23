@@ -26,13 +26,24 @@ Issued
                 <div class="panel-container show">
                     <div class="panel-content">
                         <div>
-                            <table>
-                                <tr>
-                                    <td>
-                                        <a href="/issued/create" class="btn btn-success btn-xs" title="Tambah Data Baru"
-                                            role="button"><i class="fas fa-plus-circle"></i>Tambah</a>
-                                    </td>
-                                </tr>
+                            @php
+            use Illuminate\Support\Facades\Session;
+
+                $sessiondatamenu = Session::get('datamenu');
+                $sessionmenu = Session::get('menu');
+                @endphp
+                            <table> 
+                                @foreach ($sessiondatamenu as $action )
+                                    @if($action->Add == 1 && $action->IdMenu == 5)
+                                    <tr>
+                                        <td>
+                                            <a href="/issued/create" class="btn btn-success btn-xs" title="Tambah Data Baru"
+                                                role="button"><i class="fas fa-plus-circle"></i>Tambah</a>
+                                        </td>
+                                    </tr>
+                                    @endif
+                                @endforeach
+                                
                             </table>
                             <table id="dt-basic-example"
                                 class="table table-responsive table-bordered table-hover table-striped w-100">
@@ -74,9 +85,9 @@ Issued
                                         <td>@currency($issued->Amount)</td>
                                         <td>{{ $issued->FROMIdDepartement }}</td>
                                         <td>{{ $issued->TOIdDepartement }}</td>
-                                        <td>{{ $issued->CreatedBy }}</td>
-                                        <td>{{ $issued->CheckedBy }}</td>
-                                        <td>{{ $issued->ApprovedBy }}</td>
+                                        <td>{{ $issued->Name }}</td>
+                                        <td>{{ $issued->Name }}</td>
+                                        <td>{{ $issued->Name }}</td>
                                         <td>{{ $carbon::parse($issued->DateRequired)->format('d/m/Y H:i:s') }}</td>
                                         <td>{{ $carbon::parse($issued->PaymentDate)->format('d/m/Y H:i:s') }}</td>
                                         <td>{{ $issued->NamaSuplier }}</td>

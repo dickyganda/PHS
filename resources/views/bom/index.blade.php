@@ -25,13 +25,24 @@ BOM
                 <div class="panel-container show">
                     <div class="panel-content">
                         <div>
+                            @php
+            use Illuminate\Support\Facades\Session;
+
+                $sessiondatamenu = Session::get('datamenu');
+                $sessionmenu = Session::get('menu');
+                @endphp
                             <table>
-                                <tr>
-                                    <td>
-                                        <a href="/bom/create" class="btn btn-success btn-xs" title="Tambah Data Baru"
-                                            role="button"><i class="fas fa-plus-circle"></i>Tambah</a>
-                                    </td>
-                                </tr>
+                                @foreach ($sessiondatamenu as $action )
+                                    @if($action->Add == 1 && $action->IdMenu == 4)
+                                    <tr>
+                                        <td>
+                                            <a href="/bom/create" class="btn btn-success btn-xs" title="Tambah Data Baru"
+                                                role="button"><i class="fas fa-plus-circle"></i>Tambah</a>
+                                        </td>
+                                    </tr>
+                                    @endif
+                                @endforeach
+                                
                             </table>
                             <table id="dt-basic-example"
                                 class="table table-responsive table-bordered table-hover table-striped w-100">

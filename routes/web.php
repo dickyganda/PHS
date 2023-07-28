@@ -9,7 +9,7 @@ use App\Http\Controllers\PurchasingController;
 use App\Http\Controllers\IssuedController;
 use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\MenuController;
+// use App\Http\Controllers\MenuController;
 use App\Http\Controllers\WarehouseController;
 
 /*
@@ -36,7 +36,7 @@ Route::controller(AuthController::class)->group(function() {
     Route::get('/logout', 'logout')->name('logout');
 });
 
-Route::get('/layouts/sidebar', [MenuController::class, 'index'])->name('menu');
+// Route::get('/layouts/sidebar', [MenuController::class, 'index'])->name('menu');
 
 Route::get('/dashboard/index', [DashboardController::class, 'index'])->name('dashboard');
 
@@ -46,8 +46,8 @@ Route::post('/sales/store', [SalesController::class, 'store'])->name('salesstore
 Route::get('/sales/edit/{IdSalesDetail}', [SalesController::class, 'edit'])->name('salesedit');
 Route::put('/sales/update/{IdSalesDetail}', [SalesController::class, 'update'])->name('salesupdate');
 Route::put('/sales/delete/{IdSalesDetail}', [SalesController::class, 'destroy'])->name('salesdestroy');
-Route::put('/sales/checked/{IdSalesDetail}', [SalesController::class, 'checked'])->name('saleschecked');
-Route::put('/sales/approved/{IdSalesDetail}', [SalesController::class, 'approved'])->name('salesapproved');
+Route::put('/sales/checked/{IdSales}', [SalesController::class, 'checked'])->name('saleschecked');
+Route::put('/sales/approved/{IdSales}', [SalesController::class, 'approved'])->name('salesapproved');
 Route::post('/sales/getproduct', [SalesController::class, 'getproduct']);
 Route::get('/sales/printsalesorder/{IdSales}', [SalesController::class, 'printsalesorder'])->name('salesprint');
 

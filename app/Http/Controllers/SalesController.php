@@ -267,7 +267,7 @@ public function checked(Request $request, $IdSales)
 
 	DB::table('m_sales')
     ->leftJoin('m_sales_detail', 'm_sales_detail.IdSales', '=', 'm_sales.IdSales')
-    ->where('IdSales',$IdSales)->update([
+    ->where('m_sales.IdSales',$IdSales)->update([
 		'm_sales.StatusChecked' => 1,
 		'm_sales.CheckedBy' => $request->session()->get('IdUser', $user->IdUser),
 		'm_sales.UpdatedAt' => Carbon::now(),
@@ -287,7 +287,7 @@ public function approved(Request $request, $IdSales)
 
 	DB::table('m_sales')
     ->leftJoin('m_sales_detail', 'm_sales_detail.IdSales', '=', 'm_sales.IdSales')
-    ->where('IdSales',$IdSales)->update([
+    ->where('m_sales.IdSales',$IdSales)->update([
 		'm_sales.StatusApproved' => 1,
 		'm_sales.ApprovedBy' => $request->session()->get('IdUser', $user->IdUser),
 		'm_sales.UpdatedAt' => Carbon::now(),

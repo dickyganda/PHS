@@ -78,14 +78,33 @@ BOM
                                         <td>@currency($bom->Price)</td>
                                         <td>{{ $bom->NameUnit }}</td>
                                         <td>
-                                            <a href="/bom/edit/{{ $bom->IdBomDetail }}" class="btn btn-warning btn-xs"
-                                                role="button">Edit</a>
+                                            @foreach ($sessiondatamenu as $action )
+                                                @if($action->Edit == 1 && $action->IdMenu == 4)
+                                                <a href="/bom/edit/{{ $bom->IdBomDetail }}" class="btn btn-warning btn-xs"
+                                                    role="button">Edit</a>
+                                                @endif
 
-                                            <form action="/bom/delete/{{ $bom->IdBomDetail}}" method="post">
-                                                @csrf
-                                                @method('put')
-                                                <button type="submit" class="btn btn-danger btn-xs">Delete</button>
-                                            </form>
+                                                @if($action->Delete == 1 && $action->IdMenu == 4)
+                                                <form action="/bom/delete/{{ $bom->IdBomDetail}}" method="post">
+                                                    @csrf
+                                                    @method('put')
+                                                    <button type="submit" class="btn btn-danger btn-xs">Delete</button>
+                                                </form>
+                                                @endif
+
+                                                @if($action->Check == 1 && $action->IdMenu == 4)
+                                                    
+                                                @endif
+
+                                                @if($action->Approve == 1 && $action->IdMenu == 4)
+                                                    
+                                                @endif
+                                            @endforeach
+
+
+                                            
+
+                                            
                                         </td>
 
                                     </tr>

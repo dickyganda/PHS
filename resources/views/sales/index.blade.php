@@ -111,26 +111,51 @@ Sales Order
                                             </form> 
                                             @endif
 
+
                                             @if($action->Check == 1 && $action->IdMenu == 3)
                                                 @if($sd->StatusChecked == 0)
-                                                <form action="/sales/checked/{{ $sd->IdSalesDetail}}" method="post">
+                                                <form action="/sales/checked/{{ $sd->IdSales}}" method="post">
                                                     @csrf
                                                     @method('put')
                                                     <button type="submit" class="btn btn-warning btn-xs">Checked</button>
                                                 </form>
+                                                @endif
 
-                                                <form action="/sales/approved/{{ $sd->IdSalesDetail}}" method="post">
+                                                {{-- <form action="/sales/approved/{{ $sd->IdSales}}" method="post">
+                                                    <button type="submit" class="btn btn-primary btn-xs" hidden>Approved</button>
+                                                </form> --}}
+                                            
+
+                                                @if($sd->StatusChecked == 1 && $sd->StatusApproved == 0 )
+                                                <form action="/sales/checked/{{ $sd->IdSales}}" method="post">
+                                                    <button type="submit" class="btn btn-warning btn-xs" hidden>Checked</button>
+                                                </form>
+                                                @endif
+                                                {{-- <form action="/sales/approved/{{ $sd->IdSales}}" method="post">
+                                                    @csrf
+                                                    @method('put')
+                                                    <button type="submit" class="btn btn-primary btn-xs">Approved</button>
+                                                </form> --}}
+                                                
+                                                @if($sd->StatusChecked == 1 && $sd->StatusApproved == 1)
+                                                <form action="/sales/checked/{{ $sd->IdSales}}" method="post">
+                                                    <button type="submit" class="btn btn-warning btn-xs" hidden>Checked</button>
+                                                </form>
+                                                @endif
+                                                {{-- <form action="/sales/approved/{{ $sd->IdSales}}" method="post">
+                                                    <button type="submit" class="btn btn-primary btn-xs" hidden>Approved</button>
+                                                </form> --}}
+                                            @endif
+
+                                            @if($action->Approve == 1 && $action->IdMenu == 3)
+                                                @if($sd->StatusApproved == 0)
+                                                <form action="/sales/approved/{{ $sd->IdSales}}" method="post">
                                                     <button type="submit" class="btn btn-primary btn-xs" hidden>Approved</button>
                                                 </form>
                                                 @endif
-                                            @endif
 
-                                            @if($action->Delete == 1 && $action->IdMenu == 3)
-                                                @if($sd->StatusChecked == 1 && $sd->StatusApproved == 0 )
-                                                <form action="/sales/checked/{{ $sd->IdSalesDetail}}" method="post">
-                                                    <button type="submit" class="btn btn-warning btn-xs" hidden>Checked</button>
-                                                </form>
-                                                <form action="/sales/approved/{{ $sd->IdSalesDetail}}" method="post">
+                                                @if($sd->StatusChecked == 1 && $sd->StatusApproved == 0)
+                                                <form action="/sales/approved/{{ $sd->IdSales}}" method="post">
                                                     @csrf
                                                     @method('put')
                                                     <button type="submit" class="btn btn-primary btn-xs">Approved</button>
@@ -138,10 +163,7 @@ Sales Order
                                                 @endif
 
                                                 @if($sd->StatusChecked == 1 && $sd->StatusApproved == 1)
-                                                <form action="/sales/checked/{{ $sd->IdSalesDetail}}" method="post">
-                                                    <button type="submit" class="btn btn-warning btn-xs" hidden>Checked</button>
-                                                </form>
-                                                <form action="/sales/approved/{{ $sd->IdSalesDetail}}" method="post">
+                                                <form action="/sales/approved/{{ $sd->IdSales}}" method="post">
                                                     <button type="submit" class="btn btn-primary btn-xs" hidden>Approved</button>
                                                 </form>
                                                 @endif

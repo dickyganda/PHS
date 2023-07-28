@@ -291,7 +291,7 @@ class FinanceController extends Controller
 
 	DB::table('m_invoice')
     ->leftJoin('m_invoice_detail', 'm_invoice_detail.IdInvoice', '=', 'm_Invoice.IdInvoice')
-    ->where('IdInvoice',$IdInvoice)->update([
+    ->where('m_invoice.IdInvoice',$IdInvoice)->update([
 		'm_invoice.StatusChecked' => 1,
 		'm_invoice.CheckedBy' => $request->session()->get('IdUser', $user->IdUser),
 		'm_invoice.UpdatedAt' => Carbon::now(),
@@ -311,7 +311,7 @@ public function approved(Request $request, $IdInvoice)
 
 	DB::table('m_invoice')
     ->leftJoin('m_invoice_detail', 'm_invoice_detail.IdInvoice', '=', 'm_invoice.IdInvoice')
-    ->where('IdInvoice',$IdInvoice)->update([
+    ->where('m_invoice.IdInvoice',$IdInvoice)->update([
 		'm_invoice.StatusApproved' => 1,
 		'm_invoice.ApprovedBy' => $request->session()->get('IdUser', $user->IdUser),
 		'm_invoice.UpdatedAt' => Carbon::now(),

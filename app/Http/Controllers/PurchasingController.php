@@ -294,7 +294,7 @@ class PurchasingController extends Controller
 
 	DB::table('m_purchasing')
     ->leftJoin('m_purchasing_detail', 'm_purchasing_detail.IdPurchasing', '=', 'm_purchasing.IdPurchasing')
-    ->where('IdPurchasing',$IdPurchasing)->update([
+    ->where('m_purchasing.IdPurchasing',$IdPurchasing)->update([
 		'm_purchasing.StatusChecked' => 1,
 		'm_purchasing.CheckedBy' => $request->session()->get('IdUser', $user->IdUser),
 		'm_purchasing.UpdatedAt' => Carbon::now(),
@@ -314,7 +314,7 @@ public function approved(Request $request, $IdPurchasing)
 
 	DB::table('m_purchasing')
     ->leftJoin('m_purchasing_detail', 'm_purchasing_detail.IdPurchasing', '=', 'm_purchasing.IdPurchasing')
-    ->where('IdPurchasing',$IdPurchasing)->update([
+    ->where('m_purchasing.IdPurchasing',$IdPurchasing)->update([
 		'm_purchasing.StatusApproved' => 1,
 		'm_purchasing.ApprovedBy' => $request->session()->get('IdUser', $user->IdUser),
 		'm_purchasing.UpdatedAt' => Carbon::now(),

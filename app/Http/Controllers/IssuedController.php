@@ -260,7 +260,7 @@ public function destroy($IdIssuedDetail)
 
 	DB::table('m_issued')
     ->leftJoin('m_issued_detail', 'm_issued_detail.IdIssued', '=', 'm_issued.IdIssued')
-    ->where('IdIssued',$IdIssued)->update([
+    ->where('m_issued.IdIssued',$IdIssued)->update([
 		'm_issued.StatusChecked' => 1,
 		'm_issued.CheckedBy' => $request->session()->get('IdUser', $user->IdUser),
 		'm_issued.UpdatedAt' => Carbon::now(),
@@ -280,7 +280,7 @@ public function approved(Request $request, $IdIssued)
 
 	DB::table('m_issued')
     ->leftJoin('m_issued_detail', 'm_issued_detail.IdIssued', '=', 'm_issued.IdIssued')
-    ->where('IdIssued',$IdIssued)->update([
+    ->where('m_issued.IdIssued',$IdIssued)->update([
 		'm_issued.StatusApproved' => 1,
 		'm_issued.ApprovedBy' => $request->session()->get('IdUser', $user->IdUser),
 		'm_issued.UpdatedAt' => Carbon::now(),

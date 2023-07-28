@@ -98,6 +98,9 @@ class BomController extends Controller
         $bom->IdSbu = $request->IdSbu;
         $bom->IdHolding = $request->IdHolding;
         $bom->IdProduct = $request->IdProduct;
+        $bom->StatusChecked = 0;
+        $bom->StatusApproved = 0;
+        $bom->StatusDeleted = 0;
         $bom->CreatedAt = Carbon::now();
         $bom->IdUser = $request->session()->get('IdUser', $user->IdUser);
         $bom->save();
@@ -110,6 +113,7 @@ class BomController extends Controller
             $bomdetail->Qty = $request->Qty[$key];
             $bomdetail->Price = $request->Price[$key];
             $bomdetail->IdUnit = $request->IdUnit[$key];
+            $bomdetail->StatusDeleted = '0'[$key];
             $bomdetail->CreatedAt = Carbon::now();
             $bomdetail->save();
         }
@@ -215,4 +219,44 @@ class BomController extends Controller
 
         return redirect('/bom/index')->with('success', 'Data Berhasil Dihapus');
     }
+
+    public function checked(Request $request, $IdBom)
+{
+    $user = DB::table('m_user')
+        ->first();
+
+	DB::table('m_bom')
+    ->leftJoin('m_bom_detail', 'm_bom_detail.IdBom', '=', 'm_bom.IdBom')
+    ->where('IdBom',$IdBom)->update([
+		'm_bom.StatusChecked' => 1,
+		'm_bom.CheckedBy' => $request->session()->get('IdUser', $user->IdUser),
+		'm_bom.UpdatedAt' => Carbon::now(),
+		'm_bom_detail.UpdatedAt' => Carbon::now(),
+	]);
+
+    // dd($SalesChecked);
+
+    return redirect('/bom/index')->with('success', 'Data Berhasil Diupdate');
+    
+}
+
+public function approved(Request $request, $IdBom)
+{
+    $user = DB::table('m_user')
+        ->first();
+
+	DB::table('m_bom')
+    ->leftJoin('m_bom_detail', 'm_bom_detail.IdBom', '=', 'm_bom.IdBom')
+    ->where('IdBom',$IdBom)->update([
+		'm_bom.StatusApproved' => 1,
+		'm_bom.ApprovedBy' => $request->session()->get('IdUser', $user->IdUser),
+		'm_bom.UpdatedAt' => Carbon::now(),
+		'm_bom_detail.UpdatedAt' => Carbon::now(),
+	]);
+
+    // dd($SalesApproved);
+
+    return redirect('/bom/index')->with('success', 'Data Berhasil Diupdate');
+    
+}
 }

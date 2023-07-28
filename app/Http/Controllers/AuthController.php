@@ -42,6 +42,7 @@ class AuthController extends Controller
         ->join('m_menu','m_menu.IdMenu', '=', 'm_action.IdMenu')
         ->join('m_user','m_user.IdJabatan', '=', 'm_jabatan.IdJabatan')
         ->where('IdUser', $query->IdUser)
+        ->orderBy('m_menu.IdMenu')
         ->orderBy('m_menu.MainMenu')
         ->orderBy('m_menu.MenuKategori')
         ->get();

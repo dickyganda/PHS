@@ -40,6 +40,13 @@
                 $sessionmenu = Session::get('menu');
                 @endphp
 
+<li>
+    <a href="/dashboard/index" title="Application Intel" data-filter-tags="application intel">
+        <i class="fal fa-info-circle"></i>
+        <span class="nav-link-text" data-i18n="nav.application_intel">Dashboard</span>
+    </a>
+</li>    
+
                 @foreach ($sessionmenu as $itemmenu )
 
                     <li class="active open">

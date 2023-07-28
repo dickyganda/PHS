@@ -87,28 +87,37 @@ Purchasing
                                     <td>@currency($purchasing->Price)</td>
                                     <td>@currency($purchasing->Total)</td>
                         <td>
+                            @foreach($sessiondatamenu as $action)
+                                @if($action->Print == 1 && $action->IdMenu == 9)
                         <a href="/purchasing/printpurchasingorder/{{$purchasing->IdPurchasing}}" title="Print" class="btn btn-primary btn-xs" role="button"><i class="fas fa-print"></i> Print</a>
+                                @endif
+
+                                @if($action->Edit == 1 && $action->IdMenu == 9)
                             <a href="/purchasing/edit/{{ $purchasing->IdPurchasingDetail }}" title="Edit" class="btn btn-warning btn-xs" role="button"><i class="fas fa-pen"></i> Edit</a>
-                            
-                            <form action= "/purchasing/delete/{{ $purchasing->IdPurchasingDetail}}" method="post" >
-                            @csrf
-                            @method('put')
-                            <button type="submit" class="btn btn-danger btn-xs">Delete</button>
-                            </form>
+                                @endif
 
-                            @if($purchasing->StatusChecked == 0)
-                            <form action="/purchasing/checked/{{ $purchasing->IdPurchasingDetail}}" method="post">
-                                @csrf
-                                @method('put')
-                                <button type="submit" class="btn btn-warning btn-xs">Checked</button>
-                            </form>
+                                @if($action->Delete == 1 && $action->IdMenu == 9)
+                                <form action= "/purchasing/delete/{{ $purchasing->IdPurchasingDetail}}" method="post" >
+                                    @csrf
+                                    @method('put')
+                                    <button type="submit" class="btn btn-danger btn-xs">Delete</button>
+                                    </form>
+                                @endif
 
-                            <form action="/purchasing/approved/{{ $purchasing->IdPurchasingDetail}}" method="post">
-                                <button type="submit" class="btn btn-primary btn-xs" hidden>Approved</button>
-                            </form>
-                            @endif
+                                @if($action->Check == 1 && $action->IdMenu == 9)
+                                    @if($purchasing->StatusChecked == 0)
+                                <form action="/purchasing/checked/{{ $purchasing->IdPurchasingDetail}}" method="post">
+                                    @csrf
+                                    @method('put')
+                                    <button type="submit" class="btn btn-warning btn-xs">Checked</button>
+                                </form>
+    
+                                <form action="/purchasing/approved/{{ $purchasing->IdPurchasingDetail}}" method="post">
+                                    <button type="submit" class="btn btn-primary btn-xs" hidden>Approved</button>
+                                </form>
+                                    @endif
 
-                        @if($purchasing->StatusChecked == 1 && $purchasing->StatusApproved == 0 )
+                                    @if($purchasing->StatusChecked == 1 && $purchasing->StatusApproved == 0 )
                             <form action="/purchasing/checked/{{ $purchasing->IdPurchasingDetail}}" method="post">
                                 <button type="submit" class="btn btn-warning btn-xs" hidden>Checked</button>
                             </form>
@@ -127,6 +136,9 @@ Purchasing
                                 <button type="submit" class="btn btn-primary btn-xs" hidden>Approved</button>
                             </form>
                             @endif
+                                @endif
+                            @endforeach
+
                         </td>
                         </tr>
                         @endforeach

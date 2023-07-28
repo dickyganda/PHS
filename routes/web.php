@@ -10,6 +10,7 @@ use App\Http\Controllers\IssuedController;
 use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MenuController;
+use App\Http\Controllers\WarehouseController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,15 +26,6 @@ use App\Http\Controllers\MenuController;
 Route::get('/', function () {
     return view('auth/login');
 });
-
-// Route::controller(LoginRegisterController::class)->group(function() {
-//     Route::get('/register', 'register')->name('register');
-//     Route::post('/store', 'store')->name('store');
-//     Route::get('/login', 'login')->name('login');
-//     Route::post('/authenticate', 'authenticate')->name('authenticate');
-//     Route::get('/dashboard', 'dashboard')->name('dashboard');
-//     Route::post('/logout', 'logout')->name('logout');
-// });
 
 Route::controller(AuthController::class)->group(function() {
     // Route::get('/register', 'register')->name('register');
@@ -100,7 +92,10 @@ Route::get('/finance/edit/{IdInvoiceDetail}', [FinanceController::class, 'edit']
 Route::put('/finance/update/{IdInvoiceDetail}', [FinanceController::class, 'update'])->name('financeupdate');
 Route::put('/finance/delete/{IdInvoiceDetail}', [FinanceController::class, 'destroy'])->name('financedestroy');
 Route::get('/finance/printinvoice/{IdInvoice}', [FinanceController::class, 'printissued'])->name('financeprint');
-// Route::resource('/issued', IssuedController::class);
 
-// Route::resource('/finance', FinanceController::class);
-
+Route::get('/warehouse/index', [WarehouseController::class, 'index'])->name('warehouseindex');
+Route::get('/warehouse/create', [WarehouseController::class, 'create'])->name('warehousecreate');
+Route::post('/warehouse/store', [WarehouseController::class, 'store'])->name('financestore');
+Route::get('/warehouse/edit/{IdWarehouse}', [WarehouseController::class, 'edit'])->name('warehouseedit');
+Route::put('/warehouse/update/{IdWarehouse}', [WarehouseController::class, 'update'])->name('warehouseupdate');
+Route::put('/warehouse/delete/{IdWarehouse}', [WarehouseController::class, 'destroy'])->name('warehousedestroy');

@@ -109,6 +109,8 @@ class IssuedController extends Controller
         $issued->CreatedBy = $request->session()->get('IdUser', $user->IdUser);
         $issued->CreatedAt = Carbon::now();
         $issued->StatusDeleted = 0;
+        $issued->StatusChecked = 0;
+        $issued->StatusApproved = 0;
         $issued->save();
         // dd($sales);
 
@@ -250,4 +252,44 @@ public function destroy($IdIssuedDetail)
         ]);
 
     }
+
+    public function checked(Request $request, $IdIssued)
+{
+    $user = DB::table('m_user')
+        ->first();
+
+	DB::table('m_issued')
+    ->leftJoin('m_issued_detail', 'm_issued_detail.IdIssued', '=', 'm_issued.IdIssued')
+    ->where('IdIssued',$IdIssued)->update([
+		'm_issued.StatusChecked' => 1,
+		'm_issued.CheckedBy' => $request->session()->get('IdUser', $user->IdUser),
+		'm_issued.UpdatedAt' => Carbon::now(),
+		'm_issued_detail.UpdatedAt' => Carbon::now(),
+	]);
+
+    // dd($SalesChecked);
+
+    return redirect('/issued/index')->with('success', 'Data Berhasil Diupdate');
+    
+}
+
+public function approved(Request $request, $IdIssued)
+{
+    $user = DB::table('m_user')
+        ->first();
+
+	DB::table('m_issued')
+    ->leftJoin('m_issued_detail', 'm_issued_detail.IdIssued', '=', 'm_issued.IdIssued')
+    ->where('IdIssued',$IdIssued)->update([
+		'm_issued.StatusApproved' => 1,
+		'm_issued.ApprovedBy' => $request->session()->get('IdUser', $user->IdUser),
+		'm_issued.UpdatedAt' => Carbon::now(),
+		'm_issued_detail.UpdatedAt' => Carbon::now(),
+	]);
+
+    // dd($SalesApproved);
+
+    return redirect('/issued/index')->with('success', 'Data Berhasil Diupdate');
+    
+}
 }

@@ -90,21 +90,29 @@ Sales Order
                                         <td>{{ $sd->PaymentDate }}</td>
                                         <td>{{ $sd->NamaSuplier }}</td>
                                         <td>
-
-                                            <a href="/sales/printsalesorder/{{$sd->IdSales}}" title="Print"
+                                            @foreach ($sessiondatamenu as $action )
+                                            @if($action->Print == 1 && $action->IdMenu == 3)
+                                                <a href="/sales/printsalesorder/{{$sd->IdSales}}" title="Print"
                                                 class="btn btn-primary btn-xs" role="button"><i
                                                     class="fas fa-print"></i> Print</a>
-                                            <a href="/sales/edit/{{ $sd->IdSalesDetail }}" title="Edit"
+                                            @endif
+
+                                            @if($action->Edit == 1 && $action->IdMenu == 3)
+                                                <a href="/sales/edit/{{ $sd->IdSalesDetail }}" title="Edit"
                                                 class="btn btn-warning btn-xs" role="button"><i class="fas fa-pen"></i>
                                                 Edit</a>
+                                            @endif
 
-                                            <form action="/sales/delete/{{ $sd->IdSalesDetail}}" method="post">
+                                            @if($action->Delete == 1 && $action->IdMenu == 3)
+                                               <form action="/sales/delete/{{ $sd->IdSalesDetail}}" method="post">
                                                 @csrf
                                                 @method('put')
                                                 <button type="submit" class="btn btn-danger btn-xs">Delete</button>
-                                            </form>
+                                            </form> 
+                                            @endif
 
-                                            @if($sd->StatusChecked == 0)
+                                            @if($action->Check == 1 && $action->IdMenu == 3)
+                                                @if($sd->StatusChecked == 0)
                                                 <form action="/sales/checked/{{ $sd->IdSalesDetail}}" method="post">
                                                     @csrf
                                                     @method('put')
@@ -115,8 +123,10 @@ Sales Order
                                                     <button type="submit" class="btn btn-primary btn-xs" hidden>Approved</button>
                                                 </form>
                                                 @endif
+                                            @endif
 
-                                            @if($sd->StatusChecked == 1 && $sd->StatusApproved == 0 )
+                                            @if($action->Delete == 1 && $action->IdMenu == 3)
+                                                @if($sd->StatusChecked == 1 && $sd->StatusApproved == 0 )
                                                 <form action="/sales/checked/{{ $sd->IdSalesDetail}}" method="post">
                                                     <button type="submit" class="btn btn-warning btn-xs" hidden>Checked</button>
                                                 </form>
@@ -135,6 +145,9 @@ Sales Order
                                                     <button type="submit" class="btn btn-primary btn-xs" hidden>Approved</button>
                                                 </form>
                                                 @endif
+                                            @endif
+                                        @endforeach
+
                                         </td>
                                     </tr>
                                     @endforeach

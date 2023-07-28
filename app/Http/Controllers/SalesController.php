@@ -100,6 +100,8 @@ class SalesController extends Controller
         $sales->SOFrom = $request->SOFrom;
         $sales->ShipTo = $request->ShipTo;
         $sales->StatusSales = 0;
+        $sales->StatusChecked = 0;
+        $sales->StatusApproved = 0;
         $sales->StatusDeleted = 0;
         $sales->CreatedBy = $request->session()->get('IdUser', $user->IdUser);
         $sales->CreatedAt = Carbon::now();
@@ -125,8 +127,8 @@ class SalesController extends Controller
             $salesdetail->Qty = $request->Qty[$key];
             $salesdetail->IdHarga = $dataharga->IdHarga;
             $salesdetail->Amount = $request->Amount[$key];
-            $salesdetail->StatusChecked = '0'[$key];
-            $salesdetail->StatusApproved = '0'[$key];
+            // $salesdetail->StatusChecked = '0'[$key];
+            // $salesdetail->StatusApproved = '0'[$key];
             $salesdetail->StatusDeleted = '0'[$key];
             $salesdetail->Amount = $request->Amount[$key];
             $salesdetail->CreatedAt = Carbon::now();
@@ -258,16 +260,17 @@ public function destroy($IdSalesDetail)
     
 }
 
-public function checked(Request $request, $IdSalesDetail)
+public function checked(Request $request, $IdSales)
 {
     $user = DB::table('m_user')
         ->first();
 
 	DB::table('m_sales')
     ->leftJoin('m_sales_detail', 'm_sales_detail.IdSales', '=', 'm_sales.IdSales')
-    ->where('IdSalesDetail',$IdSalesDetail)->update([
-		'm_sales_detail.StatusChecked' => 1,
-		'm_sales_detail.CheckedBy' => $request->session()->get('IdUser', $user->IdUser),
+    ->where('IdSales',$IdSales)->update([
+		'm_sales.StatusChecked' => 1,
+		'm_sales.CheckedBy' => $request->session()->get('IdUser', $user->IdUser),
+		'm_sales.UpdatedAt' => Carbon::now(),
 		'm_sales_detail.UpdatedAt' => Carbon::now(),
 	]);
 
@@ -277,16 +280,17 @@ public function checked(Request $request, $IdSalesDetail)
     
 }
 
-public function approved(Request $request, $IdSalesDetail)
+public function approved(Request $request, $IdSales)
 {
     $user = DB::table('m_user')
         ->first();
 
-	$SalesApproved = DB::table('m_sales')
+	DB::table('m_sales')
     ->leftJoin('m_sales_detail', 'm_sales_detail.IdSales', '=', 'm_sales.IdSales')
-    ->where('IdSalesDetail',$IdSalesDetail)->update([
-		'm_sales_detail.StatusApproved' => 1,
-		'm_sales_detail.ApprovedBy' => $request->session()->get('IdUser', $user->IdUser),
+    ->where('IdSales',$IdSales)->update([
+		'm_sales.StatusApproved' => 1,
+		'm_sales.ApprovedBy' => $request->session()->get('IdUser', $user->IdUser),
+		'm_sales.UpdatedAt' => Carbon::now(),
 		'm_sales_detail.UpdatedAt' => Carbon::now(),
 	]);
 

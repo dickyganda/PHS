@@ -119,6 +119,8 @@ class FinanceController extends Controller
         $invoice->InvoiceTo = $request->InvoiceTo;
         $invoice->DueDate = $request->DueDate;
         $invoice->StatusDeleted = 0;
+        $invoice->StatusChecked = 0;
+        $invoice->StatusApproved = 0;
         $invoice->CreatedBy = $request->session()->get('IdUser', $user->IdUser);
         $invoice->CreatedAt = Carbon::now();
         $invoice->save();
@@ -281,4 +283,44 @@ class FinanceController extends Controller
         ]);
 
     }
+
+    public function checked(Request $request, $IdInvoice)
+{
+    $user = DB::table('m_user')
+        ->first();
+
+	DB::table('m_invoice')
+    ->leftJoin('m_invoice_detail', 'm_invoice_detail.IdInvoice', '=', 'm_Invoice.IdInvoice')
+    ->where('IdInvoice',$IdInvoice)->update([
+		'm_invoice.StatusChecked' => 1,
+		'm_invoice.CheckedBy' => $request->session()->get('IdUser', $user->IdUser),
+		'm_invoice.UpdatedAt' => Carbon::now(),
+		'm_invoice_detail.UpdatedAt' => Carbon::now(),
+	]);
+
+    // dd($SalesChecked);
+
+    return redirect('/finance/index')->with('success', 'Data Berhasil Diupdate');
+    
+}
+
+public function approved(Request $request, $IdInvoice)
+{
+    $user = DB::table('m_user')
+        ->first();
+
+	DB::table('m_invoice')
+    ->leftJoin('m_invoice_detail', 'm_invoice_detail.IdInvoice', '=', 'm_invoice.IdInvoice')
+    ->where('IdInvoice',$IdInvoice)->update([
+		'm_invoice.StatusApproved' => 1,
+		'm_invoice.ApprovedBy' => $request->session()->get('IdUser', $user->IdUser),
+		'm_invoice.UpdatedAt' => Carbon::now(),
+		'm_invoice_detail.UpdatedAt' => Carbon::now(),
+	]);
+
+    // dd($SalesApproved);
+
+    return redirect('/finance/index')->with('success', 'Data Berhasil Diupdate');
+    
+}
 }

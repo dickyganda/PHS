@@ -228,7 +228,7 @@ class BomController extends Controller
 	DB::table('m_bom')
     ->leftJoin('m_bom_detail', 'm_bom_detail.IdBom', '=', 'm_bom.IdBom')
     ->where('m_bom.IdBom',$IdBom)->update([
-		'm_bom.StatusChecked' => 1,
+		'm_bom.StatusCheckedBom' => 1,
 		'm_bom.CheckedBy' => $request->session()->get('IdUser', $user->IdUser),
 		'm_bom.UpdatedAt' => Carbon::now(),
 		'm_bom_detail.UpdatedAt' => Carbon::now(),
@@ -248,7 +248,7 @@ public function approved(Request $request, $IdBom)
 	DB::table('m_bom')
     ->leftJoin('m_bom_detail', 'm_bom_detail.IdBom', '=', 'm_bom.IdBom')
     ->where('m_bom.IdBom',$IdBom)->update([
-		'm_bom.StatusApproved' => 1,
+		'm_bom.StatusApprovedBom' => 1,
 		'm_bom.ApprovedBy' => $request->session()->get('IdUser', $user->IdUser),
 		'm_bom.UpdatedAt' => Carbon::now(),
 		'm_bom_detail.UpdatedAt' => Carbon::now(),

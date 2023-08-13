@@ -53,17 +53,29 @@ Warehouse
                                         <th>Code Purchasing</th>
                                         <th>In</th>
                                         <th>Out</th>
+                                        <th>Outstanding</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody height="10px">
-                                    @php $i=1 @endphp
+                                    @php 
+                                    $i=1;
+                                    $outstanding = null;
+                                    @endphp
+
                                     @foreach ($warehouse as $warehouse)
+                                    @php
+                                        if($outstanding === null){
+                                            $outstanding = $warehouse->Qty;
+                                        }
+                                        $outstanding = $outstanding - $warehouse->In;
+                                    @endphp
                                 <tr>
                                     <td>{{ $i++ }}</td>
                                     <td>{{ $warehouse->CodePurchasing }}</td>
                                     <td>{{ $warehouse->In }}</td>
                                     <td>{{ $warehouse->Out }}</td>
+                                    <td>{{ $outstanding }}</td>
                                     <td>
                                         @foreach($sessiondatamenu as $action)
                                         @if($action->Print == 1 && $action->IdMenu == 10)

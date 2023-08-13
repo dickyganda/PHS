@@ -93,18 +93,53 @@ BOM
                                                 @endif
 
                                                 @if($action->Check == 1 && $action->IdMenu == 4)
-                                                    
+                                                @if($bom->StatusCheckedBom == 0)
+                                                <form action="/bom/checked/{{ $bom->IdBom}}" method="post">
+                                                    @csrf
+                                                    @method('put')
+                                                    <button type="submit" class="btn btn-warning btn-xs">Checked</button>
+                                                </form>
+                                                @endif
+
+                                                @if($bom->StatusCheckedBom == 1 && $bom->StatusApprovedBom == 0 )
+                                            <form action="/bom/checked/{{ $bom->IdBom}}" method="post">
+                                                <button type="submit" class="btn btn-warning btn-xs"
+                                                    hidden>Checked</button>
+                                            </form>
+                                            @endif
+
+                                            @if($bom->StatusCheckedBom == 1 && $bom->StatusApprovedBom == 1)
+                                            <form action="/bom/checked/{{ $bom->IdBom}}" method="post">
+                                                <button type="submit" class="btn btn-warning btn-xs"
+                                                    hidden>Checked</button>
+                                            </form>
+                                            @endif
                                                 @endif
 
                                                 @if($action->Approve == 1 && $action->IdMenu == 4)
-                                                    
+                                                @if($bom->StatusApprovedBom == 0)
+                                                <form action="/bom/approved/{{ $bom->IdBom}}" method="post">
+                                                    <button type="submit" class="btn btn-primary btn-xs"
+                                                        hidden>Approved</button>
+                                                </form>
+                                                @endif
+
+                                                @if($bom->StatusCheckedBom == 1 && $bom->StatusApprovedBom == 0)
+                                            <form action="/bom/approved/{{ $bom->IdBom}}" method="post">
+                                                @csrf
+                                                @method('put')
+                                                <button type="submit" class="btn btn-primary btn-xs">Approved</button>
+                                            </form>
+                                            @endif
+
+                                            @if($bom->StatusCheckedBom == 1 && $bom->StatusApprovedBom == 1)
+                                            <form action="/bom/approved/{{ $bom->IdBom}}" method="post">
+                                                <button type="submit" class="btn btn-primary btn-xs"
+                                                    hidden>Approved</button>
+                                            </form>
+                                            @endif
                                                 @endif
                                             @endforeach
-
-
-                                            
-
-                                            
                                         </td>
 
                                     </tr>

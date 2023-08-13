@@ -25,11 +25,11 @@ Insert Warehouse In
                     <div class="panel-content">
                         <div>
                             {{-- form insert sales order --}}
-                            <form action="/warehouse/store" method="POST" id="warehouse">
+                            <form action="/warehouse/store" method="POST" id="insertwarehouse">
                                 @csrf
 
                                 <div class="row">
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-3">
                                         <div class="form-group">
                                             <label>Code Purchasing</label>
                                             <select id="IdPurchasing" name="IdPurchasing" style="width: 100%"
@@ -43,7 +43,21 @@ Insert Warehouse In
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label>Material</label>
+                                            <select id="IdMaterial" name="IdMaterial" style="width: 100%"
+                                                class="form-control form-control-sm select2">
+                                                <option disabled selected>Select Material</option>
+                                                @foreach ($material as $material)
+                                                <option value="{{ $material->IdMaterial }}">
+                                                    {{ $material->MaterialName }}
+                                                </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
                                         <div class="form-group">
                                             <label>Suplier</label>
                                             <select id="IdSuplier" name="IdSuplier" style="width: 100%"
@@ -57,82 +71,17 @@ Insert Warehouse In
                                             </select>
                                         </div>
                                     </div>
-                                    
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label>In</label>
+                                            <input type="text" class="form-control" id="In"
+                                                    placeholder="In" name="In">
+                                        </div>
+                                    </div>
+                                    <input type="submit" class="btn btn-success btn-xs" value="Submit" />
                                 </div>
 
-                                <table id="form_sales">
-                                    <tr>
-                                        <th>Material</th>
-                                        <th>Qty</th>
-                                        <th>Unit</th>
-                                        <th>Rate</th>
-                                        <th>Amount</th>
-                                    </tr>
-
-                                    <tr>
-                                        <td id="col0">
-                                            <div class="form-group">
-                                                <select id="IdMaterial" name="IdMaterial[]" style="width: 100%"
-                                                    class="form-control form-control-sm select2"
-                                                    onchange="selectTypeMaterial(this)">
-                                                    <option disabled selected>Select Material</option>
-                                                    @foreach ($material as $material)
-                                                    <option value="{{ $material->IdMaterial }}">
-                                                        {{ $material->MaterialName }}
-                                                    </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </td>
-
-                                        <td id="col1">
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" id="Qty" placeholder="Qty"
-                                                    name="Qty[]"
-                                                    onkeyup="sum(this.parentElement.parentElement.parentElement);">
-                                            </div>
-                                        </td>
-
-                                        <td id="col2">
-                                            <div class="form-group">
-                                                <select id="IdUnit" name="IdUnit[]" style="width: 100%"
-                                                    class="form-control form-control-sm select2">
-                                                    <option disabled selected>Select Unit</option>
-                                                    @foreach ($unit as $u)
-                                                    <option value="{{ $u->IdUnit }}">
-                                                        {{ $u->NameUnit }}
-                                                    </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </td>
-
-                                        <td id="col3">
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" id="IdHarga" placeholder="Rate"
-                                                    name="IdHarga[]"
-                                                    onkeyup="sum(this.parentElement.parentElement.parentElement);">
-                                            </div>
-                                        </td>
-
-                                        <td id="col4">
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" id="Amount" placeholder="Amount"
-                                                    name="Amount[]">
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </table>
-                                <table>
-                                    <tr>
-                                        <td><input type="button" class="btn btn-primary btn-xs" value="Add Row"
-                                                onclick="addRows()" /></td>
-                                        <td><input type="button" class="btn btn-danger btn-xs" value="Delete Row"
-                                                onclick="deleteRows()" />
-                                        </td>
-                                        <td><input type="submit" class="btn btn-success btn-xs" value="Submit" /></td>
-                                    </tr>
-                                </table>
+                                
 
                             </form>
                         </div>
@@ -160,75 +109,18 @@ Insert Warehouse In
 @push('script')
 <script>
     $(document).ready(function () {
-        $('#IdProduct').select2({
-            placeholder: "Select Product"
-        });
-
-        $('#IdUnit').select2({
-            placeholder: "Select Unit"
-        });
-
-        $('#FROMIdDepartement').select2({
-            placeholder: "Select Departement"
-        });
-
-        $('#TOIdDepartement').select2({
-            placeholder: "Select Departement"
-        });
-
-        $('#IdPayment').select2({
-            placeholder: "Select Payment"
+        $('#IdPurchasing').select2({
+            placeholder: "Select Purchasing"
         });
 
         $('#IdSuplier').select2({
             placeholder: "Select Suplier"
         });
 
-        $('#SOFrom').select2({
-            placeholder: "Select SO From"
-        });
-
-        $('#ShipTo').select2({
-            placeholder: "Select Ship To"
+        $('#IdMaterial').select2({
+            placeholder: "Select Material"
         });
     });
-
-    function addRows() {
-        $('#IdProduct').select2("destroy");
-        $('#IdUnit').select2("destroy");
-        $('#FROMIdDepartement').select2("destroy");
-        $('#TOIdDepartement').select2("destroy");
-        $('#IdPayment').select2("destroy");
-        $('#IdSuplier').select2("destroy");
-        var table = document.getElementById('form_sales');
-        var rowCount = table.rows.length;
-        var cellCount = table.rows[0].cells.length;
-        var row = table.insertRow(rowCount);
-        for (var i = 0; i < cellCount; i++) {
-            // console.log('col' + i);
-            var cell = 'cell' + i;
-            cell = row.insertCell(i);
-            var copycel = document.getElementById('col' + i).innerHTML;
-            cell.innerHTML = copycel;
-        }
-        $(".select2").select2();
-        $(".select2").select2();
-        $(".select2").select2();
-        $(".select2").select2();
-        $(".select2").select2();
-        $(".select2").select2();
-    }
-
-    function deleteRows() {
-        var table = document.getElementById('form_sales');
-        var rowCount = table.rows.length;
-        if (rowCount > '2') {
-            var row = table.deleteRow(rowCount - 1);
-            rowCount--;
-        } else {
-            alert('There should be atleast one row');
-        }
-    }
 
     function selectTypeProduct(item) {
         var parent = item.parentElement.parentElement.parentElement;
@@ -258,25 +150,34 @@ Insert Warehouse In
         }
     }
 
-    $("#insertsales").submit(function (event) {
+    $("#insertwarehouse").submit(function (event) {
         event.preventDefault();
         var formdata = new FormData(this);
         $.ajax({
             type: 'POST',
             dataType: 'json',
-            url: '/sales/store',
+            url: '/warehouse/store',
             data: formdata,
             contentType: false,
             cache: false,
             processData: false,
             success: function (data) {
-                Swal.fire(
+                if (data.status == 'failed') {
+                        Swal.fire(
+                            'Gagal'
+                            , data.reason
+                            , 'error'
+                        );
+                    } else {
+                        Swal.fire(
                     'Sukses!',
                     data.reason,
                     'success'
                 ).then(() => {
-                    location.replace("/sales/index");
+                    location.replace("/warehouse/index");
                 });
+                    }
+                
             }
         });
     });

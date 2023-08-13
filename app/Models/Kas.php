@@ -7,5 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Kas extends Model
 {
-    use HasFactory;
+    // use HasFactory;
+    protected $table = 't_kas';
+    protected $primaryKey = 'IdKas';
+    public $timestamps = false;
 }

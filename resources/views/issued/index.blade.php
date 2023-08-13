@@ -27,23 +27,23 @@ Issued
                     <div class="panel-content">
                         <div>
                             @php
-            use Illuminate\Support\Facades\Session;
+                            use Illuminate\Support\Facades\Session;
 
-                $sessiondatamenu = Session::get('datamenu');
-                $sessionmenu = Session::get('menu');
-                @endphp
-                            <table> 
+                            $sessiondatamenu = Session::get('datamenu');
+                            $sessionmenu = Session::get('menu');
+                            @endphp
+                            <table>
                                 @foreach ($sessiondatamenu as $action )
-                                    @if($action->Add == 1 && $action->IdMenu == 5)
-                                    <tr>
-                                        <td>
-                                            <a href="/issued/create" class="btn btn-success btn-xs" title="Tambah Data Baru"
-                                                role="button"><i class="fas fa-plus-circle"></i>Tambah</a>
-                                        </td>
-                                    </tr>
-                                    @endif
+                                @if($action->Add == 1 && $action->IdMenu == 5)
+                                <tr>
+                                    <td>
+                                        <a href="/issued/create" class="btn btn-success btn-xs" title="Tambah Data Baru"
+                                            role="button"><i class="fas fa-plus-circle"></i>Tambah</a>
+                                    </td>
+                                </tr>
+                                @endif
                                 @endforeach
-                                
+
                             </table>
                             <table id="dt-basic-example"
                                 class="table table-responsive table-bordered table-hover table-striped w-100">
@@ -92,17 +92,78 @@ Issued
                                         <td>{{ $carbon::parse($issued->PaymentDate)->format('d/m/Y H:i:s') }}</td>
                                         <td>{{ $issued->NamaSuplier }}</td>
                                         <td>
+                                            @foreach ($sessiondatamenu as $action )
+                                            @if($action->Print == 1 && $action->IdMenu == 5)
                                             <a href="/issued/printissued/{{$issued->IdIssued}}" title="Print"
                                                 class="btn btn-primary btn-xs" role="button"><i
                                                     class="fas fa-print"></i> Print</a>
+                                            @endif
+
+                                            @if($action->Edit == 1 && $action->IdMenu == 5)
                                             <a href="/issued/edit/{{ $issued->IdIssuedDetail }}" title="Edit"
                                                 class="btn btn-warning btn-xs" role="button"><i class="fas fa-pen"></i>
                                                 Edit</a>
+                                            @endif
+
+                                            @if($action->Delete == 1 && $action->IdMenu == 5)
                                             <form action="/issued/delete/{{ $issued->IdIssuedDetail}}" method="post">
                                                 @csrf
                                                 @method('put')
                                                 <button type="submit" class="btn btn-danger btn-xs">Delete</button>
                                             </form>
+                                            @endif
+
+                                            {{-- jika punya akses check --}}
+                                            @if($action->Check == 1 && $action->IdMenu == 5)
+                                            @if($issued->StatusCheckedIssued == 0)
+                                            <form action="/issued/checked/{{ $issued->IdIssued}}" method="post">
+                                                @csrf
+                                                @method('put')
+                                                <button type="submit" class="btn btn-warning btn-xs">Checked</button>
+                                            </form>
+                                            @endif
+
+                                            @if($issued->StatusCheckedIssued == 1 && $issued->StatusApprovedIssued == 0 )
+                                            <form action="/issued/checked/{{ $issued->IdIssued}}" method="post">
+                                                <button type="submit" class="btn btn-warning btn-xs"
+                                                    hidden>Checked</button>
+                                            </form>
+                                            @endif
+
+                                            @if($issued->StatusCheckedIssued == 1 && $issued->StatusApprovedIssued == 1)
+                                            <form action="/issued/checked/{{ $issued->IdIssued}}" method="post">
+                                                <button type="submit" class="btn btn-warning btn-xs"
+                                                    hidden>Checked</button>
+                                            </form>
+                                            @endif
+                                            @endif
+
+                                            @if($action->Approve == 1 && $action->IdMenu == 5)
+                                            @if($issued->StatusApprovedIssued == 0)
+                                            <form action="/issued/approved/{{ $issued->IdIssued}}" method="post">
+                                                <button type="submit" class="btn btn-primary btn-xs"
+                                                    hidden>Approved</button>
+                                            </form>
+                                            @endif
+
+                                            @if($issued->StatusCheckedIssued == 1 && $issued->StatusApprovedIssued == 0)
+                                            <form action="/issued/approved/{{ $issued->IdIssued}}" method="post">
+                                                @csrf
+                                                @method('put')
+                                                <button type="submit" class="btn btn-primary btn-xs">Approved</button>
+                                            </form>
+                                            @endif
+
+                                            @if($issued->StatusCheckedIssued == 1 && $issued->StatusApprovedIssued == 1)
+                                            <form action="/issued/approved/{{ $issued->IdIssued}}" method="post">
+                                                <button type="submit" class="btn btn-primary btn-xs"
+                                                    hidden>Approved</button>
+                                            </form>
+                                            @endif
+                                            @endif
+
+                                            @endforeach
+
                                         </td>
                                     </tr>
                                     @endforeach
@@ -137,11 +198,12 @@ Issued
 <script src="{{asset('assets/js/datagrid/datatables/datatables.bundle.js') }}"></script>
 @push('script')
 <script>
-$(document).ready(function () {
+    $(document).ready(function () {
         $('#dt-basic-example').DataTable({
             "order": []
         });
     });
+
 </script>
 @endpush
 @endsection

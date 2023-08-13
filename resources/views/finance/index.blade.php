@@ -92,17 +92,79 @@ Finance
                                         <td>{{ $finance->NamaPayment }}</td>
                                         <td>{{ $finance->NamaSuplier }}</td>
                                         <td>
+                                            @foreach ($sessiondatamenu as $action )
+                                            @if($action->Print == 1 && $action->IdMenu == 6)
                                             <a href="/finance/printinvoice/{{$finance->IdInvoice}}" title="Print"
                                                 class="btn btn-primary btn-xs" role="button"><i
                                                     class="fas fa-print"></i> Print</a>
-                                            <a href="/finance/edit/{{ $finance->IdInvoiceDetail }}" title="Edit"
-                                                class="btn btn-warning btn-xs" role="button"><i class="fas fa-pen"></i>
-                                                Edit</a>
-                                            <form action="/finance/delete/{{ $finance->IdInvoiceDetail}}" method="post">
+                                            @endif
+
+                                                @if($action->Edit == 1 && $action->IdMenu == 6)
+                                                <a href="/finance/edit/{{ $finance->IdInvoiceDetail }}" title="Edit"
+                                                    class="btn btn-warning btn-xs" role="button"><i class="fas fa-pen"></i>
+                                                    Edit</a>
+                                                @endif
+
+                                                @if($action->Delete == 1 && $action->IdMenu == 6)
+                                                <form action="/finance/delete/{{ $finance->IdInvoiceDetail}}" method="post">
+                                                    @csrf
+                                                    @method('put')
+                                                    <button type="submit" class="btn btn-danger btn-xs">Delete</button>
+                                                </form> 
+                                                @endif
+
+                                                @if($action->Check == 1 && $action->IdMenu == 6)
+                                                @if($finance->StatusCheckedInvoice == 0)
+                                                <form action="/finance/checked/{{ $finance->IdInvoice}}" method="post">
+                                                    @csrf
+                                                    @method('put')
+                                                    <button type="submit" class="btn btn-warning btn-xs">Checked</button>
+                                                </form>
+                                                @endif
+
+                                                @if($finance->StatusCheckedInvoice == 1 && $finance->StatusApprovedInvoice == 0 )
+                                            <form action="/finance/checked/{{ $finance->IdInvoice}}" method="post">
+                                                <button type="submit" class="btn btn-warning btn-xs"
+                                                    hidden>Checked</button>
+                                            </form>
+                                            @endif
+
+                                            @if($finance->StatusCheckedInvoice == 1 && $finance->StatusApprovedInvoice == 1)
+                                            <form action="/finance/checked/{{ $finance->IdInvoice}}" method="post">
+                                                <button type="submit" class="btn btn-warning btn-xs"
+                                                    hidden>Checked</button>
+                                            </form>
+                                            @endif
+                                                @endif
+
+                                                @if($action->Approve == 1 && $action->IdMenu == 6)
+                                                @if($finance->StatusApprovedInvoice == 0)
+                                                <form action="/finance/approved/{{ $finance->IdInvoice}}" method="post">
+                                                    <button type="submit" class="btn btn-primary btn-xs"
+                                                        hidden>Approved</button>
+                                                </form>
+                                                @endif
+
+                                                @if($finance->StatusCheckedInvoice == 1 && $finance->StatusApprovedInvoice == 0)
+                                            <form action="/finance/approved/{{ $finance->IdInvoice}}" method="post">
                                                 @csrf
                                                 @method('put')
-                                                <button type="submit" class="btn btn-danger btn-xs">Delete</button>
+                                                <button type="submit" class="btn btn-primary btn-xs">Approved</button>
                                             </form>
+                                            @endif
+
+                                            @if($finance->StatusCheckedInvoice == 1 && $finance->StatusApprovedInvoice == 1)
+                                            <form action="/finance/approved/{{ $finance->IdInvoice}}" method="post">
+                                                <button type="submit" class="btn btn-primary btn-xs"
+                                                    hidden>Approved</button>
+                                            </form>
+                                            @endif
+                                                @endif
+
+                                            @endforeach
+                                            
+                                            
+                                            
                                         </td>
                                     </tr>
                                     @endforeach
